@@ -1,13 +1,13 @@
 import {
-    GET_DATA_POTONGAN_SUCCESS,
-    GET_DATA_POTONGAN_FAILURE,
-    CREATE_DATA_POTONGAN_SUCCESS,
-    CREATE_DATA_POTONGAN_FAILURE,
-    UPDATE_DATA_POTONGAN_SUCCESS,
-    UPDATE_DATA_POTONGAN_FAILURE,
-    DELETE_DATA_POTONGAN_SUCCESS,
-    DELETE_DATA_POTONGAN_FAILURE
-} from '../../action/dataPotonganAction/dataPotonganActionTypes';
+    GET_DEDUCTION_DATA_SUCCESS,
+    GET_DEDUCTION_DATA_FAILURE,
+    CREATE_DEDUCTION_DATA_SUCCESS,
+    CREATE_DEDUCTION_DATA_FAILURE,
+    UPDATE_DEDUCTION_DATA_SUCCESS,
+    UPDATE_DEDUCTION_DATA_FAILURE,
+    DELETE_DEDUCTION_DATA_SUCCESS,
+    DELETE_DEDUCTION_DATA_FAILURE
+} from '../../action/deductionAction/deductionActionTypes';
 
 const initialState = {
     dataPotongan: [],
@@ -15,52 +15,52 @@ const initialState = {
     error: null
 };
 
-const dataPotonganReducer = (state = initialState, action) => {
+const deductionReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_DATA_POTONGAN_SUCCESS:
+        case GET_DEDUCTION_DATA_SUCCESS:
             return {
                 ...state,
                 dataPotongan: action.payload,
                 message: null,
                 error: null,
             };
-        case GET_DATA_POTONGAN_FAILURE:
+        case GET_DEDUCTION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
                 message: '',
             };
-        case CREATE_DATA_POTONGAN_SUCCESS:
+        case CREATE_DEDUCTION_DATA_SUCCESS:
             return {
                 ...state,
                 message: null,
                 error: null,
             };
-        case CREATE_DATA_POTONGAN_FAILURE:
+        case CREATE_DEDUCTION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload.message,
                 message: null,
             };
-        case UPDATE_DATA_POTONGAN_SUCCESS:
+        case UPDATE_DEDUCTION_DATA_SUCCESS:
             return {
                 ...state,
                 message: action.payload,
                 error: null,
             };
-        case UPDATE_DATA_POTONGAN_FAILURE:
+        case UPDATE_DEDUCTION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
                 message: null,
             };
-        case DELETE_DATA_POTONGAN_SUCCESS:
+        case DELETE_DEDUCTION_DATA_SUCCESS:
             return {
                 ...state,
                 message: action.payload,
                 error: null,
             };
-        case DELETE_DATA_POTONGAN_FAILURE:
+        case DELETE_DEDUCTION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
@@ -71,4 +71,4 @@ const dataPotonganReducer = (state = initialState, action) => {
     }
 };
 
-export default dataPotonganReducer;
+export default deductionReducer;

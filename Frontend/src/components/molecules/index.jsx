@@ -1,22 +1,23 @@
 import Banner from './Banner';
 import DefaultDashboard from './DefaultDashboard';
-import DetailDataGaji from './DetailDataGaji';
+import SalaryDetail from './SalaryDetail';
 import Footer from './Footer';
-import FormAddDataJabatan from "./Form/FormDataJabatan/FormAddDataJabatan";
-import FormEditDataJabatan from "./Form/FormDataJabatan/FormEditDataJabatan";
-import FormAddDataKehadiran from "./Form/FormDataKehadiran/FormAddDataKehadiran";
-import FormEditDataKehadiran from "./Form/FormDataKehadiran/FormEditDataKehadiran";
-import FormAddDataPegawai from "./Form/FormDataPegawai/FormAddDataPegawai";
-import FormEditDataPegawai from "./Form/FormDataPegawai/FormEditDataPegawai";
-import FormAddDataPotongan from "./Form/FormDataPotongan/FormAddDataPotongan";
-import FormEditDataPotongan from "./Form/FormDataPotongan/FormEditDataPotongan";
+import FormAddPosition from "./Form/PositionForm/FormAddPosition";
+import FormEditPosition from "./Form/PositionForm/FormEditPosition";
+import FormAddAttendance from "./Form/AttendanceForm/FormAddAttendance";
+import FormEditAttendance from "./Form/AttendanceForm/FormEditAttendance";
+import FormAddEmployee from "./Form/EmployeeForm/FormAddEmployee";
+import FormEditEmployee from "./Form/EmployeeForm/FormEditEmployee";
+import FormAddDeduction from "./Form/DeductionForm/FormAddDeduction";
+import FormEditDeduction from "./Form/DeductionForm/FormEditDeduction";
 import Header from './Header';
 import Navbar from './Navbar';
 import NotFound from './NotFound';
 import PrintPdfDataGajiPegawai from './PrintPdf/PrintPdfDataGajiPegawai'
 import PrintPdfLaporanGaji from './PrintPdf/PrintPdfLaporanGaji';
-import PrintPdfSlipGaji from './PrintPdf/PrintPdfSlipGaji';
-import PrintPdfLaporanAbsensi from './PrintPdf/PrintPdfLaporanAbsensi';
+import PrintPdfPayslip from './PrintPdf/PrintPdfPayslip';
+import PrintPdfAttendanceReport from './PrintPdf/PrintPdfAttendanceReport';
+import PrintPdfEmployeeSalaryReport from './PrintPdf/PrintPdfEmployeeSalary';
 import SidebarAdmin from './Sidebar/SidebarAdmin';
 import SidebarPegawai from './Sidebar/SidebarPegawai';
 import SidebarLinkGroup from './Sidebar/SidebarLinkGroup';
@@ -24,23 +25,24 @@ import SidebarLinkGroup from './Sidebar/SidebarLinkGroup';
 export {
     Banner,
     DefaultDashboard,
-    DetailDataGaji,
+    SalaryDetail,
     Footer,
-    FormAddDataJabatan,
-    FormAddDataKehadiran,
-    FormEditDataKehadiran,
-    FormEditDataJabatan,
-    FormAddDataPegawai,
-    FormEditDataPegawai,
-    FormAddDataPotongan,
-    FormEditDataPotongan,
+    FormAddPosition,
+    FormAddAttendance,
+    FormEditAttendance,
+    FormEditPosition,
+    FormAddEmployee,
+    FormEditEmployee,
+    FormAddDeduction,
+    FormEditDeduction,
     Header,
     Navbar,
     NotFound,
     PrintPdfDataGajiPegawai,
     PrintPdfLaporanGaji,
-    PrintPdfSlipGaji,
-    PrintPdfLaporanAbsensi,
+    PrintPdfPayslip,
+    PrintPdfAttendanceReport,
+    PrintPdfEmployeeSalaryReport,
     SidebarAdmin,
     SidebarPegawai,
     SidebarLinkGroup

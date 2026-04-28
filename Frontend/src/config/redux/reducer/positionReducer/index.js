@@ -1,13 +1,13 @@
 import {
-    GET_DATA_JABATAN_SUCCESS,
-    GET_DATA_JABATAN_FAILURE,
-    CREATE_DATA_JABATAN_SUCCESS,
-    CREATE_DATA_JABATAN_FAILURE,
-    UPDATE_DATA_JABATAN_SUCCESS,
-    UPDATE_DATA_JABATAN_FAILURE,
-    DELETE_DATA_JABATAN_SUCCESS,
-    DELETE_DATA_JABATAN_FAILURE
-} from '../../action/dataJabatanAction/dataJabatanActionTypes';
+    GET_POSITION_DATA_SUCCESS,
+    GET_POSITION_DATA_FAILURE,
+    CREATE_POSITION_DATA_SUCCESS,
+    CREATE_POSITION_DATA_FAILURE,
+    UPDATE_POSITION_DATA_SUCCESS,
+    UPDATE_POSITION_DATA_FAILURE,
+    DELETE_POSITION_DATA_SUCCESS,
+    DELETE_POSITION_DATA_FAILURE
+} from '../../action/positionAction/positionActionTypes';
 
 const initialState = {
     dataJabatan: [],
@@ -15,52 +15,52 @@ const initialState = {
     error: null
 };
 
-const dataJabatanReducer = (state = initialState, action) => {
+const positionReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_DATA_JABATAN_SUCCESS:
+        case GET_POSITION_DATA_SUCCESS:
             return {
                 ...state,
                 dataJabatan: action.payload,
                 message: null,
                 error: null,
             };
-        case GET_DATA_JABATAN_FAILURE:
+        case GET_POSITION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
                 message: '',
             };
-        case CREATE_DATA_JABATAN_SUCCESS:
+        case CREATE_POSITION_DATA_SUCCESS:
             return {
                 ...state,
                 message: null,
                 error: null,
             };
-        case CREATE_DATA_JABATAN_FAILURE:
+        case CREATE_POSITION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload.message,
                 message: null,
             };
-        case UPDATE_DATA_JABATAN_SUCCESS:
+        case UPDATE_POSITION_DATA_SUCCESS:
             return {
                 ...state,
                 message: action.payload,
                 error: null,
             };
-        case UPDATE_DATA_JABATAN_FAILURE:
+        case UPDATE_POSITION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
                 message: null,
             };
-        case DELETE_DATA_JABATAN_SUCCESS:
+        case DELETE_POSITION_DATA_SUCCESS:
             return {
                 ...state,
                 message: action.payload,
                 error: null,
             };
-        case DELETE_DATA_JABATAN_FAILURE:
+        case DELETE_POSITION_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
@@ -71,5 +71,5 @@ const dataJabatanReducer = (state = initialState, action) => {
     }
 };
 
-export default dataJabatanReducer;
+export default positionReducer;
     

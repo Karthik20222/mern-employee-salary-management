@@ -7,17 +7,17 @@ import Layout from '../../../layout';
 import { Breadcrumb, ButtonOne, ButtonTwo } from '../../../components';
 import { TfiPrinter } from 'react-icons/tfi';
 
-const DetailDataGaji = () => {
+const SalaryDetail = () => {
     const [data, setData] = useState({
-        tahun: '',
-        bulan: '',
-        nik: '',
-        nama_pegawai: '',
-        jabatan: '',
-        gaji_pokok: '',
-        tj_transport: '',
-        uang_makan: '',
-        potongan: '',
+        year: '',
+        month: '',
+        nationalId: '',
+        employeeName: '',
+        positionName: '',
+        baseSalary: '',
+        transportAllowance: '',
+        mealAllowance: '',
+        deduction: '',
         total: '',
     });
     const { name } = useParams();
@@ -27,16 +27,28 @@ const DetailDataGaji = () => {
     const { isError, user } = useSelector((state) => state.auth);
 
     const onSubmitPrint = () => {
-        navigate(`/laporan/slip-gaji/print-page?month=${data.bulan}&year=${data.tahun}&name=${name}`);
+        navigate(`/laporan/slip-gaji/print-page?month=${data.month}&year=${data.year}&name=${name}`);
     };
 
     useEffect(() => {
         const getDataPegawai = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/data_gaji/name/${name}`);
-                const data = response.data[0];
+                const src = response.data[0] || {};
+                const mapped = {
+                    year: src.tahun || src.year || '',
+                    month: src.bulan || src.month || '',
+                    nationalId: src.nik || src.nationalId || '',
+                    employeeName: src.nama_pegawai || src.employeeName || '',
+                    positionName: src.jabatan || src.positionName || '',
+                    baseSalary: src.gaji_pokok || src.baseSalary || '',
+                    transportAllowance: src.tj_transport || src.transportAllowance || '',
+                    mealAllowance: src.uang_makan || src.mealAllowance || '',
+                    deduction: src.potongan || src.deduction || '',
+                    total: src.total || src.totalSalary || '',
+                };
 
-                setData(data);
+                setData(mapped);
             } catch (error) {
                 console.log(error);
             }
@@ -53,17 +65,17 @@ const DetailDataGaji = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.accessRights !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
 
     return (
         <Layout>
-            <Breadcrumb pageName='Detail Data Gaji Pegawai' />
+            <Breadcrumb pageName='Salary Detail' />
             <Link to='/data-gaji'>
                 <ButtonTwo>
-                    <span>Kembali</span>
+                    <span>Back</span>
                 </ButtonTwo>
             </Link>
             <div className='rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mt-6'>
@@ -74,31 +86,31 @@ const DetailDataGaji = () => {
                     <div className='md:w-2/3'>
                         <div className='w-full md:text-lg'>
                             <h2 className='font-medium mb-4 block text-black dark:text-white'>
-                                <span className='inline-block w-32 md:w-40'>Nama</span>
+                                <span className='inline-block w-32 md:w-40'>Name</span>
                                 <span className='inline-block w-7'>:</span>
-                                {data.nama_pegawai}
+                                {data.employeeName}
                             </h2>
                             <h2 className='font-medium mb-4 block text-black dark:text-white'>
-                                <span className='inline-block w-32 md:w-40'>NIK</span>
+                                <span className='inline-block w-32 md:w-40'>National ID</span>
                                 <span className='inline-block w-6'>:</span>{' '}
                                 <span className='pl-[-10] md:pl-0'></span>
-                                {data.nik}
+                                {data.nationalId}
                             </h2>
                             <h2 className='font-medium mb-4 block text-black dark:text-white'>
-                                <span className='inline-block w-32 md:w-40'>Jabatan</span>
+                                <span className='inline-block w-32 md:w-40'>Position</span>
                                 <span className='inline-block w-7'>:</span>
-                                {data.jabatan}
+                                {data.positionName}
                             </h2>
                             <h2 className='font-medium mb-4 block text-black dark:text-white'>
-                                <span className='inline-block w-32 md:w-40'>Bulan</span>
+                                <span className='inline-block w-32 md:w-40'>Month</span>
                                 <span className='pl-[-8] md:pl-0'></span>
                                 <span className='inline-block w-7'>:</span>
-                                {data.bulan}
+                                {data.month}
                             </h2>
                             <h2 className='font-medium mb-4 block text-black dark:text-white'>
-                                <span className='inline-block w-32 md:w-40'>Tahun</span>
+                                <span className='inline-block w-32 md:w-40'>Year</span>
                                 <span className='inline-block w-7'>:</span>
-                                {data.tahun}
+                                {data.year}
                                 <span className='pl-[-8] md:pl-0'></span>
                             </h2>
                         </div>
@@ -122,58 +134,58 @@ const DetailDataGaji = () => {
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                     {index + 1}
                                 </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Gaji Pokok
+                                    <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
+                                    {index + 1}
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.gaji_pokok}
+                                    Base Salary
                                 </td>
-                            </tr>
-                            <tr className='bg-gray-50 dark:border-strokedark'>
+                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
+                                    Rp. {data.baseSalary}
+                                </td>
+                                    {index + 2}
+                                </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                     {index + 2}
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Tunjangan Transportasi
+                                    Transport Allowance
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.tj_transport}
+                                    Rp. {data.transportAllowance}
                                 </td>
-                            </tr>
-                            <tr className='bg-gray-50 dark:border-strokedark'>
+                                    {index + 3}
+                                </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                     {index + 3}
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Uang Makan
+                                    Meal Allowance
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.uang_makan}
+                                    Rp. {data.mealAllowance}
                                 </td>
-                            </tr>
-                            <tr className='bg-gray-50 dark:border-strokedark'>
+                                    {index + 4}
+                                </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                     {index + 4}
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Potongan
+                                    Deduction
                                 </td>
                                 <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.potongan}
+                                    Rp. {data.deduction}
                                 </td>
-                            </tr>
-                            <tr className='bg-gray-50 dark:border-strokedark'>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                 </td>
                                 <td className='font-medium border-b  border-[#eee] dark:border-strokedark py-5 text-right text-black dark:text-white'>
                                     Total Gaji :
                                 </td>
+                                <td className='font-medium border-b  border-[#eee] dark:border-strokedark py-5 text-right text-black dark:text-white'>
+                                    Total Salary :
+                                </td>
                                 <td className='font-medium border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                     Rp. {data.total}
                                 </td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <div className='w-full md:w-1/2 md:justify-end py-6'>
                         <div className='w-full md:w-auto'>
                             <ButtonOne
@@ -182,7 +194,7 @@ const DetailDataGaji = () => {
                                 <span>Cetak Gaji Pegawai</span>
                                 <span>
                                     <TfiPrinter />
-                                </span>
+                                <span>Print Payslip</span>
                             </ButtonOne>
                         </div>
                     </div>
@@ -192,4 +204,7 @@ const DetailDataGaji = () => {
     );
 };
 
-export default DetailDataGaji;
+export default SalaryDetail;
+
+
+export default SalaryDetail;

@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    GET_DATA_JABATAN_SUCCESS,
-    GET_DATA_JABATAN_FAILURE,
-    CREATE_DATA_JABATAN_SUCCESS,
-    CREATE_DATA_JABATAN_FAILURE,
-    UPDATE_DATA_JABATAN_SUCCESS,
-    UPDATE_DATA_JABATAN_FAILURE,
-    DELETE_DATA_JABATAN_SUCCESS,
-    DELETE_DATA_JABATAN_FAILURE
-} from './dataJabatanActionTypes';
+    GET_POSITION_DATA_SUCCESS,
+    GET_POSITION_DATA_FAILURE,
+    CREATE_POSITION_DATA_SUCCESS,
+    CREATE_POSITION_DATA_FAILURE,
+    UPDATE_POSITION_DATA_SUCCESS,
+    UPDATE_POSITION_DATA_FAILURE,
+    DELETE_POSITION_DATA_SUCCESS,
+    DELETE_POSITION_DATA_FAILURE
+} from './positionActionTypes';
 
 const API_URL = 'http://localhost:5000';
 
@@ -17,12 +17,12 @@ export const getDataJabatan = () => {
         try {
             const response = await axios.get(`${API_URL}/data_jabatan`);
             dispatch({
-                type: GET_DATA_JABATAN_SUCCESS,
+                type: GET_POSITION_DATA_SUCCESS,
                 payload: response.data
             });
         } catch (error) {
             dispatch({
-                type: GET_DATA_JABATAN_FAILURE,
+                type: GET_POSITION_DATA_FAILURE,
                 payload: error.message
             });
         }
@@ -38,14 +38,14 @@ export const createDataJabatan = (formData, navigate) => {
                 }
             });
             dispatch({
-                type: CREATE_DATA_JABATAN_SUCCESS,
+                type: CREATE_POSITION_DATA_SUCCESS,
                 payload: response.data
             });
             navigate("/data-jabatan");
             return response.data;
         } catch (error) {
             dispatch({
-                type: CREATE_DATA_JABATAN_FAILURE,
+                type: CREATE_POSITION_DATA_FAILURE,
                 payload: error.message
             });
             throw error;
@@ -58,12 +58,12 @@ export const updateDataJabatan = (id, data) => {
         try {
             const response = await axios.put(`${API_URL}/data_jabatan/${id}`, data);
             dispatch({
-                type: UPDATE_DATA_JABATAN_SUCCESS,
+                type: UPDATE_POSITION_DATA_SUCCESS,
                 payload: response.data
             });
         } catch (error) {
             dispatch({
-                type: UPDATE_DATA_JABATAN_FAILURE,
+                type: UPDATE_POSITION_DATA_FAILURE,
                 payload: error.message
             });
         }
@@ -75,12 +75,12 @@ export const deleteDataJabatan = (id) => {
         try {
             const response = await axios.delete(`${API_URL}/data_jabatan/${id}`);
             dispatch({
-                type: DELETE_DATA_JABATAN_SUCCESS,
+                type: DELETE_POSITION_DATA_SUCCESS,
                 payload: response.data
             });
         } catch (error) {
             dispatch({
-                type: DELETE_DATA_JABATAN_FAILURE,
+                type: DELETE_POSITION_DATA_FAILURE,
                 payload: error.message
             });
         }

@@ -11,7 +11,7 @@ import {
 } from "../../../../config/redux/action";
 import { ButtonOne, ButtonTwo } from "../../../atoms";
 
-const PrintPdfLaporanGaji = () => {
+const PrintPdfSalaryReport = () => {
   const componentRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,8 +19,8 @@ const PrintPdfLaporanGaji = () => {
   const searchParams = new URLSearchParams(location.search);
   const month = searchParams.get("month");
   const year = searchParams.get("year");
-  const [bulan, setBulan] = useState("");
-  const [tahun, setTahun] = useState("");
+  const [monthName, setMonthName] = useState("");
+  const [yearValue, setYearValue] = useState("");
 
   const { isError, user } = useSelector((state) => state.auth);
   const { dataLaporanGaji } = useSelector((state) => state.laporanGaji);
@@ -51,7 +51,7 @@ const PrintPdfLaporanGaji = () => {
     if (isError) {
       navigate("/login");
     }
-    if (user && user.hak_akses !== "admin") {
+    if (user && user.accessRights !== "admin") {
       navigate("/dashboard");
     } else {
       handlePrint();
@@ -61,28 +61,28 @@ const PrintPdfLaporanGaji = () => {
   useEffect(() => {
     const today = new Date();
     const monthNames = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
     ];
-    const month = monthNames[today.getMonth()];
-    const year = today.getFullYear();
-    setBulan(month);
-    setTahun(year);
+    const m = monthNames[today.getMonth()];
+    const y = today.getFullYear();
+    setMonthName(m);
+    setYearValue(y);
   }, []);
 
   return (
     <>
       <div className="flex flex-col md:flex-row w-full gap-3 text-center p-6 bg-white dark:bg-meta-4">
-        <div>
+          <div>
           <ButtonOne onClick={handlePrint}>
-            <span>Cetak</span>
+            <span>Print</span>
           </ButtonOne>
         </div>
         <div>
           <ButtonTwo
             onClick={() => navigate(-1)}
           >
-            <span>Kembali</span>
+            <span>Back</span>
           </ButtonTwo>
         </div>
       </div >
@@ -102,17 +102,17 @@ const PrintPdfLaporanGaji = () => {
           />
         </div>
         <h1 className="text-center text-black my-4 text-xl font-medium boder py-2 dark:text-white">
-          Daftar Gaji Pegawai
+          Employee Salary List
         </h1>
         <div className="w-full md:text-lg">
           <h2 className="font-medium mb-4 block text-black dark:text-white">
-            <span className="inline-block w-32 md:w-40">Bulan</span>
+            <span className="inline-block w-32 md:w-40">Month</span>
             <span className="pl-[-8] md:pl-0"></span>
             <span className="inline-block w-7">:</span>
             {month}
           </h2>
           <h2 className="font-medium mb-4 block text-black dark:text-white">
-            <span className="inline-block w-32 md:w-40">Tahun</span>
+            <span className="inline-block w-32 md:w-40">Year</span>
             <span className="inline-block w-7">:</span>
             {year}
             <span className="pl-[-8] md:pl-0"></span>
@@ -126,28 +126,28 @@ const PrintPdfLaporanGaji = () => {
                   No
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  NIK
+                  National ID
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  Nama <br /> Pegawai
+                  Employee Name
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  Jabatan
+                  Position
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  Gaji <br /> Pokok
+                  Base Salary
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  Tunjangan <br />Transport
+                  Transport Allowance
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  Uang <br /> Makan
+                  Meal Allowance
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-black dark:border-white dark:text-white">
-                  Potongan
+                  Deduction
                 </th>
                 <th className="font-medium text-black border-t border-l border-b border-r border-black dark:border-white dark:text-white">
-                  Total <br /> Gaji
+                  Total Salary
                 </th>
               </tr>
             </thead>
@@ -162,25 +162,25 @@ const PrintPdfLaporanGaji = () => {
                       <p className="text-black dark:text-white">{data.nik}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">{data.nama_pegawai}</p>
+                      <p className="text-black dark:text-white">{data.employeeName || data.nama_pegawai}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">{data.jabatan_pegawai}</p>
+                      <p className="text-black dark:text-white">{data.positionName || data.jabatan_pegawai}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.gaji_pokok}</p>
+                      <p className="text-black dark:text-white">Rp. {data.baseSalary ?? data.gaji_pokok}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.tj_transport}</p>
+                      <p className="text-black dark:text-white">Rp. {data.transportAllowance ?? data.tj_transport}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.uang_makan}</p>
+                      <p className="text-black dark:text-white">Rp. {data.mealAllowance ?? data.uang_makan}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.potongan}</p>
+                      <p className="text-black dark:text-white">Rp. {data.deduction ?? data.potongan}</p>
                     </td>
                     <td className="border-b border-l border-r border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.total_gaji}</p>
+                      <p className="text-black dark:text-white">Rp. {data.totalSalary ?? data.total_gaji}</p>
                     </td>
                   </tr>
                 );
@@ -190,20 +190,20 @@ const PrintPdfLaporanGaji = () => {
         </div>
         <div className="py-6">
           <div className="font-medium text-black text-right dark:text-white">
-            <span>Karawang, {`${new Date().getDate()} ${bulan} ${tahun}`}</span>
+            <span>Karawang, {`${new Date().getDate()} ${monthName} ${yearValue}`}</span>
             <br />
             <span className="p-26">Finance</span>
             <br />
             <br />
-            <span className="p-8 italic text-black dark:text-white">Tanda Tangan</span>
+            <span className="p-8 italic text-black dark:text-white">Signature</span>
           </div>
         </div>
         <div className="italic text-black dark:text-white mt-40">
-          Dicetak Pada : {`${new Date().getDate()} ${bulan} ${tahun}`}
+          Printed On : {`${new Date().getDate()} ${monthName} ${yearValue}`}
         </div>
       </div>
     </>
   );
 };
 
-export default PrintPdfLaporanGaji;
+export default PrintPdfSalaryReport;

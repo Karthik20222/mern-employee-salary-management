@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    GET_DATA_KEHADIRAN_SUCCESS,
-    GET_DATA_KEHADIRAN_FAILURE,
-    CREATE_DATA_KEHADIRAN_SUCCESS,
-    CREATE_DATA_KEHADIRAN_FAILURE,
-    UPDATE_DATA_KEHADIRAN_SUCCESS,
-    UPDATE_DATA_KEHADIRAN_FAILURE,
-    DELETE_DATA_KEHADIRAN_SUCCESS,
-    DELETE_DATA_KEHADIRAN_FAILURE
-} from './dataKehadiranActionTypes';
+    GET_ATTENDANCE_DATA_SUCCESS,
+    GET_ATTENDANCE_DATA_FAILURE,
+    CREATE_ATTENDANCE_DATA_SUCCESS,
+    CREATE_ATTENDANCE_DATA_FAILURE,
+    UPDATE_ATTENDANCE_DATA_SUCCESS,
+    UPDATE_ATTENDANCE_DATA_FAILURE,
+    DELETE_ATTENDANCE_DATA_SUCCESS,
+    DELETE_ATTENDANCE_DATA_FAILURE
+} from './attendanceActionTypes';
 
 export const getDataKehadiran = () => {
     return async (dispatch) => {
@@ -16,12 +16,12 @@ export const getDataKehadiran = () => {
             const response = await axios.get('http://localhost:5000/data_kehadiran');
             const dataKehadiran = response.data;
             dispatch({
-                type: GET_DATA_KEHADIRAN_SUCCESS,
+                type: GET_ATTENDANCE_DATA_SUCCESS,
                 payload: dataKehadiran
             });
         } catch (error) {
             dispatch({
-                type: GET_DATA_KEHADIRAN_FAILURE,
+                type: GET_ATTENDANCE_DATA_FAILURE,
                 payload: error.message
             });
         }
@@ -47,7 +47,7 @@ export const createDataKehadiran = (dataPegawai, dataKehadiran, navigate) => asy
                 });
 
                 dispatch({
-                    type: CREATE_DATA_KEHADIRAN_SUCCESS,
+                    type: CREATE_ATTENDANCE_DATA_SUCCESS,
                     payload: response.data,
                 });
 
@@ -57,7 +57,7 @@ export const createDataKehadiran = (dataPegawai, dataKehadiran, navigate) => asy
         }
     } catch (error) {
         dispatch({
-            type: CREATE_DATA_KEHADIRAN_FAILURE,
+            type: CREATE_ATTENDANCE_DATA_FAILURE,
             payload: error.message,
         });
         throw error;
@@ -70,19 +70,19 @@ export const updateDataKehadiran = (id, dataKehadiran) => {
             const response = await axios.put(`http://localhost:5000/data_kehadiran/${id}`, dataKehadiran);
             if (response.status === 200) {
                 dispatch({
-                    type: UPDATE_DATA_KEHADIRAN_SUCCESS,
+                    type: UPDATE_ATTENDANCE_DATA_SUCCESS,
                     payload: 'Data kehadiran berhasil diupdate'
                 });
                 dispatch(getDataKehadiran());
             } else {
                 dispatch({
-                    type: UPDATE_DATA_KEHADIRAN_FAILURE,
+                    type: UPDATE_ATTENDANCE_DATA_FAILURE,
                     payload: response.data.message
                 });
             }
         } catch (error) {
             dispatch({
-                type: UPDATE_DATA_KEHADIRAN_FAILURE,
+                type: UPDATE_ATTENDANCE_DATA_FAILURE,
                 payload: error.message
             });
         }
@@ -95,19 +95,19 @@ export const deleteDataKehadiran = (id) => {
             const response = await axios.delete(`http://localhost:5000/data_kehadiran/${id}`);
             if (response.status === 200) {
                 dispatch({
-                    type: DELETE_DATA_KEHADIRAN_SUCCESS,
+                    type: DELETE_ATTENDANCE_DATA_SUCCESS,
                     payload: 'Delete data berhasil'
                 });
                 dispatch(getDataKehadiran());
             } else {
                 dispatch({
-                    type: DELETE_DATA_KEHADIRAN_FAILURE,
+                    type: DELETE_ATTENDANCE_DATA_FAILURE,
                     payload: response.data.message
                 });
             }
         } catch (error) {
             dispatch({
-                type: DELETE_DATA_KEHADIRAN_FAILURE,
+                type: DELETE_ATTENDANCE_DATA_FAILURE,
                 payload: error.message
             });
         }

@@ -7,18 +7,18 @@ import Contact from '../../pages/Contact';
 import Login from '../../pages/Login';
 import Dashboard from '../../pages/Dashboard';
 import {
-  FormAddDataJabatan,
-  FormEditDataJabatan,
-  FormAddDataKehadiran,
-  FormEditDataKehadiran,
-  FormAddDataPegawai,
-  FormEditDataPegawai,
-  FormAddDataPotongan,
-  FormEditDataPotongan,
+  FormAddPosition,
+  FormEditPosition,
+  FormAddAttendance,
+  FormEditAttendance,
+  FormAddEmployee,
+  FormEditEmployee,
+  FormAddDeduction,
+  FormEditDeduction,
   PrintPdfLaporanGaji,
-  DetailDataGaji,
-  PrintPdfSlipGaji,
-  PrintPdfLaporanAbsensi,
+  SalaryDetail,
+  PrintPdfPayslip,
+  PrintPdfAttendanceReport,
   PrintPdfDataGajiPegawai
 } from '../../components';
 import {
@@ -53,11 +53,11 @@ const AppRoutes = () => {
       />
       <Route
         path='/data-pegawai/form-data-pegawai/add'
-        element={<FormAddDataPegawai />}
+        element={<FormAddEmployee />}
       />
       <Route
         path='/data-pegawai/form-data-pegawai/edit/:id'
-        element={<FormEditDataPegawai />}
+        element={<FormEditEmployee />}
       />
       <Route
         path='/data-jabatan'
@@ -65,11 +65,11 @@ const AppRoutes = () => {
       />
       <Route
         path='/data-jabatan/form-data-jabatan/add'
-        element={<FormAddDataJabatan />}
+        element={<FormAddPosition />}
       />
       <Route
         path='/data-jabatan/form-data-jabatan/edit/:id'
-        element={<FormEditDataJabatan />}
+        element={<FormEditPosition />}
       />
 
       {/* Transaksi Admin */}
@@ -79,11 +79,11 @@ const AppRoutes = () => {
       />
       <Route
         path='/data-kehadiran/form-data-kehadiran/add'
-        element={<FormAddDataKehadiran />}
+        element={<FormAddAttendance />}
       />
       <Route
         path='/data-kehadiran/form-data-kehadiran/edit/:id'
-        element={<FormEditDataKehadiran />}
+        element={<FormEditAttendance />}
       />
       <Route
         path='/data-potongan'
@@ -91,21 +91,21 @@ const AppRoutes = () => {
       />
       <Route
         path='/data-potongan/form-data-potongan/add'
-        element={<FormAddDataPotongan />} />
+        element={<FormAddDeduction />} />
       <Route
         path='/data-potongan/form-data-potongan/edit/:id'
-        element={<FormEditDataPotongan />} />
+        element={<FormEditDeduction />} />
       <Route
         path='/data-gaji'
         element={<DataGaji />}
       />
       <Route
         path='/data-gaji/detail-data-gaji/name/:name'
-        element={<DetailDataGaji />}
+        element={<SalaryDetail />}
       />
       <Route
         path='/data-gaji/cetak-gaji/slip-gaji/name/:name'
-        element={<PrintPdfSlipGaji />}
+        element={<PrintPdfPayslip />}
       />
 
       {/* Laporan Admin */}
@@ -123,7 +123,7 @@ const AppRoutes = () => {
       />
       <Route
         path='/laporan/absensi/print-page'
-        element={<PrintPdfLaporanAbsensi />}
+        element={<PrintPdfAttendanceReport />}
       />
       <Route
         path='/laporan/slip-gaji'
@@ -131,7 +131,7 @@ const AppRoutes = () => {
       />
       <Route
         path='/laporan/slip-gaji/print-page'
-        element={<PrintPdfSlipGaji />}
+        element={<PrintPdfPayslip />}
       />
 
       {/* Pengaturan Admin */}

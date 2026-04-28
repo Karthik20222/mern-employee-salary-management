@@ -6,32 +6,32 @@ import Swal from 'sweetalert2';
 import { Breadcrumb, ButtonOne, ButtonTwo } from '../../../../../components';
 import { createDataPotongan, getMe } from '../../../../../config/redux/action';
 
-const FormAddDataPotongan = () => {
+const FormAddDeduction = () => {
     const [formData, setFormData] = useState({
-        potongan: '',
-        jmlPotongan: '',
+        deduction: '',
+        deductionAmount: '',
     });
 
     const {
-        potongan,
-        jmlPotongan,
+        deduction,
+        deductionAmount,
     } = formData;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isError, user } = useSelector((state) => state.auth);
 
-    const submitDataPotongan = (e) => {
+    const submitDeductionData = (e) => {
         e.preventDefault();
         const newFormData = new FormData();
-        newFormData.append('potongan', potongan);
-        newFormData.append('jml_potongan', jmlPotongan);
+        newFormData.append('deduction', deduction);
+        newFormData.append('deductionAmount', deductionAmount);
 
         dispatch(createDataPotongan(newFormData, navigate))
             .then((response) => {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Berhasil',
+                    title: 'Success',
                     text: response.message,
                     showConfirmButton: false,
                     timer: 1500,
@@ -41,22 +41,22 @@ const FormAddDataPotongan = () => {
                 if (error.response && error.response.data && error.response.data.msg) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal',
+                        title: 'Failed',
                         text: error.response.data.msg,
                         confirmButtonText: 'Ok',
                     });
                 } else if (error.message) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal',
+                        title: 'Failed',
                         text: error.message,
                         confirmButtonText: 'Ok',
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal',
-                        text: 'Terjadi kesalahan',
+                        title: 'Failed',
+                        text: 'An Error Occurred',
                         confirmButtonText: 'Ok',
                     });
                 }
@@ -86,47 +86,47 @@ const FormAddDataPotongan = () => {
 
     return (
         <Layout>
-            <Breadcrumb pageName='Form Data Potongan' />
+            <Breadcrumb pageName='Deduction Form' />
 
             <div className='sm:grid-cols-2'>
                 <div className='flex flex-col gap-9'>
                     <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
                         <div className='border-b border-stroke py-4 px-6.5 dark:border-strokedark'>
                             <h3 className='font-medium text-black dark:text-white'>
-                                Form Data Potongan
+                                Deduction Form
                             </h3>
                         </div>
-                        <form onSubmit={submitDataPotongan}>
+                        <form onSubmit={submitDeductionData}>
                             <div className='p-6.5'>
                                 <div className='mb-4.5 '>
                                     <div className='w-full mb-4'>
                                         <label className='mb-4 block text-black dark:text-white'>
-                                            Potongan <span className='text-meta-1'>*</span>
+                                            Deduction <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='text'
-                                            id='potongan'
-                                            name='potongan'
-                                            value={potongan}
+                                            id='deduction'
+                                            name='deduction'
+                                            value={deduction}
                                             onChange={handleChange}
                                             required={true}
-                                            placeholder='Masukkan potongan'
+                                            placeholder='Enter deduction'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
 
                                     <div className='w-full mb-4'>
                                         <label className='mb-4 block text-black dark:text-white'>
-                                            Jumlah Potongan <span className='text-meta-1'>*</span>
+                                            Deduction Amount <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='number'
-                                            id='jmlPotongan'
-                                            name='jmlPotongan'
-                                            value={jmlPotongan}
+                                            id='deductionAmount'
+                                            name='deductionAmount'
+                                            value={deductionAmount}
                                             onChange={handleChange}
                                             required
-                                            placeholder='Masukkan jumlah potongan'
+                                            placeholder='Enter deduction amount'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
@@ -135,12 +135,12 @@ const FormAddDataPotongan = () => {
                                 <div className='flex flex-col md:flex-row w-full gap-3 text-center'>
                                     <div>
                                         <ButtonOne  >
-                                            <span>Simpan</span>
+                                            <span>Save</span>
                                         </ButtonOne>
                                     </div>
                                     <Link to="/data-potongan" >
                                         <ButtonTwo  >
-                                            <span>Kembali</span>
+                                            <span>Back</span>
                                         </ButtonTwo>
                                     </Link>
                                 </div>
@@ -153,4 +153,4 @@ const FormAddDataPotongan = () => {
     )
 }
 
-export default FormAddDataPotongan;
+export default FormAddDeduction;

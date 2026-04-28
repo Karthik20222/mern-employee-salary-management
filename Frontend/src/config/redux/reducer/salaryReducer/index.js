@@ -1,9 +1,9 @@
 import {
-    GET_DATA_GAJI_SUCCESS,
-    GET_DATA_GAJI_FAILURE,
-    DELETE_DATA_GAJI_SUCCESS,
-    DELETE_DATA_GAJI_FAILURE
-} from '../../action/dataGajiAction/dataGajiActionTypes';
+    GET_SALARY_DATA_SUCCESS,
+    GET_SALARY_DATA_FAILURE,
+    DELETE_SALARY_DATA_SUCCESS,
+    DELETE_SALARY_DATA_FAILURE
+} from '../../action/salaryAction/salaryActionTypes';
 
 const initialState = {
     dataGaji: [],
@@ -11,28 +11,28 @@ const initialState = {
     error: null
 };
 
-const dataGajiReducer = (state = initialState, action) => {
+const salaryReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_DATA_GAJI_SUCCESS:
+        case GET_SALARY_DATA_SUCCESS:
             return {
                 ...state,
                 dataGaji: action.payload,
                 message: null,
                 error: null,
             };
-        case GET_DATA_GAJI_FAILURE:
+        case GET_SALARY_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
                 message: '',
             };
-        case DELETE_DATA_GAJI_SUCCESS:
+        case DELETE_SALARY_DATA_SUCCESS:
             return {
                 ...state,
                 message: action.payload,
                 error: null,
             };
-        case DELETE_DATA_GAJI_FAILURE:
+        case DELETE_SALARY_DATA_FAILURE:
             return {
                 ...state,
                 error: action.payload,
@@ -43,4 +43,4 @@ const dataGajiReducer = (state = initialState, action) => {
     }
 };
 
-export default dataGajiReducer;
+export default salaryReducer;

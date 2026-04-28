@@ -7,13 +7,13 @@ import Swal from 'sweetalert2';
 import { Breadcrumb, ButtonOne, ButtonTwo, ButtonThree } from '../../../../../components';
 import { getMe } from '../../../../../config/redux/action';
 
-const FormEditDataKehadiran = () => {
-    const [nik, setNik] = useState('');
-    const [namaPegawai, setNamaPegawai] = useState('');
-    const [namaJabatan, setNamaJabatan] = useState('');
-    const [hadir, setHadir] = useState('');
-    const [sakit, setSakit] = useState('');
-    const [alpha, setAlpha] = useState('');
+const FormEditAttendance = () => {
+    const [nationalId, setNationalId] = useState('');
+    const [employeeName, setEmployeeName] = useState('');
+    const [positionName, setPositionName] = useState('');
+    const [present, setPresent] = useState('');
+    const [sick, setSick] = useState('');
+    const [absent, setAbsent] = useState('');
     const [msg, setMsg] = useState('');
     const { id } = useParams();
 
@@ -25,12 +25,12 @@ const FormEditDataKehadiran = () => {
         const getUserById = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/data_kehadiran/${id}`);
-                setNamaPegawai(response.data.nama_pegawai);
-                setNik(response.data.nik);
-                setNamaJabatan(response.data.nama_jabatan);
-                setHadir(response.data.hadir);
-                setSakit(response.data.sakit);
-                setAlpha(response.data.alpha);
+                setEmployeeName(response.data.nama_pegawai);
+                setNationalId(response.data.nik);
+                setPositionName(response.data.nama_jabatan);
+                setPresent(response.data.hadir);
+                setSick(response.data.sakit);
+                setAbsent(response.data.alpha);
             } catch (error) {
                 if (error.response) {
                     setMsg(error.response.data.msg);
@@ -44,12 +44,12 @@ const FormEditDataKehadiran = () => {
         e.preventDefault();
         try {
             const formData = new FormData();
-            formData.append('nama_pegawai', namaPegawai);
-            formData.append('nik', nik);
-            formData.append('nama_jabatan', namaJabatan);
-            formData.append('hadir', hadir);
-            formData.append('sakit', sakit);
-            formData.append('alpha', alpha);
+            formData.append('employeeName', employeeName);
+            formData.append('nationalId', nationalId);
+            formData.append('positionName', positionName);
+            formData.append('present', present);
+            formData.append('sick', sick);
+            formData.append('absent', absent);
 
             const response = await axios.patch(`http://localhost:5000/data_kehadiran/update/${id}`, formData, {
                 headers: {
@@ -59,7 +59,7 @@ const FormEditDataKehadiran = () => {
             setMsg(response.data.msg);
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
+                title: 'Success',
                 timer: 1500,
                 text: response.data.msg
             });
@@ -68,7 +68,7 @@ const FormEditDataKehadiran = () => {
             setMsg(error.response.data.msg);
             Swal.fire({
                 icon: 'error',
-                title: 'Gagal',
+                title: 'Failed',
                 text: error.response.data.msg
             });
         }
@@ -82,21 +82,21 @@ const FormEditDataKehadiran = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.accessRights !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
 
     return (
         <Layout>
-            <Breadcrumb pageName='Form Edit Data Kehadiran Pegawai' />
+            <Breadcrumb pageName='Edit Attendance' />
 
             <div className='sm:grid-cols-2'>
                 <div className='flex flex-col gap-9'>
                     <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
                         <div className='border-b border-stroke py-4 px-6.5 dark:border-strokedark'>
                             <h3 className='font-medium text-black dark:text-white'>
-                                Form Edit Data Kehadiran Pegawai
+                                Edit Attendance Form
                             </h3>
                         </div>
                         <form onSubmit={updateDataKehadiran}>
@@ -104,14 +104,14 @@ const FormEditDataKehadiran = () => {
                                 <div className='mb-4.5 flex flex-col gap-6 xl:flex-row'>
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            Nama Pegawai <span className='text-meta-1'>*</span>
+                                            Employee Name <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='text'
-                                            id='namaPegawai'
-                                            name='namaPegawai'
-                                            value={namaPegawai}
-                                            onChange={(e) => setNamaPegawai(e.target.value)}
+                                            id='employeeName'
+                                            name='employeeName'
+                                            value={employeeName}
+                                            onChange={(e) => setEmployeeName(e.target.value)}
                                             disabled
                                             placeholder='Masukkan Nama'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
@@ -119,17 +119,17 @@ const FormEditDataKehadiran = () => {
                                     </div>
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            NIK <span className='text-meta-1'>*</span>
+                                            National ID <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='number'
-                                            id='nik'
-                                            name='nik'
-                                            value={nik}
-                                            onChange={(e) => setNik(e.target.value)}
+                                            id='nationalId'
+                                            name='nationalId'
+                                            value={nationalId}
+                                            onChange={(e) => setNationalId(e.target.value)}
                                             required
                                             disabled
-                                            placeholder='Masukkan NIK'
+                                            placeholder='Enter national ID'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
@@ -138,33 +138,33 @@ const FormEditDataKehadiran = () => {
                                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row mt-10">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            Jabatan <span className='text-meta-1'>*</span>
+                                            Position <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='text'
-                                            id='namaJabatan'
-                                            name='namaJabatan'
-                                            value={namaJabatan}
-                                            onChange={(e) => setNamaJabatan(e.target.value)}
+                                            id='positionName'
+                                            name='positionName'
+                                            value={positionName}
+                                            onChange={(e) => setPositionName(e.target.value)}
                                             required={true}
                                             disabled
-                                            placeholder='Masukkan jabatan'
+                                            placeholder='Enter position'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
 
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            Hadir <span className='text-meta-1'>*</span>
+                                            Present <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='number'
-                                            id='hadir'
-                                            name='hadir'
-                                            value={hadir}
-                                            onChange={(e) => setHadir(e.target.value)}
+                                            id='present'
+                                            name='present'
+                                            value={present}
+                                            onChange={(e) => setPresent(e.target.value)}
                                             required
-                                            placeholder='Masukkan hadir'
+                                            placeholder='Enter present days'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
@@ -173,32 +173,32 @@ const FormEditDataKehadiran = () => {
                                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row mt-10">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            Sakit <span className='text-meta-1'>*</span>
+                                            Sick <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='number'
-                                            id='sakit'
-                                            name='sakit'
-                                            value={sakit}
-                                            onChange={(e) => setSakit(e.target.value)}
+                                            id='sick'
+                                            name='sick'
+                                            value={sick}
+                                            onChange={(e) => setSick(e.target.value)}
                                             required
-                                            placeholder='Masukkan sakit'
+                                            placeholder='Enter sick days'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
 
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            Alpha <span className='text-meta-1'>*</span>
+                                            Absent <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='number'
-                                            id='alpha'
-                                            name='alpha'
-                                            value={alpha}
-                                            onChange={(e) => setAlpha(e.target.value)}
+                                            id='absent'
+                                            name='absent'
+                                            value={absent}
+                                            onChange={(e) => setAbsent(e.target.value)}
                                             required
-                                            placeholder='Masukkan alpha'
+                                            placeholder='Enter absent days'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
@@ -206,12 +206,12 @@ const FormEditDataKehadiran = () => {
                                 <div className='flex flex-col md:flex-row w-full gap-3 text-center'>
                                     <div>
                                         <ButtonOne  >
-                                            <span>Perbarui</span>
-                                        </ButtonOne>
+                                                    <span>Update</span>
+                                                </ButtonOne>
                                     </div>
                                     <Link to="/data-kehadiran" >
                                         <ButtonTwo  >
-                                            <span>Kembali</span>
+                                                    <span>Back</span>
                                         </ButtonTwo>
                                     </Link>
                                 </div>
@@ -224,4 +224,4 @@ const FormEditDataKehadiran = () => {
     )
 }
 
-export default FormEditDataKehadiran;
+export default FormEditAttendance;
