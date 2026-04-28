@@ -25,7 +25,7 @@ const FormEditDeduction = () => {
             formData.append('deduction', deduction);
             formData.append('deductionAmount', deductionAmount);
 
-            const response = await axios.patch(`http://localhost:5000/data_potongan/update/${id}`, formData, {
+            const response = await axios.patch(`http://localhost:5000/salary_deductions/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -37,7 +37,7 @@ const FormEditDeduction = () => {
                 timer: 1500,
                 text: response.data.msg
             });
-            navigate('/data-potongan');
+            navigate('/data-deduction');
         } catch (error) {
             setMsg(error.response.data.msg);
             Swal.fire({
@@ -51,9 +51,9 @@ const FormEditDeduction = () => {
     useEffect(() => {
         const getDataById = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/data_potongan/${id}`);
-                        setDeduction(response.data.potongan);
-                        setDeductionAmount(response.data.jml_potongan);
+                const response = await axios.get(`http://localhost:5000/salary_deductions/${id}`);
+                        setDeduction(response.data.deduction);
+                        setDeductionAmount(response.data.deduction_amount);
             } catch (error) {
                 if (error.response) {
                     setMsg(error.response.data.msg);
@@ -131,7 +131,7 @@ const FormEditDeduction = () => {
                                             <span>Update</span>
                                         </ButtonOne>
                                     </div>
-                                    <Link to="/data-potongan" >
+                                    <Link to="/data-deduction" >
                                         <ButtonTwo  >
                                             <span>Back</span>
                                         </ButtonTwo>

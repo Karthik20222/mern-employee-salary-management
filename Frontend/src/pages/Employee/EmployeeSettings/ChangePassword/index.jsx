@@ -20,13 +20,41 @@ const UbahPasswordPegawai = () => {
         if (password === confPassword) {
             try {
                 dispatch(changePassword(password, confPassword));
-                Swal.fire({
+                title: 'Success',
+                    text: 'Password Updated Successfully',
                     icon: 'success',
-                    title: 'Berhasil',
-                    text: 'Password Berhasil di Perbarui',
-                    showConfirmButton: false,
-                    timer: 1500,
+                    confirmButtonText: 'Ok'
                 });
+                navigate("/employee-settings");
+            } catch (error) {
+                if (error.response) {
+                    setMsg(error.response.data.msg);
+                    Swal.fire({
+                        title: 'Failed',
+                        text: error.response.data.msg,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                } else {
+                    setMsg("An error occurred");
+                    Swal.fire({
+                        title: 'Failed',
+                        text: 'An error occurred',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            }
+        } else {
+            setMsg("New password and confirmation password do not match");
+            Swal.fire({
+                title: 'Failed',
+                text: "New password and confirmation password do not match",
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        }
+    };
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
@@ -54,7 +82,7 @@ const UbahPasswordPegawai = () => {
         if (isError) {
             navigate("/login");
         }
-        if (user && user.hak_akses !== 'pegawai') {
+        if (user && user.role !== 'pegawai') {
             navigate("/dashboard");
         }
     }, [isError, user, navigate]);

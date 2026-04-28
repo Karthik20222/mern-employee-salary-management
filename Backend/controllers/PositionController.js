@@ -20,7 +20,7 @@ export const getPositions = async (req, res) => {
                 position_name, base_salary, transport_allowance, meal_allowance
             }, {
                 where: {
-                    [Op.and]: [{ position_id: jabatan.position_id }, { employee_id: req.userId }]
+                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
                 },
             });
         }
@@ -72,7 +72,7 @@ export const createPosition = async (req, res) => {
                 position_name, base_salary, transport_allowance, meal_allowance
             }, {
                 where: {
-                    [Op.and]: [{ position_id: jabatan.position_id }, { employee_id: req.userId }]
+                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
                 },
             });
         }
@@ -87,19 +87,19 @@ export const createPosition = async (req, res) => {
 // Update position
 export const updatePosition = async (req, res) => {
     try {
-        const jabatan = await Position.findOne({
+        const position = await Position.findOne({
             where: {
                 id: req.params.id
             }
         });
-        if (!jabatan) return res.status(404).json({ msg: "Data not found" });
+        if (!position) return res.status(404).json({ msg: "Data not found" });
         const { position_name, base_salary, transport_allowance, meal_allowance } = req.body;
         if (req.role === "admin") {
             await Position.update({
                 position_name, base_salary, transport_allowance, meal_allowance
             }, {
                 where: {
-                    id: jabatan.id
+                    id: position.id
                 }
             });
         } else {
@@ -108,7 +108,7 @@ export const updatePosition = async (req, res) => {
                 position_name, base_salary, transport_allowance, meal_allowance
             }, {
                 where: {
-                    [Op.and]: [{ position_id: jabatan.position_id }, { employee_id: req.userId }]
+                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
                 },
             });
         }
@@ -121,23 +121,23 @@ export const updatePosition = async (req, res) => {
 // Delete position
 export const deletePosition = async (req, res) => {
     try {
-        const jabatan = await Position.findOne({
+        const position = await Position.findOne({
             where: {
                 id: req.params.id
             }
         });
-        if (!jabatan) return res.status(404).json({ msg: "Data not found" });
+        if (!position) return res.status(404).json({ msg: "Data not found" });
         if (req.role === "admin") {
-            await jabatan.destroy({
+            await position.destroy({
                 where: {
-                    id: jabatan.id
+                    id: position.id
                 }
             });
         } else {
-            if (req.userId !== jabatan.userId) return res.status(403).json({ msg: "Access denied" });
-            await jabatan.destroy({
+            if (req.userId !== position.userId) return res.status(403).json({ msg: "Access denied" });
+            await position.destroy({
                 where: {
-                    [Op.and]: [{ position_id: jabatan.position_id }, { employee_id: req.userId }]
+                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
                 },
             });
         }

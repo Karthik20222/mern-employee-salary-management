@@ -10,7 +10,7 @@ import {
 } from '../../action/attendanceAction/attendanceActionTypes';
 
 const initialState = {
-    dataKehadiran: [],
+    dataAttendance: [],
     loading: true,
     error: null,
     message: ''
@@ -21,14 +21,14 @@ const attendanceReducer = (state = initialState, action) => {
         case GET_ATTENDANCE_DATA_SUCCESS:
             return {
                 ...state,
-                dataKehadiran: action.payload,
+                dataAttendance: action.payload,
                 loading: false,
                 error: null
             };
         case GET_ATTENDANCE_DATA_FAILURE:
             return {
                 ...state,
-                dataKehadiran: [],
+                dataAttendance: [],
                 loading: false,
                 error: action.payload
             };

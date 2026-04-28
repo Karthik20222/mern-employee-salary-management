@@ -132,7 +132,7 @@ const PrintPdfPayslip = () => {
                                     <span className="inline-block w-32 md:w-40">Position</span>
                                     <span className="pl-[-8] md:pl-0"></span>
                                     <span className="inline-block w-7">:</span>
-                                    {data.jabatan}
+                                    {data.position}
                                 </h2>
                                 <h2 className="font-medium mb-4 block text-black dark:text-white">
                                     <span className="inline-block w-32 md:w-40">Month</span>
@@ -172,7 +172,7 @@ const PrintPdfPayslip = () => {
                                                 Base Salary
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.baseSalary ?? data.gaji_pokok}
+                                                Rp. {data.baseSalary ?? data.base_salary}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>
@@ -183,7 +183,7 @@ const PrintPdfPayslip = () => {
                                                 Transport Allowance
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.transportAllowance ?? data.tj_transport}
+                                                Rp. {data.transportAllowance ?? data.transport_allowance}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>
@@ -194,7 +194,7 @@ const PrintPdfPayslip = () => {
                                                 Meal Allowance
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.mealAllowance ?? data.uang_makan}
+                                                Rp. {data.mealAllowance ?? data.meal_allowance}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>
@@ -205,7 +205,7 @@ const PrintPdfPayslip = () => {
                                                 Deduction
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.deduction ?? data.potongan}
+                                                Rp. {data.deduction ?? data.deduction}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>

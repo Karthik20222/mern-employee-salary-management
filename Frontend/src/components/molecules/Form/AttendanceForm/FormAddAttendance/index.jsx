@@ -20,23 +20,23 @@ const FormAddAttendance = () => {
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const totalPages = Math.ceil(dataPegawai.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(employeeData.length / ITEMS_PER_PAGE);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const filteredEmployees = employees.filter((employee) =>
-        employee.employeeName ? employee.employeeName.toLowerCase().includes(searchKeyword.toLowerCase()) : (employee.nama_pegawai || '').toLowerCase().includes(searchKeyword.toLowerCase())
+        employee.employeeName ? employee.employeeName.toLowerCase().includes(searchKeyword.toLowerCase()) : (employee.employee_name || '').toLowerCase().includes(searchKeyword.toLowerCase())
     );
 
     const getEmployees = async () => {
-        const response = await axios.get("http://localhost:5000/data_pegawai");
+        const response = await axios.get("http://localhost:5000/employees");
         setEmployees(response.data);
     };
 
     const getAttendanceData = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/data_kehadiran");
+            const response = await axios.get("http://localhost:5000/attendance");
             setAttendanceData(response.data);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -89,20 +89,20 @@ const FormAddAttendance = () => {
             for (let i = 0; i < employees.length; i++) {
                 const employee = employees[i];
                 const isNameExists = attendanceData.some(
-                    (att) => att.employeeName === (employee.employeeName || employee.nama_pegawai)
+                    (att) => att.employeeName === (employee.employeeName || employee.employee_name)
                 );
 
                 if (!isNameExists) {
-                    await axios.post("http://localhost:5000/data_kehadiran", {
+                    await axios.post("http://localhost:5000/attendance", {
                         nationalId: employee.nik,
-                        employeeName: employee.employeeName || employee.nama_pegawai,
-                        positionName: employee.jabatan,
-                        gender: employee.jenis_kelamin,
+                        employeeName: employee.employeeName || employee.employee_name,
+                        positionName: employee.position,
+                        gender: employee.gender,
                         present: present[i] || 0,
                         sick: sick[i] || 0,
                         absent: absent[i] || 0,
                     });
-                    navigate("/data-kehadiran");
+                    navigate("/data-attendance");
                     Swal.fire({
                         icon: 'success',
                         title: "Success",
@@ -181,7 +181,7 @@ const FormAddAttendance = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -190,7 +190,7 @@ const FormAddAttendance = () => {
         <Layout>
             <Breadcrumb pageName="Employee Attendance Form" />
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mt-6">
-                <form onSubmit={saveDataKehadiran}>
+                <form onSubmit={saveAttendanceData}>
                     <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                         <div className="relative flex-2 mb-4 md:mb-0">
                             <input
@@ -237,7 +237,7 @@ const FormAddAttendance = () => {
                             </thead>
                             <tbody>
                                 {filteredEmployees.slice(startIndex, endIndex).map((data, index) => {
-                                    const name = data.employeeName || data.nama_pegawai;
+                                    const name = data.employeeName || data.employee_name;
                                     const isNameExists = attendanceData.some(
                                         (att) => att.employeeName === name
                                     );
@@ -269,13 +269,13 @@ const FormAddAttendance = () => {
                                                 <p className="text-black dark:text-white">{data.nik}</p>
                                             </td>
                                             <td className="py-5 px-4">
-                                                <p className="text-black dark:text-white">{data.employeeName || data.nama_pegawai}</p>
+                                                <p className="text-black dark:text-white">{data.employeeName || data.employee_name}</p>
                                             </td>
                                             <td className="py-5 px-4">
-                                                <p className="text-black dark:text-white">{data.jabatan}</p>
+                                                <p className="text-black dark:text-white">{data.position}</p>
                                             </td>
                                             <td className="py-5 px-4">
-                                                <p className="text-black dark:text-white">{data.gender || data.jenis_kelamin}</p>
+                                                <p className="text-black dark:text-white">{data.gender || data.gender}</p>
                                             </td>
                                             <td className="py-5 px-4">
                                                 <input
@@ -350,7 +350,7 @@ const FormAddAttendance = () => {
                                 <span>Save</span>
                             </ButtonOne>
                         </div>
-                        <Link to="/data-kehadiran">
+                        <Link to="/data-attendance">
                             <ButtonTwo>
                                 <span>Back</span>
                             </ButtonTwo>

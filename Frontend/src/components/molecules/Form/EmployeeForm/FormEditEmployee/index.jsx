@@ -37,7 +37,7 @@ const FormEditEmployee = () => {
             formData.append('status', status);
             formData.append('accessRights', accessRights);
 
-            const response = await axios.patch(`http://localhost:5000/data_pegawai/${id}`, formData, {
+            const response = await axios.patch(`http://localhost:5000/employees/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -63,16 +63,16 @@ const FormEditEmployee = () => {
     useEffect(() => {
         const getUserById = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/data_pegawai/id/${id}`);
+                const response = await axios.get(`http://localhost:5000/employees/id/${id}`);
                     const data = response.data;
                     setNationalId(data.nik);
-                    setEmployeeName(data.nama_pegawai);
+                    setEmployeeName(data.employee_name);
                     setUsername(data.username);
-                    setGender(data.jenis_kelamin);
-                    setPositionName(data.jabatan);
-                    setHireDate(data.tanggal_masuk);
+                    setGender(data.gender);
+                    setPositionName(data.position);
+                    setHireDate(data.hire_date);
                     setStatus(data.status);
-                    setAccessRights(data.hak_akses);
+                    setAccessRights(data.role);
             } catch (error) {
                 if (error.response) {
                     setMsg(error.response.data.msg);
@@ -238,7 +238,7 @@ const FormEditEmployee = () => {
                                     </div>
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
-                                            Hak Akses <span className='text-meta-1'>*</span>
+                                            Access Rights <span className='text-meta-1'>*</span>
                                         </label>
                                         <div className='relative z-20 bg-transparent dark:bg-form-input'>
                                             <select className='relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'

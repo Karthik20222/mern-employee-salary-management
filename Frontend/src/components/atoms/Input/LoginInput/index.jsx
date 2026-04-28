@@ -28,14 +28,14 @@ function LoginInput() {
     if (isError) {
       Swal.fire({
         icon: 'error',
-        title: 'Login Gagal',
+        title: 'Login Failed',
         text: message,
       }).then(() => {
       });
     } else if (isSuccess && user) {
       Swal.fire({
         icon: 'success',
-        title: 'Login Berhasil',
+        title: 'Login Successful',
         text: message,
         timer: 1500,
       }).then(() => {

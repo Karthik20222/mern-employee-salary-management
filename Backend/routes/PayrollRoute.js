@@ -85,7 +85,7 @@ router.post('/positions', verifyUser, adminOnly, createPosition);
 router.patch('/positions/:id', verifyUser, adminOnly, updatePosition);
 router.delete('/positions/:id', verifyUser, adminOnly, deletePosition);
 
-/* ==== Transaksi  ==== */
+/* ==== Transactions  ==== */
 // Attendance
 router.get('/attendance', verifyUser, adminOnly, viewAttendance);
 router.get('/attendance/:id', verifyUser, adminOnly, viewAttendanceById);
@@ -93,18 +93,18 @@ router.post('/attendance',verifyUser, adminOnly, createAttendance);
 router.patch('/attendance/update/:id',verifyUser, adminOnly, updateAttendance);
 router.delete('/attendance/:id', verifyUser, adminOnly, deleteAttendance);
 // Salary Deductions
-router.get('/salary-deductions', adminOnly, verifyUser, viewSalaryDeductions);
-router.get('/salary-deductions/:id', adminOnly, verifyUser, viewSalaryDeductionById);
-router.post('/salary-deductions', adminOnly, verifyUser, createSalaryDeduction);
-router.patch('/salary-deductions/update/:id', adminOnly, verifyUser, updateSalaryDeduction);
-router.delete('/salary-deductions/:id', adminOnly, verifyUser, deleteSalaryDeduction);
+router.get('/salary_deductions', adminOnly, verifyUser, viewSalaryDeductions);
+router.get('/salary_deductions/:id', adminOnly, verifyUser, viewSalaryDeductionById);
+router.post('/salary_deductions', adminOnly, verifyUser, createSalaryDeduction);
+router.patch('/salary_deductions/update/:id', adminOnly, verifyUser, updateSalaryDeduction);
+router.delete('/salary_deductions/:id', adminOnly, verifyUser, deleteSalaryDeduction);
 // Employee Salaries
-router.get('/employee-salaries', viewEmployeeSalaries);
-router.get('/employee-salaries/name/:name', verifyUser, viewEmployeeSalaryByName);
-router.get('/employee-salaries/month/:month', viewEmployeeSalariesByMonth);
-router.get('/employee-salaries/year/:year', viewEmployeeSalariesByYear);
+router.get('/employee_salaries', viewEmployeeSalaries);
+router.get('/employee_salaries/name/:name', verifyUser, viewEmployeeSalaryByName);
+router.get('/employee_salaries/month/:month', viewEmployeeSalariesByMonth);
+router.get('/employee_salaries/year/:year', viewEmployeeSalariesByYear);
 
-/* ====  Laporan  ==== */
+/* ====  Reports  ==== */
 // Salary Reports
 router.get('/reports/salary',verifyUser, adminOnly, viewEmployeeSalaryReport);
 router.get('/reports/salary/name/:name',verifyUser, adminOnly, viewEmployeeSalaryReportByName);
@@ -118,7 +118,7 @@ router.get('/reports/payslips/name/:name', verifyUser, adminOnly,viewPayslipByNa
 router.get('/reports/payslips/month/:month',verifyUser, adminOnly, viewPayslipByMonth);
 router.get('/reports/payslips/year/:year',verifyUser, adminOnly, viewPayslipByYear);
 
-/* ==== Ubah Password ==== */
+/* ==== Change Password ==== */
 router.patch('/change_password', verifyUser, changePassword);
 
 /* ==== Logout ==== */
@@ -127,10 +127,10 @@ router.delete('/logout', LogOut);
 // Employee Routes:
 /* ==== Dashboard ==== */
 router.get('/dashboard', verifyUser, employeeDashboard);
-/* ==== Data Gaji ==== */
+/* ==== Salary Data ==== */
 router.get('/salary/month/:month', verifyUser, viewEmployeeSalaryByMonth);
 router.get('/salary/year/:year', verifyUser, viewEmployeeSalaryByYear);
-/* ==== Ubah Password ==== */
+/* ==== Change Password ==== */
 router.patch('/change_password', verifyUser, changePassword);
 /* ==== Logout ==== */
 router.delete('/logout', LogOut);

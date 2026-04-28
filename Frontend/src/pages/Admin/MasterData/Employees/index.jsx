@@ -6,32 +6,32 @@ import { FaRegEdit, FaPlus } from 'react-icons/fa';
 import { BsTrash3 } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { deleteDataPegawai, getDataPegawai, getMe } from '../../../../config/redux/action';
+import { deleteEmployeeData, getEmployeeData, getMe } from '../../../../config/redux/action';
 import { BiSearch } from 'react-icons/bi';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 const ITEMS_PER_PAGE = 4;
 
-const DataPegawai = () => {
+const EmployeeData = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isError, user } = useSelector((state) => state.auth);
-    const { dataPegawai } = useSelector((state) => state.dataPegawai);
+    const { employeeData } = useSelector((state) => state.employeeData);
 
-    const totalPages = Math.ceil(dataPegawai.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(employeeData.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const filteredDataPegawai = dataPegawai.filter((pegawai) => {
-        const { nama_pegawai, status } = pegawai;
+    const filteredEmployeeData = employeeData.filter((pegawai) => {
+        const { employee_name, status } = pegawai;
         const keyword = searchKeyword.toLowerCase();
         const statusKeyword = filterStatus.toLowerCase();
         return (
-            nama_pegawai.toLowerCase().includes(keyword) &&
+            employee_name.toLowerCase().includes(keyword) &&
             (filterStatus === '' || status.toLowerCase() === statusKeyword)
         );
     });
@@ -58,32 +58,34 @@ const DataPegawai = () => {
 
     const onDeletePegawai = (id) => {
         Swal.fire({
-            title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin Menghapus?',
-            icon: 'question',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteDataPegawai(id)).then(() => {
-                    Swal.fire({
-                        title: 'Berhasil',
-                        text: 'Data pegawai berhasil dihapus.',
-                        icon: 'success',
-                        timer: 1000,
-                        timerProgressBar: true,
-                        showConfirmButton: false,
+                dispatch(deleteEmployeeData(id))
+                    .then(() => {
+                        Swal.fire(
+                            'Deleted!',
+                            'Employee data deleted successfully.',
+                            'success'
+                        );
+                        dispatch(getEmployeeData());
+                    })
+                    .catch((error) => {
+                        console.error(error);
                     });
-                    dispatch(getDataPegawai());
-                });
             }
         });
     };
+    };
 
     useEffect(() => {
-        dispatch(getDataPegawai(startIndex, endIndex));
+        dispatch(getEmployeeData(startIndex, endIndex));
     }, [dispatch, startIndex, endIndex]);
 
     useEffect(() => {
@@ -94,7 +96,7 @@ const DataPegawai = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -203,7 +205,7 @@ const DataPegawai = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDataPegawai.slice(startIndex, endIndex).map((data, index) => {
+                            {filteredEmployeeData.slice(startIndex, endIndex).map((data, index) => {
                                 return (
                                     <tr key={data.id}>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -220,19 +222,19 @@ const DataPegawai = () => {
                                             <p className="text-black dark:text-white text-center">{data.nik}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.nama_pegawai}</p>
+                                            <p className="text-black dark:text-white">{data.employee_name}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.jenis_kelamin}</p>
+                                            <p className="text-black dark:text-white">{data.gender}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.tanggal_masuk}</p>
+                                            <p className="text-black dark:text-white">{data.hire_date}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                             <p className="text-black dark:text-white">{data.status}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.hak_akses}</p>
+                                            <p className="text-black dark:text-white">{data.role}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                             <div className="flex items-center space-x-3.5">
@@ -258,7 +260,7 @@ const DataPegawai = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredDataPegawai.length)} dari {filteredDataPegawai.length} Data Pegawai
+                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredEmployeeData.length)} dari {filteredEmployeeData.length} Data Pegawai
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">
@@ -284,4 +286,4 @@ const DataPegawai = () => {
     );
 };
 
-export default DataPegawai;
+export default EmployeeData;

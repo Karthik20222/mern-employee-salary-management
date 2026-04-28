@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumb, ButtonOne, ButtonTwo } from '../../../../../components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import Layout from '../../../../../layout';
-import { createDataPegawai, getMe } from '../../../../../config/redux/action';
+import { createEmployeeData, getMe } from '../../../../../config/redux/action';
 import Swal from 'sweetalert2';
 
 const FormAddEmployee = () => {
@@ -82,7 +82,7 @@ const FormAddEmployee = () => {
         newFormData.append('status', status);
         newFormData.append('accessRights', accessRights);
 
-        dispatch(createDataPegawai(newFormData, navigate))
+        dispatch(createEmployeeData(newFormData, navigate))
             .then((response) => {
                 Swal.fire({
                     icon: 'success',

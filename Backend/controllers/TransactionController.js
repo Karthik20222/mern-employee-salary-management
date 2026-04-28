@@ -7,7 +7,7 @@ import "moment/locale/en.js";
 
 // Get all attendance records
 export const viewAttendance = async (req, res) => {
-  let resultAttendance = [];
+  let attendanceResults = [];
   try {
     // Get attendance data
     const attendanceRecords = await Attendance.findAll({
@@ -26,11 +26,11 @@ export const viewAttendance = async (req, res) => {
       distinct: true,
     });
 
-    resultAttendance = attendanceRecords.map((attendance) => {
+    attendanceResults = attendanceRecords.map((attendance) => {
       const id = attendance.id;
       const createdAt = new Date(attendance.createdAt);
       const year = createdAt.getFullYear();
-      const bulan = attendance.month;
+      const month = attendance.month;
       const national_id = attendance.national_id;
       const employee_name = attendance.employee_name;
       const position_name = attendance.position_name;
@@ -41,7 +41,7 @@ export const viewAttendance = async (req, res) => {
 
       return {
         id,
-        month: bulan,
+        month: month,
         year,
         national_id,
         employee_name,
@@ -52,7 +52,7 @@ export const viewAttendance = async (req, res) => {
         absent_days,
       };
     });
-    res.json(resultAttendance);
+    res.json(attendanceResults);
   } catch (error) {
     console.log(error);
   }
@@ -97,50 +97,50 @@ export const createAttendance = async (req, res) => {
   } = req.body;
 
   try {
-    const data_employee_name = await Employee.findOne({
+    const employeeData = await Employee.findOne({
       where: {
         employee_name: employee_name,
       },
     });
 
-    const data_position_name = await Position.findOne({
+    const positionData = await Position.findOne({
       where: {
         position_name: position_name,
       },
     });
 
-    const data_national_id = await Employee.findOne({
+    const nationalIdData = await Employee.findOne({
       where: {
         national_id: national_id,
       },
     });
 
-    const nameAlreadyExists = await Attendance.findOne({
+    const employeeNameExists = await Attendance.findOne({
       where: {
         employee_name: employee_name,
       },
     });
 
-    if (!data_employee_name) {
+    if (!employeeData) {
       return res.status(404).json({ msg: "Employee name not found" });
     }
 
-    if (!data_position_name) {
+    if (!positionData) {
       return res.status(404).json({ msg: "Position name not found" });
     }
 
-    if (!data_national_id) {
+    if (!nationalIdData) {
       return res.status(404).json({ msg: "National ID not found" });
     }
 
-    if (!nameAlreadyExists) {
+    if (!employeeNameExists) {
       const month = moment().locale("en").format("MMMM");
       await Attendance.create({
         month: month.toLowerCase(),
         national_id: national_id,
-        employee_name: data_employee_name.employee_name,
+        employee_name: employeeData.employee_name,
         gender: gender,
-        position_name: data_position_name.position_name,
+        position_name: positionData.position_name,
         present_days: present_days,
         sick_days: sick_days,
         absent_days: absent_days,
@@ -209,10 +209,10 @@ export const createSalaryDeduction = async (req, res) => {
 // Get all salary deductions
 export const viewSalaryDeductions = async (req, res) => {
   try {
-    const dataPotongan = await SalaryDeduction.findAll({
+    const deductionData = await SalaryDeduction.findAll({
       attributes: ["id", "deduction_name", "deduction_amount"],
     });
-    res.json(dataPotongan);
+    res.json(deductionData);
   } catch (error) {
     console.log(error);
   }
@@ -221,13 +221,13 @@ export const viewSalaryDeductions = async (req, res) => {
 // Get salary deduction by ID
 export const viewSalaryDeductionById = async (req, res) => {
   try {
-    const dataPotongan = await SalaryDeduction.findOne({
+    const deductionData = await SalaryDeduction.findOne({
       attributes: ["id", "deduction_name", "deduction_amount"],
       where: {
         id: req.params.id,
       },
     });
-    res.json(dataPotongan);
+    res.json(deductionData);
   } catch (error) {
     console.log(error);
   }
@@ -265,7 +265,7 @@ export const deleteSalaryDeduction = async (req, res) => {
 
 // Get employee data
 export const getEmployeeData = async () => {
-  let resultEmployees = [];
+  let employeeResults = [];
 
   try {
     // Get employees
@@ -274,32 +274,32 @@ export const getEmployeeData = async () => {
       distinct: true,
     });
 
-    resultEmployees = employees.map((employee) => {
+    employeeResults = employees.map((employee) => {
       const id = employee.id;
       const national_id = employee.national_id;
       const employee_name = employee.employee_name;
       const gender = employee.gender;
-      const employee_position = employee.position;
+      const employeePosition = employee.position;
 
-      return { id, national_id, employee_name, gender, employee_position };
+      return { id, national_id, employee_name, gender, employeePosition };
     });
   } catch (error) {
     console.error(error);
   }
 
-  return resultEmployees;
+  return employeeResults;
 };
 
 // Get position data
 export const getPositionData = async () => {
-  let resultPositions = [];
+  let positionResults = [];
   try {
     const positions = await Position.findAll({
       attributes: ["position_name", "base_salary", "transport_allowance", "meal_allowance"],
       distinct: true,
     });
 
-    resultPositions = positions.map((position) => {
+    positionResults = positions.map((position) => {
       const position_name = position.position_name;
       const base_salary = position.base_salary;
       const transport_allowance = position.transport_allowance;
@@ -310,7 +310,7 @@ export const getPositionData = async () => {
   } catch (error) {
     console.error(error);
   }
-  return resultPositions;
+  return positionResults;
 };
 
 // Get attendance data
@@ -331,10 +331,10 @@ export const getAttendanceData = async () => {
       distinct: true,
     });
 
-    const resultAttendance = attendanceRecords.map((attendance) => {
+    const attendanceResults = attendanceRecords.map((attendance) => {
       const createdAt = new Date(attendance.createdAt);
-      const tahun = createdAt.getFullYear();
-      const bulan = attendance.month;
+      const year = createdAt.getFullYear();
+      const month = attendance.month;
       const national_id = attendance.national_id;
       const employee_name = attendance.employee_name;
       const position_name = attendance.position_name;
@@ -343,8 +343,8 @@ export const getAttendanceData = async () => {
       const absent_days = attendance.absent_days;
 
       return {
-        month: bulan,
-        tahun,
+        month: month,
+        year,
         national_id,
         employee_name,
         position_name,
@@ -353,20 +353,20 @@ export const getAttendanceData = async () => {
         absent_days,
       };
     });
-    return resultAttendance;
+    return attendanceResults;
   } catch (error) {
     console.error(error);
   }
 };
 
 export const getSalaryDeductionData = async () => {
-  let resultDeductions = [];
+  let deductionResults = [];
   try {
     const deductions = await SalaryDeduction.findAll({
       attributes: ["id", "deduction_name", "deduction_amount"],
       distinct: true,
     });
-    resultDeductions = deductions.map((deduction) => {
+    deductionResults = deductions.map((deduction) => {
       const id = deduction.id;
       const deduction_name = deduction.deduction_name;
       const deduction_amount = deduction.deduction_amount;
@@ -376,47 +376,47 @@ export const getSalaryDeductionData = async () => {
   } catch (error) {
     console.error(error);
   }
-  return resultDeductions;
+  return deductionResults;
 };
 
 // Salary calculations
 export const getEmployeeSalaryData = async () => {
   try {
-    const resultEmployees = await getEmployeeData();
-    const resultPositions = await getPositionData();
+    const employeeResults = await getEmployeeData();
+    const positionResults = await getPositionData();
 
-    const employeeSalaries = resultEmployees
+    const employeeSalaries = employeeResults
       .filter((employee) =>
-        resultPositions.some(
-          (position) => position.position_name === employee.employee_position
+        positionResults.some(
+          (position) => position.position_name === employee.employeePosition
         )
       )
       .map((employee) => {
-        const position = resultPositions.find(
-          (position) => position.position_name === employee.employee_position
+        const position = positionResults.find(
+          (position) => position.position_name === employee.employeePosition
         );
         return {
           id: employee.id,
           national_id: employee.national_id,
           employee_name: employee.employee_name,
-          position: employee.employee_position,
+          position: employee.employeePosition,
           base_salary: position.base_salary,
           transport_allowance: position.transport_allowance,
           meal_allowance: position.meal_allowance,
         };
       });
 
-    const resultAttendance = await getAttendanceData();
-    const resultDeductions = await getSalaryDeductionData();
+    const attendanceResults = await getAttendanceData();
+    const deductionResults = await getSalaryDeductionData();
 
-    const employeeDeductions = resultAttendance.map((attendance) => {
-      const alphaDeduction = attendance.absent_days > 0 ?
-        resultDeductions
+    const employeeDeductions = attendanceResults.map((attendance) => {
+      const absentDeduction = attendance.absent_days > 0 ?
+        deductionResults
           .filter((deduction) => deduction.deduction_name.toLowerCase() === "absent")
           .reduce((total, deduction) => total + deduction.deduction_amount * attendance.absent_days, 0) : 0;
 
       const sickDeduction = attendance.sick_days > 0 ?
-        resultDeductions
+        deductionResults
           .filter((deduction) => deduction.deduction_name.toLowerCase() === "sick")
           .reduce((total, deduction) => total + deduction.deduction_amount * attendance.sick_days, 0) : 0;
 
@@ -428,14 +428,14 @@ export const getEmployeeSalaryData = async () => {
         sick_days: attendance.sick_days,
         absent_days: attendance.absent_days,
         sick_deduction: sickDeduction,
-        absent_deduction: alphaDeduction,
-        total_deduction: sickDeduction + alphaDeduction
+        absent_deduction: absentDeduction,
+        total_deduction: sickDeduction + absentDeduction
       };
     });
 
     const totalEmployeeSalaries = employeeSalaries.map((employee) => {
       const id = employee.id;
-      const attendance = resultAttendance.find(
+      const attendance = attendanceResults.find(
         (item) => item.employee_name === employee.employee_name
       );
       const deduction = employeeDeductions.find(
@@ -485,34 +485,34 @@ export const viewEmployeeSalariesByName = async (req, res) => {
     const employeeSalaries = await getEmployeeSalaryData();
     const { name } = req.params;
 
-    const dataGajiByName = employeeSalaries
-      .filter((data_gaji) => {
-        return data_gaji.employee_name
+    const salaryDataByName = employeeSalaries
+      .filter((salaryData) => {
+        return salaryData.employee_name
           .toLowerCase()
           .includes(name.toLowerCase().replace(/ /g, ""));
       })
-      .map((data_gaji) => {
+      .map((salaryData) => {
         return {
-          year: data_gaji.year,
-          month: data_gaji.month,
-          id: data_gaji.id,
-          national_id: data_gaji.national_id,
-          employee_name: data_gaji.employee_name,
-          position: data_gaji.position,
-          gender: data_gaji.gender,
-          position_name: data_gaji.position_name,
-          base_salary: data_gaji.base_salary,
-          transport_allowance: data_gaji.transport_allowance,
-          meal_allowance: data_gaji.meal_allowance,
-          deduction: data_gaji.deduction,
-          total_salary: data_gaji.total,
+          year: salaryData.year,
+          month: salaryData.month,
+          id: salaryData.id,
+          national_id: salaryData.national_id,
+          employee_name: salaryData.employee_name,
+          position: salaryData.position,
+          gender: salaryData.gender,
+          position_name: salaryData.position_name,
+          base_salary: salaryData.base_salary,
+          transport_allowance: salaryData.transport_allowance,
+          meal_allowance: salaryData.meal_allowance,
+          deduction: salaryData.deduction,
+          total_salary: salaryData.total,
         };
       });
 
-    if (dataGajiByName.length === 0) {
+    if (salaryDataByName.length === 0) {
       return res.status(404).json({ msg: 'Data not found' });
     }
-    return res.json(dataGajiByName);
+    return res.json(salaryDataByName);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -576,26 +576,26 @@ export const viewEmployeeSalariesByMonth = async (req, res) => {
     });
 
     if (response) {
-      const dataGajiByMonth = employeeSalaries
-        .filter((data_gaji) => {
-          return data_gaji.month === response.month;
+      const salaryDataByMonth = employeeSalaries
+        .filter((salaryData) => {
+          return salaryData.month === response.month;
         })
-        .map((data_gaji) => {
+        .map((salaryData) => {
           return {
             month: response.month,
-            id: data_gaji.id,
-            national_id: data_gaji.national_id,
-            employee_name: data_gaji.employee_name,
-            gender: data_gaji.gender,
-            position_name: data_gaji.position_name,
-            base_salary: data_gaji.base_salary,
-            transport_allowance: data_gaji.transport_allowance,
-            meal_allowance: data_gaji.meal_allowance,
-            deduction: data_gaji.deduction,
-            total_salary: data_gaji.total,
+            id: salaryData.id,
+            national_id: salaryData.national_id,
+            employee_name: salaryData.employee_name,
+            gender: salaryData.gender,
+            position_name: salaryData.position_name,
+            base_salary: salaryData.base_salary,
+            transport_allowance: salaryData.transport_allowance,
+            meal_allowance: salaryData.meal_allowance,
+            deduction: salaryData.deduction,
+            total_salary: salaryData.total,
           };
         });
-      return res.json(dataGajiByMonth);
+      return res.json(salaryDataByMonth);
     }
 
     res
@@ -612,36 +612,36 @@ export const viewEmployeeSalariesByYear = async (req, res) => {
     const employeeSalaries = await getEmployeeSalaryData();
     const { year } = req.params;
 
-    const dataGajiByYear = employeeSalaries
-      .filter((data_gaji) => {
-        const gajiYear = data_gaji.year;
-        return gajiYear === parseInt(year);
+    const salaryDataByYear = employeeSalaries
+      .filter((salaryData) => {
+        const salaryYear = salaryData.year;
+        return salaryYear === parseInt(year);
       })
-      .map((data_gaji) => {
+      .map((salaryData) => {
         return {
-          year: data_gaji.year,
-          id: data_gaji.id,
-          national_id: data_gaji.national_id,
-          employee_name: data_gaji.employee_name,
-          gender: data_gaji.gender,
-          position_name: data_gaji.position,
-          present_days: data_gaji.present_days,
-          sick_days: data_gaji.sick_days,
-          absent_days: data_gaji.absent_days,
-          base_salary: data_gaji.base_salary,
-          transport_allowance: data_gaji.transport_allowance,
-          meal_allowance: data_gaji.meal_allowance,
-          deduction: data_gaji.deduction,
-          total_salary: data_gaji.total,
+          year: salaryData.year,
+          id: salaryData.id,
+          national_id: salaryData.national_id,
+          employee_name: salaryData.employee_name,
+          gender: salaryData.gender,
+          position_name: salaryData.position,
+          present_days: salaryData.present_days,
+          sick_days: salaryData.sick_days,
+          absent_days: salaryData.absent_days,
+          base_salary: salaryData.base_salary,
+          transport_allowance: salaryData.transport_allowance,
+          meal_allowance: salaryData.meal_allowance,
+          deduction: salaryData.deduction,
+          total_salary: salaryData.total,
         };
       });
 
-    if (dataGajiByYear.length === 0) {
+    if (salaryDataByYear.length === 0) {
       return res
         .status(404)
         .json({ msg: `No data found for year ${year}` });
     }
-    res.json(dataGajiByYear);
+    res.json(salaryDataByYear);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -653,34 +653,34 @@ export const salaryReportByYear = async (req, res) => {
     const employeeSalaries = await getEmployeeSalaryData();
     const { year } = req.params;
 
-    const dataGajiByYear = employeeSalaries
-      .filter((data_gaji) => {
-        const gajiYear = data_gaji.year;
-        return gajiYear === parseInt(year);
+    const salaryDataByYear = employeeSalaries
+      .filter((salaryData) => {
+        const salaryYear = salaryData.year;
+        return salaryYear === parseInt(year);
       })
-      .map((data_gaji) => {
+      .map((salaryData) => {
         return {
-          year: data_gaji.year,
-          id: data_gaji.id,
-          national_id: data_gaji.national_id,
-          employee_name: data_gaji.employee_name,
-          gender: data_gaji.gender,
-          position_name: data_gaji.position_name,
-          base_salary: data_gaji.base_salary,
-          transport_allowance: data_gaji.transport_allowance,
-          meal_allowance: data_gaji.meal_allowance,
-          deduction: data_gaji.deduction,
-          total_salary: data_gaji.total,
+          year: salaryData.year,
+          id: salaryData.id,
+          national_id: salaryData.national_id,
+          employee_name: salaryData.employee_name,
+          gender: salaryData.gender,
+          position_name: salaryData.position_name,
+          base_salary: salaryData.base_salary,
+          transport_allowance: salaryData.transport_allowance,
+          meal_allowance: salaryData.meal_allowance,
+          deduction: salaryData.deduction,
+          total_salary: salaryData.total,
         };
       });
 
-    if (dataGajiByYear.length === 0) {
+    if (salaryDataByYear.length === 0) {
       return res
         .status(404)
         .json({ msg: `No data found for year ${year}` });
     } else {
-      const laporanByYear = dataGajiByYear.map((data) => data.year)
-      console.log(laporanByYear)
+      const reportByYear = salaryDataByYear.map((data) => data.year)
+      console.log(reportByYear)
     }
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

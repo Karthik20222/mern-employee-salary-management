@@ -7,12 +7,12 @@ import { Breadcrumb, ButtonOne } from '../../../../components';
 import { FaRegEdit, FaPlus } from 'react-icons/fa'
 import { BsTrash3 } from 'react-icons/bs'
 import { BiSearch } from 'react-icons/bi'
-import { deleteDataPotongan, getDataPotongan, getMe } from '../../../../config/redux/action';
+import { deleteDeductionData, getDeductionData, getMe } from '../../../../config/redux/action';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
 const ITEMS_PER_PAGE = 4;
 
-const DataPotongan = () => {
+const DeductionData = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -20,18 +20,18 @@ const DataPotongan = () => {
     const navigate = useNavigate();
 
     const { isError, user } = useSelector((state) => state.auth);
-    const { dataPotongan } = useSelector((state) => state.dataPotongan);
+    const { deductionData } = useSelector((state) => state.deductionData);
 
-    const totalPages = Math.ceil(dataPotongan.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(deductionData.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const filteredDataPotongan = dataPotongan.filter((potonganGaji) => {
-        const { potongan } = potonganGaji;
+    const filteredDeductionData = deductionData.filter((deductionGaji) => {
+        const { deduction } = deductionGaji;
         const keyword = searchKeyword.toLowerCase();
         return (
-            potongan.toLowerCase().includes(keyword)
+            deduction.toLowerCase().includes(keyword)
         );
     });
 
@@ -63,16 +63,16 @@ const DataPotongan = () => {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteDataPotongan(id)).then(() => {
+                dispatch(deleteDeductionData(id)).then(() => {
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'Data potongan berhasil dihapus.',
+                        text: 'Data deduction berhasil dihapus.',
                         icon: 'success',
                         timer: 1000,
                         timerProgressBar: true,
                         showConfirmButton: false,
                     });
-                    dispatch(getDataPotongan());
+                    dispatch(getDeductionData());
                 });
             }
         });
@@ -83,14 +83,14 @@ const DataPotongan = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getDataPotongan(startIndex, endIndex));
+        dispatch(getDeductionData(startIndex, endIndex));
     }, [dispatch, startIndex, endIndex]);
 
     useEffect(() => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -143,7 +143,7 @@ const DataPotongan = () => {
     return (
         <Layout>
             <Breadcrumb pageName='Data Potongan' />
-            <Link to="/data-potongan/form-data-potongan/add" >
+            <Link to="/data-deduction/form-data-deduction/add" >
                 <ButtonOne  >
                     <span>Tambah Potongan</span>
                     <span>
@@ -186,23 +186,23 @@ const DataPotongan = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDataPotongan.slice(startIndex, endIndex).map((data, index) => {
+                            {filteredDeductionData.slice(startIndex, endIndex).map((data, index) => {
                                 return (
                                     <tr key={data.id}>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <p className='text-black dark:text-white'>{startIndex + index + 1}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.potongan}</p>
+                                            <p className='text-black dark:text-white'>{data.deduction}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.jml_potongan}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.deduction_amount}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <div className='flex items-center space-x-3.5'>
                                                 <Link
                                                     className='hover:text-black'
-                                                    to={`/data-potongan/form-data-potongan/edit/${data.id}`}
+                                                    to={`/data-deduction/form-data-deduction/edit/${data.id}`}
                                                 >
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
@@ -224,7 +224,7 @@ const DataPotongan = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredDataPotongan.length)} dari {filteredDataPotongan.length} Data Potongan
+                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredDeductionData.length)} dari {filteredDeductionData.length} Data Potongan
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">
@@ -250,4 +250,4 @@ const DataPotongan = () => {
     )
 }
 
-export default DataPotongan;
+export default DeductionData;

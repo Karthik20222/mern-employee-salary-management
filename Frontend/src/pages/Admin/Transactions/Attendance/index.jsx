@@ -8,36 +8,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { BiSearch } from 'react-icons/bi'
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowDown } from 'react-icons/md'
-import { deleteDataKehadiran, getDataKehadiran, getMe } from '../../../../config/redux/action';
+import { deleteAttendanceData, getAttendanceData, getMe } from '../../../../config/redux/action';
 
 const ITEMS_PER_PAGE = 4;
 
-const DataKehadiran = () => {
+const AttendanceData = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterTahun, setFilterTahun] = useState("");
     const [filterBulan, setFilterBulan] = useState("");
     const [filterNama, setFilterNama] = useState("");
 
-    const { dataKehadiran } = useSelector((state) => state.dataKehadiran);
+    const { dataAttendance } = useSelector((state) => state.dataAttendance);
     const { isError, user } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const totalPages = Math.ceil(dataKehadiran.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(dataAttendance.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const filteredDataKehadiran = dataKehadiran.filter((kehadiranData) => {
+    const filteredAttendanceData = dataAttendance.filter((attendanceData) => {
         const isMatchBulan =
             filterBulan === "" ||
-            kehadiranData.bulan.toLowerCase().includes(filterBulan.toLowerCase());
+            attendanceData.bulan.toLowerCase().includes(filterBulan.toLowerCase());
         const isMatchTahun =
-            filterTahun === "" || kehadiranData.tahun.toString() === filterTahun;
+            filterTahun === "" || attendanceData.tahun.toString() === filterTahun;
         const isMatchNama =
             filterNama === "" ||
-            kehadiranData.nama_pegawai.toLowerCase().includes(filterNama.toLowerCase());
+            attendanceData.employee_name.toLowerCase().includes(filterNama.toLowerCase());
         return isMatchBulan && isMatchTahun && isMatchNama;
     });
 
@@ -65,7 +65,7 @@ const DataKehadiran = () => {
         setFilterNama(event.target.value);
     };
 
-    const onDeleteDataKehadiran = (id) => {
+    const onDeleteAttendanceData = (id) => {
         Swal.fire({
             title: 'Konfirmasi',
             text: 'Apakah Anda yakin ingin Menghapus?',
@@ -76,23 +76,23 @@ const DataKehadiran = () => {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteDataKehadiran(id)).then(() => {
+                dispatch(deleteAttendanceData(id)).then(() => {
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'Data kehadiran berhasil dihapus.',
+                        text: 'Data attendance berhasil dihapus.',
                         icon: 'success',
                         timer: 1000,
                         timerProgressBar: true,
                         showConfirmButton: false,
                     });
-                    dispatch(getDataKehadiran());
+                    dispatch(getAttendanceData());
                 });
             }
         });
     };
 
     useEffect(() => {
-        dispatch(getDataKehadiran(startIndex, endIndex));
+        dispatch(getAttendanceData(startIndex, endIndex));
     }, [dispatch, startIndex, endIndex]);
 
     useEffect(() => {
@@ -103,7 +103,7 @@ const DataKehadiran = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -155,12 +155,12 @@ const DataKehadiran = () => {
 
     return (
         <Layout>
-            <Breadcrumb pageName='Data Kehadiran Pegawai' />
+            <Breadcrumb pageName='Data Attendance Pegawai' />
 
             <div className='rounded-sm border border-stroke bg-white px-5 pt-2 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-10 mt-6'>
                 <div className='border-b border-stroke py-2 dark:border-strokedark'>
                     <h3 className='font-medium text-black dark:text-white'>
-                        Filter Data Kehadiran Pegawai
+                        Filter Data Attendance Pegawai
                     </h3>
                 </div>
 
@@ -209,9 +209,9 @@ const DataKehadiran = () => {
                     </div>
                     <div className='w-full md:w-1/2 flex justify-center md:justify-end'>
                         <div className='w-full md:w-auto'>
-                            <Link to='/data-kehadiran/form-data-kehadiran/add'>
+                            <Link to='/data-attendance/form-data-attendance/add'>
                                 <ButtonOne>
-                                    <span>Input Kehadiran</span>
+                                    <span>Input Attendance</span>
                                     <span>
                                         <FaPlus />
                                     </span>
@@ -221,7 +221,7 @@ const DataKehadiran = () => {
                     </div>
                 </div>
                 <div className="bg-gray-2 text-left dark:bg-meta-4 mt-6">
-                    {filteredDataKehadiran.slice(startIndex, endIndex).reduce((uniqueEntries, data) => {
+                    {filteredAttendanceData.slice(startIndex, endIndex).reduce((uniqueEntries, data) => {
                         const isEntryExist = uniqueEntries.find(entry => entry.bulan === data.bulan && entry.tahun === data.tahun);
                         if (!isEntryExist) {
                             uniqueEntries.push(data);
@@ -229,7 +229,7 @@ const DataKehadiran = () => {
                         return uniqueEntries;
                     }, []).map(data => (
                         <h2 className="px-4 py-2 text-black dark:text-white" key={`${data.bulan}-${data.tahun}`}>
-                            Menampilkan Data Kehadiran Pegawai Bulan :
+                            Menampilkan Data Attendance Pegawai Bulan :
                             <span className="font-medium"> {data.bulan} </span>
                             Tahun :
                             <span className="font-medium"> {data.tahun}</span>
@@ -289,7 +289,7 @@ const DataKehadiran = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDataKehadiran.slice(startIndex, endIndex).map((data, index) => {
+                            {filteredAttendanceData.slice(startIndex, endIndex).map((data, index) => {
                                 return (
                                     <tr
                                         key={data.id}
@@ -302,32 +302,32 @@ const DataKehadiran = () => {
                                             <p className='text-black text-center dark:text-white'>{data.nik}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.nama_pegawai}</p>
+                                            <p className='text-black dark:text-white'>{data.employee_name}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.jabatan_pegawai}</p>
+                                            <p className='text-black dark:text-white'>{data.position_pegawai}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.jenis_kelamin}</p>
+                                            <p className='text-black dark:text-white'>{data.gender}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-center text-black dark:text-white'>{data.hadir}</p>
+                                            <p className='text-center text-black dark:text-white'>{data.present_days}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-center text-black dark:text-white'>{data.sakit}</p>
+                                            <p className='text-center text-black dark:text-white'>{data.sick_days}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-center text-black dark:text-white'>{data.alpha}</p>
+                                            <p className='text-center text-black dark:text-white'>{data.absent_days}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <div className='flex items-center space-x-3.5'>
                                                 <Link className='hover:text-black'
-                                                    to={`/data-kehadiran/form-data-kehadiran/edit/${data.id}`}
+                                                    to={`/data-attendance/form-data-attendance/edit/${data.id}`}
                                                 >
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
                                                 <button className='hover:text-black'
-                                                    onClick={() => onDeleteDataKehadiran(data.id)}
+                                                    onClick={() => onDeleteAttendanceData(data.id)}
                                                 >
                                                     <BsTrash3 className="text-danger text-xl hover:text-black dark:hover:text-white" />
                                                 </button>
@@ -343,7 +343,7 @@ const DataKehadiran = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredDataKehadiran.length)} dari {filteredDataKehadiran.length} Data Kehadiran Pegawai
+                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredAttendanceData.length)} dari {filteredAttendanceData.length} Data Attendance Pegawai
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">
@@ -369,4 +369,4 @@ const DataKehadiran = () => {
     )
 }
 
-export default DataKehadiran;
+export default AttendanceData;

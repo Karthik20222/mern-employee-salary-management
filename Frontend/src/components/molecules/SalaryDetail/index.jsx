@@ -31,20 +31,20 @@ const SalaryDetail = () => {
     };
 
     useEffect(() => {
-        const getDataPegawai = async () => {
+        const getEmployeeData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/data_gaji/name/${name}`);
+                const response = await axios.get(`http://localhost:5000/employee_salaries/name/${name}`);
                 const src = response.data[0] || {};
                 const mapped = {
                     year: src.tahun || src.year || '',
                     month: src.bulan || src.month || '',
                     nationalId: src.nik || src.nationalId || '',
-                    employeeName: src.nama_pegawai || src.employeeName || '',
-                    positionName: src.jabatan || src.positionName || '',
-                    baseSalary: src.gaji_pokok || src.baseSalary || '',
-                    transportAllowance: src.tj_transport || src.transportAllowance || '',
-                    mealAllowance: src.uang_makan || src.mealAllowance || '',
-                    deduction: src.potongan || src.deduction || '',
+                    employeeName: src.employee_name || src.employeeName || '',
+                    positionName: src.position || src.positionName || '',
+                    baseSalary: src.base_salary || src.baseSalary || '',
+                    transportAllowance: src.transport_allowance || src.transportAllowance || '',
+                    mealAllowance: src.meal_allowance || src.mealAllowance || '',
+                    deduction: src.deduction || src.deduction || '',
                     total: src.total || src.totalSalary || '',
                 };
 
@@ -54,7 +54,7 @@ const SalaryDetail = () => {
             }
         };
 
-        getDataPegawai();
+        getEmployeeData();
     }, [name]);
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../../../../layout';
 import Swal from 'sweetalert2';
 import { Breadcrumb, ButtonOne, ButtonTwo } from '../../../../../components';
-import { createDataPotongan, getMe } from '../../../../../config/redux/action';
+import { createDeductionData, getMe } from '../../../../../config/redux/action';
 
 const FormAddDeduction = () => {
     const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ const FormAddDeduction = () => {
         newFormData.append('deduction', deduction);
         newFormData.append('deductionAmount', deductionAmount);
 
-        dispatch(createDataPotongan(newFormData, navigate))
+        dispatch(createDeductionData(newFormData, navigate))
             .then((response) => {
                 Swal.fire({
                     icon: 'success',
@@ -79,7 +79,7 @@ const FormAddDeduction = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -138,7 +138,7 @@ const FormAddDeduction = () => {
                                             <span>Save</span>
                                         </ButtonOne>
                                     </div>
-                                    <Link to="/data-potongan" >
+                                    <Link to="/data-deduction" >
                                         <ButtonTwo  >
                                             <span>Back</span>
                                         </ButtonTwo>

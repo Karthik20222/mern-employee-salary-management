@@ -6,7 +6,7 @@ import {
 } from '../../action/salaryAction/salaryActionTypes';
 
 const initialState = {
-    dataGaji: [],
+    salaryData: [],
     message: null,
     error: null
 };
@@ -16,7 +16,7 @@ const salaryReducer = (state = initialState, action) => {
         case GET_SALARY_DATA_SUCCESS:
             return {
                 ...state,
-                dataGaji: action.payload,
+                salaryData: action.payload,
                 message: null,
                 error: null,
             };

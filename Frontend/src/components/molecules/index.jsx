@@ -13,7 +13,7 @@ import FormEditDeduction from "./Form/DeductionForm/FormEditDeduction";
 import Header from './Header';
 import Navbar from './Navbar';
 import NotFound from './NotFound';
-import PrintPdfDataGajiPegawai from './PrintPdf/PrintPdfDataGajiPegawai'
+import PrintPdfEmployeeSalaryData from './PrintPdf/PrintPdfEmployeeSalaryData'
 import PrintPdfLaporanGaji from './PrintPdf/PrintPdfLaporanGaji';
 import PrintPdfPayslip from './PrintPdf/PrintPdfPayslip';
 import PrintPdfAttendanceReport from './PrintPdf/PrintPdfAttendanceReport';
@@ -38,7 +38,7 @@ export {
     Header,
     Navbar,
     NotFound,
-    PrintPdfDataGajiPegawai,
+    PrintPdfEmployeeSalaryData,
     PrintPdfLaporanGaji,
     PrintPdfPayslip,
     PrintPdfAttendanceReport,

@@ -10,7 +10,7 @@ import {
 } from '../../action/positionAction/positionActionTypes';
 
 const initialState = {
-    dataJabatan: [],
+    positionData: [],
     message: null,
     error: null
 };
@@ -20,7 +20,7 @@ const positionReducer = (state = initialState, action) => {
         case GET_POSITION_DATA_SUCCESS:
             return {
                 ...state,
-                dataJabatan: action.payload,
+                positionData: action.payload,
                 message: null,
                 error: null,
             };

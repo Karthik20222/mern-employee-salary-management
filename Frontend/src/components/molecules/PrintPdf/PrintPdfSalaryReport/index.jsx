@@ -162,22 +162,22 @@ const PrintPdfSalaryReport = () => {
                       <p className="text-black dark:text-white">{data.nik}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">{data.employeeName || data.nama_pegawai}</p>
+                      <p className="text-black dark:text-white">{data.employeeName || data.employee_name}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">{data.positionName || data.jabatan_pegawai}</p>
+                      <p className="text-black dark:text-white">{data.positionName || data.position_pegawai}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.baseSalary ?? data.gaji_pokok}</p>
+                      <p className="text-black dark:text-white">Rp. {data.baseSalary ?? data.base_salary}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.transportAllowance ?? data.tj_transport}</p>
+                      <p className="text-black dark:text-white">Rp. {data.transportAllowance ?? data.transport_allowance}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.mealAllowance ?? data.uang_makan}</p>
+                      <p className="text-black dark:text-white">Rp. {data.mealAllowance ?? data.meal_allowance}</p>
                     </td>
                     <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                      <p className="text-black dark:text-white">Rp. {data.deduction ?? data.potongan}</p>
+                      <p className="text-black dark:text-white">Rp. {data.deduction ?? data.deduction}</p>
                     </td>
                     <td className="border-b border-l border-r border-black dark:border-white py-5 text-center">
                       <p className="text-black dark:text-white">Rp. {data.totalSalary ?? data.total_gaji}</p>

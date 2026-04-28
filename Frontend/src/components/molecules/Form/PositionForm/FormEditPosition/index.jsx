@@ -23,11 +23,11 @@ const FormEditPosition = () => {
     useEffect(() => {
         const getUserById = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/data_jabatan/${id}`);
-                setPositionName(response.data.nama_jabatan);
-                setBaseSalary(response.data.gaji_pokok);
-                setTransportAllowance(response.data.tj_transport);
-                setMealAllowance(response.data.uang_makan);
+                const response = await axios.get(`http://localhost:5000/positions/${id}`);
+                setPositionName(response.data.nama_position);
+                setBaseSalary(response.data.base_salary);
+                setTransportAllowance(response.data.transport_allowance);
+                setMealAllowance(response.data.meal_allowance);
             } catch (error) {
                 if (error.response) {
                     setMsg(error.response.data.msg);
@@ -37,7 +37,7 @@ const FormEditPosition = () => {
         getUserById();
     }, [id]);
 
-    const updateDataJabatan = async (e) => {
+    const updatePositionData = async (e) => {
         e.preventDefault();
         try {
             const formData = new FormData();
@@ -46,7 +46,7 @@ const FormEditPosition = () => {
             formData.append('transportAllowance', transportAllowance);
             formData.append('mealAllowance', mealAllowance);
 
-            const response = await axios.patch(`http://localhost:5000/data_jabatan/${id}`, formData, {
+            const response = await axios.patch(`http://localhost:5000/positions/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -58,7 +58,7 @@ const FormEditPosition = () => {
                 timer: 1500,
                 text: response.data.msg
             });
-            navigate('/data-jabatan');
+            navigate('/data-position');
         } catch (error) {
             setMsg(error.response.data.msg);
             Swal.fire({
@@ -77,7 +77,7 @@ const FormEditPosition = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -94,7 +94,7 @@ const FormEditPosition = () => {
                                         Edit Position
                                     </h3>
                         </div>
-                        <form onSubmit={updateDataJabatan}>
+                        <form onSubmit={updatePositionData}>
                             <div className='p-6.5'>
                                 <div className='mb-4.5 flex flex-col gap-6 xl:flex-row'>
                                     <div className='w-full xl:w-1/2'>
@@ -168,7 +168,7 @@ const FormEditPosition = () => {
                                             <span>Update</span>
                                         </ButtonOne>
                                     </div>
-                                    <Link to="/data-jabatan" >
+                                    <Link to="/data-position" >
                                         <ButtonTwo  >
                                             <span>Back</span>
                                         </ButtonTwo>

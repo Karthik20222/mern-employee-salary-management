@@ -63,10 +63,10 @@ export const viewEmployeeSalaryReportByYear = async (req, res) => {
 // Get employee salary report by name
 export const viewEmployeeSalaryReportByName = async (req, res) => {
     try {
-                const dataGajiPegawai = await getEmployeeSalaryData(req, res);
+                const salaryEmployeeData = await getEmployeeSalaryData(req, res);
         const name = req.params.name.toLowerCase();
 
-        const foundData = dataGajiPegawai.filter((data) => {
+        const foundData = salaryEmployeeData.filter((data) => {
                     const formattedName = data.employee_name.toLowerCase();
           const searchKeywords = name.split(" ");
 
@@ -148,10 +148,10 @@ export const viewAttendanceReportByYear = async (req, res) => {
 // Get payslip by employee name
 export const viewPayslipByName = async (req, res) => {
     try {
-                const dataGajiPegawai = await getEmployeeSalaryData(req, res);
+                const salaryEmployeeData = await getEmployeeSalaryData(req, res);
         const name = req.params.name.toLowerCase();
 
-        const foundData = dataGajiPegawai.filter((data) => {
+        const foundData = salaryEmployeeData.filter((data) => {
                     const formattedName = data.employee_name.toLowerCase();
           const searchKeywords = name.split(" ");
 

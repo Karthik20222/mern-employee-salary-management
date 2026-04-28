@@ -10,7 +10,7 @@ import {
 } from '../../action/deductionAction/deductionActionTypes';
 
 const initialState = {
-    dataPotongan: [],
+    deductionData: [],
     message: null,
     error: null
 };
@@ -20,7 +20,7 @@ const deductionReducer = (state = initialState, action) => {
         case GET_DEDUCTION_DATA_SUCCESS:
             return {
                 ...state,
-                dataPotongan: action.payload,
+                deductionData: action.payload,
                 message: null,
                 error: null,
             };

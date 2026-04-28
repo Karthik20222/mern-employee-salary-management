@@ -11,8 +11,8 @@ import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-ico
 
 const ITEMS_PER_PAGE = 4;
 
-const DataGajiPegawai = () => {
-  const [dataGajiPegawai, setDataGajiPegawai] = useState([]);
+const EmployeeSalaryData = () => {
+  const [salaryEmployeeData, setEmployeeSalaryData] = useState([]);
   const [dataMonth, setDataMonth] = useState([]);
   const [dataYear, setDataYear] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,9 +20,9 @@ const DataGajiPegawai = () => {
   const navigate = useNavigate();
   const { isError, user } = useSelector((state) => state.auth);
 
-  const { nama_pegawai } = useSelector((state) => state.auth.user) || "";
+  const { employee_name } = useSelector((state) => state.auth.user) || "";
 
-  const totalPages = Math.ceil(dataGajiPegawai.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(salaryEmployeeData.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -44,10 +44,10 @@ const DataGajiPegawai = () => {
     try {
       const yearData = viewGajiSinglePegawaiByYear(dataYear);
       const monthData = viewGajiSinglePegawaiByMonth(dataMonth);
-      const nameData = viewGajiSinglePegawaiByName(nama_pegawai);
+      const nameData = viewGajiSinglePegawaiByName(employee_name);
 
       if (yearData.length > 0 && monthData.length > 0 && nameData.length > 0) {
-        navigate(`/data-gaji-pegawai/print-page?month=${dataMonth}&year=${dataYear}&name=${nama_pegawai}`);
+        navigate(`/data-gaji-pegawai/print-page?month=${dataMonth}&year=${dataYear}&name=${employee_name}`);
       } else {
         console.log("Data not found!");
         Swal.fire({
@@ -116,12 +116,12 @@ const DataGajiPegawai = () => {
   };
 
   useEffect(() => {
-    const getDataPegawai = async () => {
+    const getEmployeeData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/data_gaji/name/${nama_pegawai}`);
+        const response = await axios.get(`http://localhost:5000/employee_salaries/name/${employee_name}`);
         const data = response.data;
 
-        setDataGajiPegawai(data);
+        setEmployeeSalaryData(data);
         setDataMonth(data[0].bulan);
         setDataYear(data[0].tahun);
       } catch (error) {
@@ -129,10 +129,10 @@ const DataGajiPegawai = () => {
       }
     };
 
-    if (nama_pegawai) {
-      getDataPegawai();
+    if (employee_name) {
+      getEmployeeData();
     }
-  }, [nama_pegawai]);
+  }, [employee_name]);
 
   useEffect(() => {
     dispatch(getMe());
@@ -142,7 +142,7 @@ const DataGajiPegawai = () => {
     if (isError) {
       navigate("/login");
     }
-    if (user && user.hak_akses !== "pegawai") {
+    if (user && user.role !== "pegawai") {
       navigate("/dashboard");
     }
   }, [isError, user, navigate]);
@@ -184,7 +184,7 @@ const DataGajiPegawai = () => {
               </tr>
             </thead>
             <tbody>
-              {dataGajiPegawai
+              {salaryEmployeeData
                 .slice(startIndex, endIndex)
                 .map((data, index) => {
                   return (
@@ -201,22 +201,22 @@ const DataGajiPegawai = () => {
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         <p className="text-black dark:text-white">
-                          Rp. {data.gaji_pokok}
+                          Rp. {data.base_salary}
                         </p>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         <p className="text-black dark:text-white">
-                          Rp. {data.tj_transport}
+                          Rp. {data.transport_allowance}
                         </p>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         <p className="text-black dark:text-white">
-                          Rp. {data.uang_makan}
+                          Rp. {data.meal_allowance}
                         </p>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         <p className="text-black dark:text-white">
-                          Rp. {data.potongan}
+                          Rp. {data.deduction}
                         </p>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
@@ -245,8 +245,8 @@ const DataGajiPegawai = () => {
           <div className="flex items-center space-x-2">
             <span className="text-gray-5 dark:text-gray-4 py-4 text-sm">
               Menampilkan {startIndex + 1}-
-              {Math.min(endIndex, dataGajiPegawai.length)} dari{" "}
-              {dataGajiPegawai.length} Data Gaji
+              {Math.min(endIndex, salaryEmployeeData.length)} dari{" "}
+              {salaryEmployeeData.length} Data Gaji
             </span>
           </div>
           <div className="flex space-x-2 py-4">
@@ -272,4 +272,4 @@ const DataGajiPegawai = () => {
   );
 };
 
-export default DataGajiPegawai;
+export default EmployeeSalaryData;

@@ -47,24 +47,24 @@ export const viewEmployeeSalaryByMonth = async (req, res) => {
       });
 
       if (response) {
-        const dataGajiByMonth = employeeSalaries.filter((data_gaji) => {
-          return data_gaji.id === user.id && data_gaji.month === response.month;
-        }).map((data_gaji) => {
+        const salaryDataByMonth = employeeSalaries.filter((salaryData) => {
+          return salaryData.id === user.id && salaryData.month === response.month;
+        }).map((salaryData) => {
           return {
             month: response.month,
-            year: data_gaji.year,
+            year: salaryData.year,
             national_id: user.national_id,
             employee_name: user.employee_name,
             gender: user.gender,
             position: user.position,
-            base_salary: data_gaji.base_salary,
-            transport_allowance: data_gaji.transport_allowance,
-            meal_allowance: data_gaji.meal_allowance,
-            deduction: data_gaji.deduction,
-            total_salary: data_gaji.total,
+            base_salary: salaryData.base_salary,
+            transport_allowance: salaryData.transport_allowance,
+            meal_allowance: salaryData.meal_allowance,
+            deduction: salaryData.deduction,
+            total_salary: salaryData.total,
           };
         });
-          return res.json(dataGajiByMonth);
+          return res.json(salaryDataByMonth);
       }
 
       res.status(404).json({ msg: `No salary data for month ${req.params.month} for employee ${user.employee_name}` });
@@ -88,28 +88,28 @@ export const viewEmployeeSalaryByYear = async (req, res) => {
     const employeeSalaries = await getEmployeeSalaryData();
     const { year } = req.params;
 
-    const dataGajiByYear = employeeSalaries.filter((data_gaji) => {
-      return data_gaji.id === user.id && data_gaji.year === parseInt(year);
-    }).map((data_gaji) => {
+    const salaryDataByYear = employeeSalaries.filter((salaryData) => {
+      return salaryData.id === user.id && salaryData.year === parseInt(year);
+    }).map((salaryData) => {
         return {
-            year: data_gaji.year,
-            month: data_gaji.month,
+            year: salaryData.year,
+            month: salaryData.month,
             national_id: user.national_id,
             employee_name: user.employee_name,
             gender: user.gender,
             position: user.position,
-            base_salary: data_gaji.base_salary,
-            transport_allowance: data_gaji.transport_allowance,
-            meal_allowance: data_gaji.meal_allowance,
-            deduction: data_gaji.deduction,
-            total_salary: data_gaji.total,
+            base_salary: salaryData.base_salary,
+            transport_allowance: salaryData.transport_allowance,
+            meal_allowance: salaryData.meal_allowance,
+            deduction: salaryData.deduction,
+            total_salary: salaryData.total,
         };
     });
 
-    if (dataGajiByYear.length === 0) {
+    if (salaryDataByYear.length === 0) {
         return res.status(404).json({ msg: `No data found for year ${year}` });
     }
-    res.json(dataGajiByYear)
+    res.json(salaryDataByYear)
   } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
   }

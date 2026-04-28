@@ -23,7 +23,7 @@ const PrintPdfEmployeeSalaryReport = () => {
 
     const { isError, user } = useSelector((state) => state.auth);
     const { employeeName } = useSelector((state) => state.auth.user) || {};
-    const dataGajiPegawai = useSelector((state) => state.dataGajiPegawaiPrint.dataGajiPegawaiPrint);
+    const salaryEmployeeData = useSelector((state) => state.salaryEmployeeDataPrint.salaryEmployeeDataPrint);
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -31,10 +31,10 @@ const PrintPdfEmployeeSalaryReport = () => {
     });
 
     useEffect(() => {
-        if (nama_pegawai && typeof nama_pegawai === "string" && nama_pegawai.trim() !== "") {
-            dispatch(viewGajiSinglePegawaiByName(nama_pegawai));
+        if (employee_name && typeof employee_name === "string" && employee_name.trim() !== "") {
+            dispatch(viewGajiSinglePegawaiByName(employee_name));
         }
-    }, [dispatch, nama_pegawai]);
+    }, [dispatch, employee_name]);
 
     useEffect(() => {
         dispatch(getMe());
@@ -78,7 +78,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                 </Link>
             </div >
             <div ref={componentRef} >
-                {dataGajiPegawai.map((data, index) => {
+                {salaryEmployeeData.map((data, index) => {
                     return (
                         <div key={index} className="w-200% h-100% p-10 bg-white dark:bg-meta-4">
                             <div className="flex items-center gap-24 object-cover border-b-4 border-black dark:border-white">
@@ -103,7 +103,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                                     <span className="inline-block w-32 md:w-40">Employee Name</span>
                                     <span className="pl-[-8] md:pl-0"></span>
                                     <span className="inline-block w-7">:</span>
-                                    {data.nama_pegawai}
+                                    {data.employee_name}
                                 </h2>
                                 <h2 className="font-medium mb-4 block text-black dark:text-white">
                                     <span className="inline-block w-32 md:w-40">National ID</span>
@@ -115,7 +115,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                                     <span className="inline-block w-32 md:w-40">Position</span>
                                     <span className="pl-[-8] md:pl-0"></span>
                                     <span className="inline-block w-7">:</span>
-                                    {data.jabatan}
+                                    {data.position}
                                 </h2>
                                 <h2 className="font-medium mb-4 block text-black dark:text-white">
                                     <span className="inline-block w-32 md:w-40">Month</span>
@@ -155,7 +155,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                                                 Base Salary
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.baseSalary ?? data.gaji_pokok}
+                                                Rp. {data.baseSalary ?? data.base_salary}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>
@@ -166,7 +166,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                                                 Transport Allowance
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.transportAllowance ?? data.tj_transport}
+                                                Rp. {data.transportAllowance ?? data.transport_allowance}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>
@@ -177,7 +177,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                                                 Meal Allowance
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.mealAllowance ?? data.uang_makan}
+                                                Rp. {data.mealAllowance ?? data.meal_allowance}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>
@@ -188,7 +188,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                                                 Deduction
                                             </td>
                                             <td className='border-b border-black border-t border-l border-r dark:border-white py-5 px-4 text-black dark:text-white'>
-                                                Rp. {data.deduction ?? data.potongan}
+                                                Rp. {data.deduction ?? data.deduction}
                                             </td>
                                         </tr>
                                         <tr className=' dark:border-white'>

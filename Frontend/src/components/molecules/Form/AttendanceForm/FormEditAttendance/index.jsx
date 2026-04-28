@@ -24,13 +24,13 @@ const FormEditAttendance = () => {
     useEffect(() => {
         const getUserById = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/data_kehadiran/${id}`);
-                setEmployeeName(response.data.nama_pegawai);
+                const response = await axios.get(`http://localhost:5000/attendance/${id}`);
+                setEmployeeName(response.data.employee_name);
                 setNationalId(response.data.nik);
-                setPositionName(response.data.nama_jabatan);
-                setPresent(response.data.hadir);
-                setSick(response.data.sakit);
-                setAbsent(response.data.alpha);
+                setPositionName(response.data.nama_position);
+                setPresent(response.data.present_days);
+                setSick(response.data.sick_days);
+                setAbsent(response.data.absent_days);
             } catch (error) {
                 if (error.response) {
                     setMsg(error.response.data.msg);
@@ -40,7 +40,7 @@ const FormEditAttendance = () => {
         getUserById();
     }, [id]);
 
-    const updateDataKehadiran = async (e) => {
+    const updateAttendanceData = async (e) => {
         e.preventDefault();
         try {
             const formData = new FormData();
@@ -51,7 +51,7 @@ const FormEditAttendance = () => {
             formData.append('sick', sick);
             formData.append('absent', absent);
 
-            const response = await axios.patch(`http://localhost:5000/data_kehadiran/update/${id}`, formData, {
+            const response = await axios.patch(`http://localhost:5000/attendance/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -63,7 +63,7 @@ const FormEditAttendance = () => {
                 timer: 1500,
                 text: response.data.msg
             });
-            navigate('/data-kehadiran');
+            navigate('/data-attendance');
         } catch (error) {
             setMsg(error.response.data.msg);
             Swal.fire({
@@ -99,7 +99,7 @@ const FormEditAttendance = () => {
                                 Edit Attendance Form
                             </h3>
                         </div>
-                        <form onSubmit={updateDataKehadiran}>
+                        <form onSubmit={updateAttendanceData}>
                             <div className='p-6.5'>
                                 <div className='mb-4.5 flex flex-col gap-6 xl:flex-row'>
                                     <div className='w-full xl:w-1/2'>
@@ -209,7 +209,7 @@ const FormEditAttendance = () => {
                                                     <span>Update</span>
                                                 </ButtonOne>
                                     </div>
-                                    <Link to="/data-kehadiran" >
+                                    <Link to="/data-attendance" >
                                         <ButtonTwo  >
                                                     <span>Back</span>
                                         </ButtonTwo>

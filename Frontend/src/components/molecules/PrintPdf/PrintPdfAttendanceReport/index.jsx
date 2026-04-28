@@ -35,7 +35,7 @@ const PrintPdfAttendanceReport = () => {
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
-        documentTitle: "Laporan_Kehadiran_Pegawai_PT. Humpuss Karbometil Selulosa",
+        documentTitle: "Laporan_Attendance_Pegawai_PT. Humpuss Karbometil Selulosa",
     });
 
     useEffect(() => {
@@ -154,19 +154,19 @@ const PrintPdfAttendanceReport = () => {
                                             <p className="text-black dark:text-white">{data.nik}</p>
                                         </td>
                                         <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                                            <p className="text-black dark:text-white">{data.employeeName || data.nama_pegawai}</p>
+                                            <p className="text-black dark:text-white">{data.employeeName || data.employee_name}</p>
                                         </td>
                                         <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                                            <p className="text-black dark:text-white">{data.positionName || data.jabatan_pegawai}</p>
+                                            <p className="text-black dark:text-white">{data.positionName || data.position_pegawai}</p>
                                         </td>
                                         <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                                            <p className="text-black dark:text-white">{data.present ?? data.hadir}</p>
+                                            <p className="text-black dark:text-white">{data.present ?? data.present_days}</p>
                                         </td>
                                         <td className="border-b border-l border-black dark:border-white py-5 text-center">
-                                            <p className="text-black dark:text-white">{data.sick ?? data.sakit}</p>
+                                            <p className="text-black dark:text-white">{data.sick ?? data.sick_days}</p>
                                         </td>
                                         <td className="border-b border-l border-r border-black dark:border-white py-5 text-center">
-                                            <p className="text-black dark:text-white">{data.absent ?? data.alpha}</p>
+                                            <p className="text-black dark:text-white">{data.absent ?? data.absent_days}</p>
                                         </td>
                                     </tr>
                                 );

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../../../../layout';
 import Swal from 'sweetalert2';
 import { Breadcrumb, ButtonOne, ButtonTwo } from '../../../../../components';
-import { createDataJabatan, getMe } from '../../../../../config/redux/action';
+import { createPositionData, getMe } from '../../../../../config/redux/action';
 
 const FormAddPosition = () => {
     const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ const FormAddPosition = () => {
         newFormData.append('transportAllowance', transportAllowance);
         newFormData.append('mealAllowance', mealAllowance);
 
-        dispatch(createDataJabatan(newFormData, navigate))
+        dispatch(createPositionData(newFormData, navigate))
             .then((response) => {
                 Swal.fire({
                     icon: 'success',
@@ -85,7 +85,7 @@ const FormAddPosition = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -177,7 +177,7 @@ const FormAddPosition = () => {
                                             <span>Save</span>
                                         </ButtonOne>
                                     </div>
-                                    <Link to="/data-jabatan" >
+                                    <Link to="/data-position" >
                                         <ButtonTwo>
                                             <span>Back</span>
                                         </ButtonTwo>

@@ -12,10 +12,10 @@ import {
 
 const API_URL = 'http://localhost:5000';
 
-export const getDataJabatan = () => {
+export const getPositionData = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${API_URL}/data_jabatan`);
+            const response = await axios.get(`${API_URL}/positions`);
             dispatch({
                 type: GET_POSITION_DATA_SUCCESS,
                 payload: response.data
@@ -29,10 +29,10 @@ export const getDataJabatan = () => {
     };
 };
 
-export const createDataJabatan = (formData, navigate) => {
+export const createPositionData = (formData, navigate) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post(`${API_URL}/data_jabatan`, formData, {
+            const response = await axios.post(`${API_URL}/positions`, formData, {
                 headers: {
                     "Content-type": "multipart/form-data"
                 }
@@ -41,7 +41,7 @@ export const createDataJabatan = (formData, navigate) => {
                 type: CREATE_POSITION_DATA_SUCCESS,
                 payload: response.data
             });
-            navigate("/data-jabatan");
+            navigate("/data-position");
             return response.data;
         } catch (error) {
             dispatch({
@@ -53,10 +53,10 @@ export const createDataJabatan = (formData, navigate) => {
     };
 };
 
-export const updateDataJabatan = (id, data) => {
+export const updatePositionData = (id, data) => {
     return async (dispatch) => {
         try {
-            const response = await axios.put(`${API_URL}/data_jabatan/${id}`, data);
+            const response = await axios.put(`${API_URL}/positions/${id}`, data);
             dispatch({
                 type: UPDATE_POSITION_DATA_SUCCESS,
                 payload: response.data
@@ -70,10 +70,10 @@ export const updateDataJabatan = (id, data) => {
     };
 };
 
-export const deleteDataJabatan = (id) => {
+export const deletePositionData = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.delete(`${API_URL}/data_jabatan/${id}`);
+            const response = await axios.delete(`${API_URL}/positions/${id}`);
             dispatch({
                 type: DELETE_POSITION_DATA_SUCCESS,
                 payload: response.data

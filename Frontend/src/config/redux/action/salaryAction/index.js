@@ -8,10 +8,10 @@ import {
 
 const API_URL = 'http://localhost:5000';
 
-export const getDataGaji = () => {
+export const getSalaryData = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${API_URL}/data_gaji_pegawai`);
+            const response = await axios.get(`${API_URL}/employee_salaries_pegawai`);
             dispatch({
                 type: GET_SALARY_DATA_SUCCESS,
                 payload: response.data
@@ -25,10 +25,10 @@ export const getDataGaji = () => {
     };
 };
 
-export const deleteDataGaji = (id) => {
+export const deleteSalaryData = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.delete(`${API_URL}/data_gaji_pegawai/id/${id}`);
+            const response = await axios.delete(`${API_URL}/employee_salaries_pegawai/id/${id}`);
             dispatch({
                 type: DELETE_SALARY_DATA_SUCCESS,
                 payload: response.data

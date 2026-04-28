@@ -17,51 +17,47 @@ const DropdownProfil = () => {
   const dropdown = useRef(null);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const [dataPegawai, setDataPegawai] = useState(null);
+  const [employeeData, setEmployeeData] = useState(null);
 
   const onLogout = () => {
     Swal.fire({
-      title: 'Konfirmasi',
-      text: 'Apakah Anda yakin ingin keluar?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Ya',
-      cancelButtonText: 'Tidak',
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(logoutUser());
-        dispatch(reset());
-        Swal.fire({
-          title: 'Logout Berhasil',
-          text: 'Anda telah berhasil keluar.',
-          icon: 'success',
-          timer: 1500,
-          timerProgressBar: true,
-          showConfirmButton: false
-        }).then(() => {
-          navigate('/login');
-        });
-      }
-    });
+        icon: 'question',
+        title: 'Logout',
+        text: 'Are you sure you want to logout?',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(logOut());
+          Swal.fire({
+            icon: 'success',
+            title: 'Logout Successful',
+            text: 'You have successfully logged out.',
+          }).then(() => {
+            navigate('/login');
+          });
+        }
+      });
+    };
   };
 
   useEffect(() => {
-    const getDataPegawai = async () => {
+    const getEmployeeData = async () => {
       try {
-        if (user && user.nama_pegawai) {
+        if (user && user.employee_name) {
           const response = await axios.get(
-            `http://localhost:5000/data_pegawai/name/${user.nama_pegawai}`
+            `http://localhost:5000/employees/name/${user.employee_name}`
           );
           const data = response.data;
-          setDataPegawai(data);
+          setEmployeeData(data);
         }
       } catch (error) {
         console.log(error);
       }
     };
 
-    getDataPegawai();
+    getEmployeeData();
   }, [user]);
 
   useEffect(() => {
@@ -95,7 +91,7 @@ const DropdownProfil = () => {
 
   return (
     <div className='relative'>
-      {dataPegawai && (
+      {employeeData && (
         <Link
           ref={trigger}
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -104,15 +100,15 @@ const DropdownProfil = () => {
         >
           <span className='hidden lg:block'>
             <span className='block text-sm font-medium text-black dark:text-white'>
-              {dataPegawai.nama_pegawai}
+              {employeeData.employee_name}
             </span>
-            <span className='block text-xs'>{dataPegawai.hak_akses}</span>
+            <span className='block text-xs'>{employeeData.role}</span>
           </span>
 
           <div className='h-12 w-12 rounded-full overflow-hidden'>
             <img
               className='h-full w-full object-cover'
-              src={`http://localhost:5000/images/${dataPegawai.photo}`}
+              src={`http://localhost:5000/images/${employeeData.photo}`}
               alt='Profil'
             />
           </div>
@@ -128,7 +124,7 @@ const DropdownProfil = () => {
           <ul className='flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark'>
             <li>
               <Link
-                to={user?.hak_akses === 'admin' ? '/ubah-password' : '/ubah-password-pegawai'}
+                to={user?.role === 'admin' ? '/ubah-password' : '/ubah-password-pegawai'}
                 className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'
               >
                 <FiSettings className='text-xl' />

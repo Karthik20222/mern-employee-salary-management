@@ -63,9 +63,9 @@ const About = () => {
                                 </p>
                                 <br />
                                 <p className="font-medium text-center translate-y-[-50%] sm:translate-y-[-0%] sm:mb-2 md:text-left dark:text-white">
-                                    Dalam SiPeKa, informasi karyawan seperti data pribadi, jabatan, dan tingkat gaji disimpan secara terpusat.
+                                    Dalam SiPeKa, informasi karyawan seperti data pribadi, position, dan tingkat gaji disimpan secara terpusat.
                                     Setiap bulan, sistem akan mengambil data absensi karyawan dan melakukan perhitungan gaji berdasarkan informasi yang ada.
-                                    Hal ini mencakup faktor-faktor seperti jam kerja, cuti, lembur, dan potongan yang relevan.
+                                    Hal ini mencakup faktor-faktor seperti jam kerja, cuti, lembur, dan deduction yang relevan.
                                 </p>
                             </motion.div>
                         </div>

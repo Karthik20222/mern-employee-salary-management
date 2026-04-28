@@ -21,10 +21,10 @@ import {
 
 const API_URL = 'http://localhost:5000';
 
-export const getDataPegawai = () => {
+export const getEmployeeData = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${API_URL}/data_pegawai`);
+            const response = await axios.get(`${API_URL}/employees`);
             dispatch({
                 type: GET_EMPLOYEE_DATA_SUCCESS,
                 payload: response.data
@@ -55,10 +55,10 @@ export const pegawaiImage = () => {
     };
 };
 
-export const getDataPegawaiById = (id) => {
+export const getEmployeeDataById = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${API_URL}/data_pegawai/id/${id}`);
+            const response = await axios.get(`${API_URL}/employees/id/${id}`);
             dispatch({
                 type: GET_EMPLOYEE_DATA_BY_ID_SUCCESS,
                 payload: response.data
@@ -72,10 +72,10 @@ export const getDataPegawaiById = (id) => {
     };
 };
 
-export const getDataPegawaiByNik = (nik) => {
+export const getEmployeeDataByNik = (nik) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${API_URL}/data_pegawai/nik/${nik}`);
+            const response = await axios.get(`${API_URL}/employees/nik/${nik}`);
             dispatch({
                 type: GET_EMPLOYEE_DATA_BY_NIK_SUCCESS,
                 payload: response.data
@@ -89,10 +89,10 @@ export const getDataPegawaiByNik = (nik) => {
     };
 };
 
-export const getDataPegawaiByName = (nama_pegawai) => {
+export const getEmployeeDataByName = (employee_name) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${API_URL}/data_pegawai/name/${nama_pegawai}`);
+            const response = await axios.get(`${API_URL}/employees/name/${employee_name}`);
             dispatch({
                 type: GET_EMPLOYEE_DATA_BY_NAME_SUCCESS,
                 payload: response.data
@@ -106,12 +106,12 @@ export const getDataPegawaiByName = (nama_pegawai) => {
     };
 };
 
-export const createDataPegawai = (formData, navigate) => {
+export const createEmployeeData = (formData, navigate) => {
     return async (dispatch) => {
         dispatch({ type: CREATE_EMPLOYEE_DATA_REQUEST });
 
         try {
-            const response = await axios.post(`${API_URL}/data_pegawai`, formData, {
+            const response = await axios.post(`${API_URL}/employees`, formData, {
                 headers: {
                     "Content-type": "multipart/form-data"
                 }
@@ -132,10 +132,10 @@ export const createDataPegawai = (formData, navigate) => {
     };
 };
 
-export const updateDataPegawai = (id, data) => {
+export const updateEmployeeData = (id, data) => {
     return async (dispatch) => {
         try {
-            const response = await axios.put(`${API_URL}/data_pegawai/${id}`, data);
+            const response = await axios.put(`${API_URL}/employees/${id}`, data);
             dispatch({
                 type: UPDATE_EMPLOYEE_DATA_SUCCESS,
                 payload: response.data
@@ -149,10 +149,10 @@ export const updateDataPegawai = (id, data) => {
     };
 };
 
-export const deleteDataPegawai = (id) => {
+export const deleteEmployeeData = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.delete(`${API_URL}/data_pegawai/${id}`);
+            const response = await axios.delete(`${API_URL}/employees/${id}`);
             dispatch({
                 type: DELETE_EMPLOYEE_DATA_SUCCESS,
                 payload: response.data

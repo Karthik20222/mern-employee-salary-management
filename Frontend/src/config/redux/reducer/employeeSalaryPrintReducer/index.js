@@ -1,26 +1,26 @@
 import {
-    GET_DATA_GAJI_SINGLE_PEGAWAI_SUCCESS,
-    GET_DATA_GAJI_SINGLE_PEGAWAI_FAILURE,
-} from "../../action/dataGajiPegawaiPrintAction/dataGajiPegawaiPrintActionTypes";
+    GET_SINGLE_EMPLOYEE_SALARY_DATA_SUCCESS,
+    GET_SINGLE_EMPLOYEE_SALARY_DATA_FAILURE,
+} from "../../action/salaryEmployeeDataPrintAction/salaryEmployeeDataPrintActionTypes";
 
 const initialState = {
-    dataGajiPegawaiPrint: [], 
+    salaryEmployeeDataPrint: [], 
     error: null,
   };
   
 
-const dataGajiPegawaiPrintReducer = (state = initialState, action) => {
+const salaryEmployeeDataPrintReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_DATA_GAJI_SINGLE_PEGAWAI_SUCCESS:
+        case GET_SINGLE_EMPLOYEE_SALARY_DATA_SUCCESS:
             return {
                 ...state,
-                dataGajiPegawaiPrint: action.payload,
+                salaryEmployeeDataPrint: action.payload,
                 error: null,
             };
-        case GET_DATA_GAJI_SINGLE_PEGAWAI_FAILURE:
+        case GET_SINGLE_EMPLOYEE_SALARY_DATA_FAILURE:
             return {
                 ...state,
-                dataGajiPegawaiPrint: null,
+                salaryEmployeeDataPrint: null,
                 error: action.payload,
             };
         default:
@@ -28,4 +28,4 @@ const dataGajiPegawaiPrintReducer = (state = initialState, action) => {
     }
 };
 
-export default dataGajiPegawaiPrintReducer;
+export default salaryEmployeeDataPrintReducer;

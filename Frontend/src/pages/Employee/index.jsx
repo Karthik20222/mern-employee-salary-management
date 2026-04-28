@@ -1,7 +1,7 @@
-import DataGajiPegawai from "./DataGajiPegawai";
+import EmployeeSalary from "./EmployeeSalary";
 import UbahPasswordPegawai from "./PengaturanPegawai/UbahPasswordPegawai";
 
 export {
-    DataGajiPegawai,
+    EmployeeSalary,
     UbahPasswordPegawai
 };

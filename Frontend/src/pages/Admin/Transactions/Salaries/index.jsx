@@ -8,39 +8,39 @@ import { BiSearch } from 'react-icons/bi'
 import Swal from 'sweetalert2';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { TfiPrinter } from 'react-icons/tfi'
-import { fetchLaporanGajiByMonth, fetchLaporanGajiByYear, getDataGaji, getMe } from '../../../../config/redux/action';
+import { fetchLaporanGajiByMonth, fetchLaporanGajiByYear, getSalaryData, getMe } from '../../../../config/redux/action';
 
 const ITEMS_PER_PAGE = 4;
 
-const DataGaji = () => {
+const SalaryData = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterTahun, setFilterTahun] = useState("");
     const [filterBulan, setFilterBulan] = useState("");
     const [filterNama, setFilterNama] = useState("");
     const [showMessage, setShowMessage] = useState(false);
 
-    const { dataGaji } = useSelector((state) => state.dataGaji);
+    const { salaryData } = useSelector((state) => state.salaryData);
     const { isError, user } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const totalPages = Math.ceil(dataGaji.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(salaryData.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const filteredDataGaji = dataGaji.filter((gajiDataPegawai) => {
+    const filteredSalaryData = salaryData.filter((gajiEmployeeData) => {
         const isMatchBulan =
             filterBulan === "" ||
-            (typeof gajiDataPegawai.bulan === 'string' &&
-                gajiDataPegawai.bulan.toLowerCase().includes(filterBulan.toLowerCase()));
+            (typeof gajiEmployeeData.bulan === 'string' &&
+                gajiEmployeeData.bulan.toLowerCase().includes(filterBulan.toLowerCase()));
         const isMatchTahun =
-            filterTahun === "" || gajiDataPegawai.tahun.toString() === filterTahun;
+            filterTahun === "" || gajiEmployeeData.tahun.toString() === filterTahun;
         const isMatchNama =
             filterNama === "" ||
-            (typeof gajiDataPegawai.nama_pegawai === 'string' &&
-                gajiDataPegawai.nama_pegawai.toLowerCase().includes(filterNama.toLowerCase()));
+            (typeof gajiEmployeeData.employee_name === 'string' &&
+                gajiEmployeeData.employee_name.toLowerCase().includes(filterNama.toLowerCase()));
         return isMatchBulan && isMatchTahun && isMatchNama;
     });
 
@@ -100,7 +100,7 @@ const DataGaji = () => {
     };
 
     useEffect(() => {
-        dispatch(getDataGaji(startIndex, endIndex));
+        dispatch(getSalaryData(startIndex, endIndex));
     }, [dispatch, startIndex, endIndex]);
 
     useEffect(() => {
@@ -111,7 +111,7 @@ const DataGaji = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -232,7 +232,7 @@ const DataGaji = () => {
                     </div>
                 </form>
                 <div className="bg-gray-2 text-left dark:bg-meta-4 mt-6">
-                    {filteredDataGaji
+                    {filteredSalaryData
                         .reduce((uniqueEntries, data) => {
                             const isEntryExist = uniqueEntries.find(entry => entry.bulan === data.bulan && entry.tahun === data.tahun);
                             if (!isEntryExist) {
@@ -304,7 +304,7 @@ const DataGaji = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDataGaji.slice(startIndex, endIndex).map((data, index) => {
+                            {filteredSalaryData.slice(startIndex, endIndex).map((data, index) => {
                                 return (
                                     <tr key={data.id}>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
@@ -314,22 +314,22 @@ const DataGaji = () => {
                                             <p className='text-black dark:text-white'>{data.nik}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.nama_pegawai}</p>
+                                            <p className='text-black dark:text-white'>{data.employee_name}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.jabatan}</p>
+                                            <p className='text-black dark:text-white'>{data.position}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.gaji_pokok}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.base_salary}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.tj_transport}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.transport_allowance}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.uang_makan}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.meal_allowance}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.potongan}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.deduction}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 text-center dark:border-strokedark'>
                                             <p className='text-black dark:text-white'>Rp. {data.total}</p>
@@ -338,7 +338,7 @@ const DataGaji = () => {
                                             <div className='flex items-center space-x-3.5'>
                                                 <Link
                                                     className='hover:text-black'
-                                                    to={`/data-gaji/detail-data-gaji/name/${data.nama_pegawai}`}
+                                                    to={`/data-gaji/detail-data-gaji/name/${data.employee_name}`}
                                                 >
                                                     <FaRegEye className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
@@ -354,7 +354,7 @@ const DataGaji = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredDataGaji.length)} data {filteredDataGaji.length} Data Gaji Pegawai
+                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredSalaryData.length)} data {filteredSalaryData.length} Data Gaji Pegawai
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">
@@ -380,4 +380,4 @@ const DataGaji = () => {
     )
 }
 
-export default DataGaji;
+export default SalaryData;

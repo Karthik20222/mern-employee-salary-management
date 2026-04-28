@@ -19,7 +19,7 @@ import {
 } from '../../action/employeeAction/employeeActionTypes';
 
 const initialState = {
-    dataPegawai: [],
+    employeeData: [],
     pegawaiImage: [],
     message: null,
     error: null
@@ -30,7 +30,7 @@ const employeeReducer = (state = initialState, action) => {
         case GET_EMPLOYEE_DATA_SUCCESS:
             return {
                 ...state,
-                dataPegawai: action.payload,
+                employeeData: action.payload,
                 message: null,
                 error: null,
             };
@@ -56,7 +56,7 @@ const employeeReducer = (state = initialState, action) => {
         case GET_EMPLOYEE_DATA_BY_ID_SUCCESS:
             return {
                 ...state,
-                dataPegawai: action.payload,
+                employeeData: action.payload,
                 message: null,
                 error: null,
             };
@@ -69,7 +69,7 @@ const employeeReducer = (state = initialState, action) => {
         case GET_EMPLOYEE_DATA_BY_NIK_SUCCESS:
             return {
                 ...state,
-                dataPegawai: action.payload,
+                employeeData: action.payload,
                 message: null,
                 error: null,
             };
@@ -82,7 +82,7 @@ const employeeReducer = (state = initialState, action) => {
         case GET_EMPLOYEE_DATA_BY_NAME_SUCCESS:
             return {
                 ...state,
-                dataPegawai: action.payload,
+                employeeData: action.payload,
                 message: null,
                 error: null,
             };

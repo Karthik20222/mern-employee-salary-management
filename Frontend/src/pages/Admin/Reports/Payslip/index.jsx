@@ -7,7 +7,7 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { TfiPrinter } from 'react-icons/tfi'
 import Swal from 'sweetalert2';
 import { BiSearch } from 'react-icons/bi';
-import { fetchSlipGajiByMonth, fetchSlipGajiByName, fetchSlipGajiByYear, getDataPegawai, getMe } from '../../../../config/redux/action';
+import { fetchSlipGajiByMonth, fetchSlipGajiByName, fetchSlipGajiByYear, getEmployeeData, getMe } from '../../../../config/redux/action';
 
 const SlipGaji = () => {
     const [searchMonth, setSearchMonth] = useState("");
@@ -18,7 +18,7 @@ const SlipGaji = () => {
     const navigate = useNavigate();
 
     const { isError, user } = useSelector((state) => state.auth);
-    const { dataPegawai } = useSelector((state) => state.dataPegawai);
+    const { employeeData } = useSelector((state) => state.employeeData);
 
     const handleSearchMonth = (event) => {
         setSearchMonth(event.target.value);
@@ -66,14 +66,14 @@ const SlipGaji = () => {
         }
     };
 
-    const nameOptions = dataPegawai.map((pegawai) => (
-        <option key={pegawai.id} value={pegawai.nama_pegawai}>
-            {pegawai.nama_pegawai}
+    const nameOptions = employeeData.map((pegawai) => (
+        <option key={pegawai.id} value={pegawai.employee_name}>
+            {pegawai.employee_name}
         </option>
     ));
 
     useEffect(() => {
-        dispatch(getDataPegawai());
+        dispatch(getEmployeeData());
     }, [dispatch]);
 
     useEffect(() => {
@@ -84,7 +84,7 @@ const SlipGaji = () => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);

@@ -7,12 +7,12 @@ import { Breadcrumb, ButtonOne } from '../../../../components';
 import { FaRegEdit, FaPlus } from 'react-icons/fa'
 import { BsTrash3 } from 'react-icons/bs'
 import { BiSearch } from 'react-icons/bi'
-import { deleteDataJabatan, getDataJabatan, getMe } from '../../../../config/redux/action';
+import { deletePositionData, getPositionData, getMe } from '../../../../config/redux/action';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
 const ITEMS_PER_PAGE = 4;
 
-const DataJabatan = () => {
+const PositionData = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -20,18 +20,18 @@ const DataJabatan = () => {
     const navigate = useNavigate();
 
     const { isError, user } = useSelector((state) => state.auth);
-    const { dataJabatan } = useSelector((state) => state.dataJabatan);
+    const { positionData } = useSelector((state) => state.positionData);
 
-    const totalPages = Math.ceil(dataJabatan.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(positionData.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const filteredDataJabatan = dataJabatan.filter((jabatan) => {
-        const { nama_jabatan } = jabatan;
+    const filteredPositionData = positionData.filter((position) => {
+        const { nama_position } = position;
         const keyword = searchKeyword.toLowerCase();
         return (
-            nama_jabatan.toLowerCase().includes(keyword)
+            nama_position.toLowerCase().includes(keyword)
         );
     });
 
@@ -53,28 +53,30 @@ const DataJabatan = () => {
 
     const onDeleteJabatan = (id) => {
         Swal.fire({
-            title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin Menghapus?',
-            icon: 'question',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteDataJabatan(id)).then(() => {
-                    Swal.fire({
-                        title: 'Berhasil',
-                        text: 'Data jabatan berhasil dihapus.',
-                        icon: 'success',
-                        timer: 1000,
-                        timerProgressBar: true,
-                        showConfirmButton: false,
+                dispatch(deletePositionData(id))
+                    .then(() => {
+                        Swal.fire(
+                            'Deleted!',
+                            'Position data deleted successfully.',
+                            'success'
+                        );
+                        dispatch(getPositionData());
+                    })
+                    .catch((error) => {
+                        console.error(error);
                     });
-                    dispatch(getDataJabatan());
-                });
             }
         });
+    };
     };
 
     useEffect(() => {
@@ -82,14 +84,14 @@ const DataJabatan = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getDataJabatan(startIndex, endIndex));
+        dispatch(getPositionData(startIndex, endIndex));
     }, [dispatch, startIndex, endIndex]);
 
     useEffect(() => {
         if (isError) {
             navigate('/login');
         }
-        if (user && user.hak_akses !== 'admin') {
+        if (user && user.role !== 'admin') {
             navigate('/dashboard');
         }
     }, [isError, user, navigate]);
@@ -142,7 +144,7 @@ const DataJabatan = () => {
     return (
         <Layout>
             <Breadcrumb pageName='Data Jabatan' />
-            <Link to="/data-jabatan/form-data-jabatan/add" >
+            <Link to="/data-position/form-data-position/add" >
                 <ButtonOne  >
                     <span>Tambah Jabatan</span>
                     <span>
@@ -155,7 +157,7 @@ const DataJabatan = () => {
                     <div className="relative flex-2 mb-4 md:mb-0">
                         <input
                             type='text'
-                            placeholder='Cari jabatan...'
+                            placeholder='Cari position...'
                             value={searchKeyword}
                             onChange={handleSearch}
                             className='rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
@@ -191,29 +193,29 @@ const DataJabatan = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDataJabatan.slice(startIndex, endIndex).map((data, index) => {
+                            {filteredPositionData.slice(startIndex, endIndex).map((data, index) => {
                                 return (
                                     <tr key={data.id}>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <p className='text-black dark:text-white'>{startIndex + index + 1}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.nama_jabatan}</p>
+                                            <p className='text-black dark:text-white'>{data.nama_position}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.gaji_pokok}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.base_salary}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.tj_transport}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.transport_allowance}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>Rp. {data.uang_makan}</p>
+                                            <p className='text-black dark:text-white'>Rp. {data.meal_allowance}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <div className='flex items-center space-x-3.5'>
                                                 <Link
                                                     className='hover:text-black'
-                                                    to={`/data-jabatan/form-data-jabatan/edit/${data.id}`}
+                                                    to={`/data-position/form-data-position/edit/${data.id}`}
                                                 >
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
@@ -234,7 +236,7 @@ const DataJabatan = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredDataJabatan.length)} dari {filteredDataJabatan.length} Data Jabatan
+                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredPositionData.length)} dari {filteredPositionData.length} Data Jabatan
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">
@@ -260,4 +262,4 @@ const DataJabatan = () => {
     )
 }
 
-export default DataJabatan;
+export default PositionData;

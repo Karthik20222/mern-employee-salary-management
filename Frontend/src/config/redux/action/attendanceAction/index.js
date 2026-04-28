@@ -10,14 +10,14 @@ import {
     DELETE_ATTENDANCE_DATA_FAILURE
 } from './attendanceActionTypes';
 
-export const getDataKehadiran = () => {
+export const getAttendanceData = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get('http://localhost:5000/data_kehadiran');
-            const dataKehadiran = response.data;
+            const response = await axios.get('http://localhost:5000/attendance');
+            const dataAttendance = response.data;
             dispatch({
                 type: GET_ATTENDANCE_DATA_SUCCESS,
-                payload: dataKehadiran
+                payload: dataAttendance
             });
         } catch (error) {
             dispatch({
@@ -28,22 +28,22 @@ export const getDataKehadiran = () => {
     };
 };
 
-export const createDataKehadiran = (dataPegawai, dataKehadiran, navigate) => async (dispatch) => {
+export const createAttendanceData = (employeeData, dataAttendance, navigate) => async (dispatch) => {
     try {
-        for (let i = 0; i < dataPegawai.length; i++) {
-            const isNamaAda = dataKehadiran.some(
-                (kehadiran) => kehadiran.nama_pegawai === dataPegawai[i].nama_pegawai
+        for (let i = 0; i < employeeData.length; i++) {
+            const isNamaAda = dataAttendance.some(
+                (attendance) => attendance.employee_name === employeeData[i].employee_name
             );
 
             if (!isNamaAda) {
-                const response = await axios.post("http://localhost:5000/data_kehadiran", {
-                    nik: dataPegawai[i].nik,
-                    nama_pegawai: dataPegawai[i].nama_pegawai,
-                    nama_jabatan: dataPegawai[i].jabatan,
-                    jenis_kelamin: dataPegawai[i].jenis_kelamin,
-                    hadir: hadir[i] || 0,
-                    sakit: sakit[i] || 0,
-                    alpha: alpha[i] || 0,
+                const response = await axios.post("http://localhost:5000/attendance", {
+                    nik: employeeData[i].nik,
+                    employee_name: employeeData[i].employee_name,
+                    nama_position: employeeData[i].position,
+                    gender: employeeData[i].gender,
+                    present_days: present_days[i] || 0,
+                    sick_days: sick_days[i] || 0,
+                    absent_days: absent_days[i] || 0,
                 });
 
                 dispatch({
@@ -51,7 +51,7 @@ export const createDataKehadiran = (dataPegawai, dataKehadiran, navigate) => asy
                     payload: response.data,
                 });
 
-                navigate("/data-kehadiran");
+                navigate("/data-attendance");
                 return response.data;
             }
         }
@@ -64,16 +64,39 @@ export const createDataKehadiran = (dataPegawai, dataKehadiran, navigate) => asy
     }
 };
 
-export const updateDataKehadiran = (id, dataKehadiran) => {
+export const updateAttendanceData = (id, dataAttendance) => {
     return async (dispatch) => {
         try {
-            const response = await axios.put(`http://localhost:5000/data_kehadiran/${id}`, dataKehadiran);
+            const response = await axios.put(`http://localhost:5000/attendance/${id}`, dataAttendance);
             if (response.status === 200) {
-                dispatch({
-                    type: UPDATE_ATTENDANCE_DATA_SUCCESS,
-                    payload: 'Data kehadiran berhasil diupdate'
+                payload: 'Attendance data updated successfully'
                 });
-                dispatch(getDataKehadiran());
+                navigate('/attendance-data');
+            } catch (error) {
+                dispatch({
+                    type: UPDATE_ATTENDANCE_DATA_FAILURE,
+                    payload: error.message
+                });
+            }
+        };
+    };
+
+    export const deleteAttendanceData = (id) => {
+        return async (dispatch) => {
+            try {
+                await axios.delete(`${API_URL}/attendance-data/${id}`);
+                dispatch({
+                    type: DELETE_ATTENDANCE_DATA_SUCCESS,
+                    payload: 'Data deleted successfully'
+                });
+            } catch (error) {
+                dispatch({
+                    type: DELETE_ATTENDANCE_DATA_FAILURE,
+                    payload: error.message
+                });
+            }
+        };
+    };
             } else {
                 dispatch({
                     type: UPDATE_ATTENDANCE_DATA_FAILURE,
@@ -89,16 +112,16 @@ export const updateDataKehadiran = (id, dataKehadiran) => {
     };
 };
 
-export const deleteDataKehadiran = (id) => {
+export const deleteAttendanceData = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/data_kehadiran/${id}`);
+            const response = await axios.delete(`http://localhost:5000/attendance/${id}`);
             if (response.status === 200) {
                 dispatch({
                     type: DELETE_ATTENDANCE_DATA_SUCCESS,
                     payload: 'Delete data berhasil'
                 });
-                dispatch(getDataKehadiran());
+                dispatch(getAttendanceData());
             } else {
                 dispatch({
                     type: DELETE_ATTENDANCE_DATA_FAILURE,
