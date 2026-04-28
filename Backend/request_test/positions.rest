@@ -1,0 +1,27 @@
+### Get all positions
+GET  http://localhost:5000/positions
+
+### Create position
+POST  http://localhost:5000/positions
+Content-Type: application/json
+
+{
+    "position_name" : "Production Operator",
+    "base_salary" : 2000,
+    "transport_allowance" : 1000,
+    "meal_allowance" : 500
+}
+
+### Update position
+PATCH   http://localhost:5000/positions/1
+Content-Type: application/json
+
+{
+    "position_name" : "Department Head",
+    "base_salary" : 5000,
+    "transport_allowance" : 2000,
+    "meal_allowance" : 1000
+}
+
+### Delete position
+DELETE    http://localhost:5000/positions/2

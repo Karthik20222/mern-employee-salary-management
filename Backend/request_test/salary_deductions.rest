@@ -1,0 +1,24 @@
+### Get all salary deductions
+GET  http://localhost:5000/salary-deductions
+
+### Create salary deduction
+POST  http://localhost:5000/salary-deductions
+Content-Type: application/json
+
+{
+    "id" : 1 ,
+    "deduction_name": "absent",
+    "deduction_amount": 2000
+}
+
+### Update salary deduction
+PATCH  http://localhost:5000/salary-deductions/update/3
+Content-Type: application/json
+
+{
+    "deduction_name" : "updated 1",
+    "deduction_amount" : 9999
+}
+
+### Delete salary deduction
+DELETE http://localhost:5000/salary-deductions/3

@@ -1,0 +1,101 @@
+######################
+#### Employees ####
+######################
+
+### Get all employees
+GET http://localhost:5000/employees
+
+
+### Get employee by ID
+GET http://localhost:5000/employees/id/2
+
+### Get employee by national ID
+GET http://localhost:5000/employees/national-id/223344
+
+### Get employee by name
+GET http://localhost:5000/employees/name/budi
+
+### Create employee
+POST http://localhost:5000/employees
+Content-Type: application/json
+
+{
+    "national_id": 223344,
+    "employee_name": "Cecep",
+    "username": "cecep",
+    "password": "12345",
+    "confPassword": "12345",
+    "gender": "Male",
+    "position": "Production Operator",
+    "hire_date": "11-02-2023",
+    "employment_status": "Permanent Employee",
+    "photo": ,
+    "role": "employee"
+}
+
+
+
+### Update employee
+PATCH  http://localhost:5000/employees/2
+Content-Type: application/json
+
+{
+    "national_id": 223344,
+    "employee_name": "Budi",
+    "username": "budi",
+    "gender": "Male",
+    "position": "Production Operator",
+    "hire_date": "11-02-2023",
+    "employment_status": "Permanent Employee",
+    "photo": ,
+    "role": "employee"
+}
+
+### Change password as admin (any employee)
+PATCH  http://localhost:5000/employees/2/change-password
+Content-Type: application/json
+
+{
+    "password":"budi",
+    "confPassword":"budi"
+}
+
+### Change password (self)
+PATCH  http://localhost:5000/change-password
+Content-Type: application/json
+
+{
+    "password" : "update",
+    "confPassword" : "update"
+}
+
+
+### Delete employee
+DELETE   http://localhost:5000/employees/1
+
+
+
+######################
+### Authentication ###
+######################
+
+### Employee login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "budi",
+    "password": "budi"
+}
+
+### Admin login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "aldi",
+    "password": "update"
+}
+
+### Me
+GET  http://localhost:5000/me

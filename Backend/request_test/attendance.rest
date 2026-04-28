@@ -1,0 +1,29 @@
+### Get all attendance records
+GET  http://localhost:5000/attendance
+
+### Create attendance record
+POST  http://localhost:5000/attendance
+Content-Type: application/json
+
+{
+    "national_id": "223344",
+    "employee_name": "Budi",
+    "position_name": "Production Operator",
+    "gender": "Male",
+    "present_days": 9,
+    "sick_days": 2,
+    "absent_days": 1
+}
+
+### Update attendance
+PATCH  http://localhost:5000/attendance/update/11
+Content-Type: application/json
+
+{
+    "present_days": "2",
+    "sick_days": "2",
+    "absent_days": "2"
+}
+
+### Delete attendance record
+DELETE http://localhost:5000/attendance/10

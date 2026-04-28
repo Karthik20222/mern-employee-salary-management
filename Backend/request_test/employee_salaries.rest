@@ -1,0 +1,14 @@
+######################
+#### Employee Salaries ####
+######################
+
+### Get all employee salaries
+GET http://localhost:5000/employee-salaries
+
+### Get employee salaries by month
+GET http://localhost:5000/employee-salaries/month/June
+
+### Get employee salaries by year
+GET http://localhost:5000/employee-salaries/year/2023
+
+// NOTE: Month/year are derived from employee attendance input.

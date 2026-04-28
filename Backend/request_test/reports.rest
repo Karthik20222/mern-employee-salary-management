@@ -1,0 +1,38 @@
+######################
+###### Reports #######
+######################
+
+
+########### Salary Reports ###########
+
+### Get all salary reports
+GET http://localhost:5000/reports/salary
+
+### Get salary report by name
+GET http://localhost:5000/reports/salary/name/nana
+
+### Get salary report by month
+GET http://localhost:5000/reports/salary/month/january
+
+### Get salary report by year
+GET http://localhost:5000/reports/salary/year/2023
+
+
+
+########### Attendance Reports ###########
+### Get attendance report by month
+GET http://localhost:5000/reports/attendance/month/march
+
+### Get attendance report by year
+GET http://localhost:5000/reports/attendance/year/2021
+
+
+########### Payslips ###########
+### Get payslip by name
+GET http://localhost:5000/reports/payslips/name/caca
+
+### Get payslip by month
+GET http://localhost:5000/reports/payslips/month/march
+
+### Get payslip by year
+GET http://localhost:5000/reports/payslips/year/2022

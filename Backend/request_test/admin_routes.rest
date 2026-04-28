@@ -1,0 +1,279 @@
+######################
+#### Admin Routes #####
+######################
+
+### Admin login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "aldi",
+    "password": "update"
+}
+
+### Get Me
+GET http://localhost:5000/me
+
+### Logout
+DELETE   http://localhost:5000/logout
+
+
+
+### === Change Password === ###
+
+### Change password (self)
+PATCH  http://localhost:5000/change-password
+Content-Type: application/json
+
+{
+    "password" : "update",
+    "confPassword" : "update"
+}
+
+### Change password (admin for any employee)
+PATCH  http://localhost:5000/employees/2/change-password
+Content-Type: application/json
+
+{
+    "password":"budi",
+    "confPassword":"budi"
+}
+
+
+
+
+#############################
+####  Admin Master Data  ####
+#############################
+
+/////// Employees //////
+
+### Get all employees
+GET http://localhost:5000/employees
+
+
+### Get employee by ID
+GET http://localhost:5000/employees/id/2
+
+### Get employee by national ID
+GET http://localhost:5000/employees/national-id/223344
+
+### Get employee by name
+GET http://localhost:5000/employees/name/budi
+
+### Create employee
+POST http://localhost:5000/employees
+Content-Type: application/json
+
+{
+    "national_id": 223344,
+    "employee_name": "Cecep",
+    "username": "cecep",
+    "password": "12345",
+    "confPassword": "12345",
+    "gender": "Male",
+    "position": "Production Operator",
+    "hire_date": "11-02-2023",
+    "employment_status": "Permanent Employee",
+    "photo": ,
+    "role": "employee"
+}
+
+
+
+### Update employee
+PATCH  http://localhost:5000/employees/2
+Content-Type: application/json
+
+{
+    "national_id": 223344,
+    "employee_name": "Budi",
+    "username": "budi",
+    "gender": "Male",
+    "position": "Production Operator",
+    "hire_date": "11-02-2023",
+    "employment_status": "Permanent Employee",
+    "photo": ,
+    "role": "employee"
+}
+
+### Change password (admin for any employee)
+PATCH  http://localhost:5000/employees/2/change-password
+Content-Type: application/json
+
+{
+    "password":"budi",
+    "confPassword":"budi"
+}
+
+### Change password (self)
+PATCH  http://localhost:5000/change-password
+Content-Type: application/json
+
+{
+    "password" : "update",
+    "confPassword" : "update"
+}
+
+### Delete employee
+DELETE   http://localhost:5000/employees/
+
+
+/////// Positions //////
+
+### Get all positions
+GET  http://localhost:5000/positions
+
+### Create position
+POST  http://localhost:5000/positions
+Content-Type: application/json
+
+{
+    "position_name" : "Production Operator",
+    "base_salary" : 2000,
+    "transport_allowance" : 1000,
+    "meal_allowance" : 500
+}
+
+### Update position
+PATCH   http://localhost:5000/positions/1
+Content-Type: application/json
+
+{
+    "position_name" : "Department Head",
+    "base_salary" : 5000,
+    "transport_allowance" : 2000,
+    "meal_allowance" : 1000
+}
+
+### Delete position
+DELETE    http://localhost:5000/positions/2
+
+
+
+#############################
+###### Admin Transactions ######
+#############################
+
+/////// Attendance //////
+
+### Get all attendance records
+GET  http://localhost:5000/attendance
+
+### Create attendance record
+POST  http://localhost:5000/attendance
+Content-Type: application/json
+
+{
+    "national_id": "223344",
+    "employee_name": "Budi",
+    "position_name": "Production Operator",
+    "gender": "Male",
+    "present_days": "9",
+    "sick_days": "2",
+    "absent_days": "1"
+}
+
+### Update attendance
+PATCH  http://localhost:5000/attendance/update/11
+Content-Type: application/json
+
+{
+    "present_days": "2",
+    "sick_days": "2",
+    "absent_days": "2"
+}
+
+### Delete attendance record
+DELETE http://localhost:5000/attendance/8
+
+
+/////// Salary Deductions //////
+
+### Get all salary deductions
+GET  http://localhost:5000/salary-deductions
+
+### Get salary deduction by ID
+GET  http://localhost:5000/salary-deductions/23
+
+### Create salary deduction
+POST  http://localhost:5000/salary-deductions
+Content-Type: application/json
+
+{
+    "id" : 1 ,
+    "deduction_name": "absent",
+    "deduction_amount": 2000
+}
+
+### Update salary deduction
+PATCH  http://localhost:5000/salary-deductions/update/3
+Content-Type: application/json
+
+{
+    "deduction_name" : "updated 1",
+    "deduction_amount" : 9999
+}
+
+### Delete salary deduction
+DELETE http://localhost:5000/salary-deductions/3
+
+
+
+/////// Employee Salaries //////
+
+### Get all employee salaries
+GET http://localhost:5000/employee-salaries
+
+### Get employee salaries by name
+GET http://localhost:5000/employee-salaries/name/Aldi Ramdani
+
+### Get employee salaries by month
+GET http://localhost:5000/employee-salaries/month/June
+
+### Get employee salaries by year
+GET http://localhost:5000/employee-salaries/year/2023
+
+// NOTE: Month/year are derived from attendance input.
+
+
+
+#############################
+####### Admin Reports #######
+#############################
+
+/////// Salary Reports //////
+
+### Get all salary reports
+GET http://localhost:5000/reports/salary
+
+### Get salary report by name
+GET http://localhost:5000/reports/salary/name/nana
+
+### Get salary report by month
+GET http://localhost:5000/reports/salary/month/july
+
+### Get salary report by year
+GET http://localhost:5000/reports/salary/year/2023
+
+
+
+/////// Attendance Reports //////
+
+GET http://localhost:5000/reports/attendance/month/march
+
+### Get attendance report by year
+GET http://localhost:5000/reports/attendance/year/2021
+
+
+
+/////// Payslips //////
+
+### Get payslip by name
+GET http://localhost:5000/reports/payslips/name/caca
+
+### Get payslip by month
+GET http://localhost:5000/reports/payslips/month/march
+
+### Get payslip by year
+GET http://localhost:5000/reports/payslips/year/2022

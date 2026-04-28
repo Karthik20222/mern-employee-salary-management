@@ -7,7 +7,7 @@ import db from './config/Database.js';
 import SequelizeStore from 'connect-session-sequelize';
 import FileUpload from 'express-fileupload';
 
-import UserRoute from './routes/UserRoute.js';
+import PayrollRoute from './routes/PayrollRoute.js';
 import AuthRoute from './routes/AuthRoute.js';
 
 const app = express();
@@ -45,7 +45,7 @@ app.use(express.json());
 app.use(FileUpload());
 app.use(express.static("public"));
 
-app.use(UserRoute);
+app.use(PayrollRoute);
 app.use(AuthRoute);
 
 // store.sync();
