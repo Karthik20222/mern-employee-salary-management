@@ -13,13 +13,12 @@ import FormEditDeduction from "./Form/DeductionForm/FormEditDeduction";
 import Header from './Header';
 import Navbar from './Navbar';
 import NotFound from './NotFound';
-import PrintPdfEmployeeSalaryData from './PrintPdf/PrintPdfEmployeeSalaryData'
-import PrintPdfLaporanGaji from './PrintPdf/PrintPdfLaporanGaji';
+import PrintPdfEmployeeSalary from './PrintPdf/PrintPdfEmployeeSalary';
 import PrintPdfPayslip from './PrintPdf/PrintPdfPayslip';
 import PrintPdfAttendanceReport from './PrintPdf/PrintPdfAttendanceReport';
-import PrintPdfEmployeeSalaryReport from './PrintPdf/PrintPdfEmployeeSalary';
+import PrintPdfSalaryReport from './PrintPdf/PrintPdfSalaryReport';
 import SidebarAdmin from './Sidebar/SidebarAdmin';
-import SidebarPegawai from './Sidebar/SidebarPegawai';
+import SidebarEmployee from './Sidebar/SidebarEmployee';
 import SidebarLinkGroup from './Sidebar/SidebarLinkGroup';
 
 export {
@@ -38,12 +37,11 @@ export {
     Header,
     Navbar,
     NotFound,
-    PrintPdfEmployeeSalaryData,
-    PrintPdfLaporanGaji,
+    PrintPdfEmployeeSalary,
     PrintPdfPayslip,
     PrintPdfAttendanceReport,
-    PrintPdfEmployeeSalaryReport,
+    PrintPdfSalaryReport,
     SidebarAdmin,
-    SidebarPegawai,
+    SidebarEmployee,
     SidebarLinkGroup
 };

@@ -2,7 +2,9 @@ import axios from "axios";
 import {
     GET_SINGLE_EMPLOYEE_SALARY_DATA_SUCCESS,
     GET_SINGLE_EMPLOYEE_SALARY_DATA_FAILURE,
-} from "./salaryEmployeeDataPrintActionTypes";
+} from "./employeeSalaryPrintActionTypes";
+
+const GENERIC_LOAD_ERROR_MESSAGE = "An error occurred while loading data.";
 
 export const viewSalaryDataSinglePegawaiSuccess = (data) => ({
     type: GET_SINGLE_EMPLOYEE_SALARY_DATA_SUCCESS,
@@ -23,7 +25,7 @@ export const viewGajiSinglePegawaiByYear = (dataYear) => async (dispatch) => {
         dispatch(viewSalaryDataSinglePegawaiSuccess(data));
     } catch (error) {
         if (error.response && error.response.data) {
-            dispatch(viewSalaryDataSinglePegawaiFailure("Terjadi kesalahan saat memuat data."));
+            dispatch(viewSalaryDataSinglePegawaiFailure(GENERIC_LOAD_ERROR_MESSAGE));
         }
     }
 };
@@ -37,7 +39,7 @@ export const viewGajiSinglePegawaiByMonth = (dataMonth) => async (dispatch) => {
         dispatch(viewSalaryDataSinglePegawaiSuccess(data));
     } catch (error) {
         if (error.response && error.response.data) {
-            dispatch(viewSalaryDataSinglePegawaiFailure("Terjadi kesalahan saat memuat data."));
+            dispatch(viewSalaryDataSinglePegawaiFailure(GENERIC_LOAD_ERROR_MESSAGE));
         }
     }
 };
@@ -52,7 +54,11 @@ export const viewGajiSinglePegawaiByName = (employee_name) => async (dispatch) =
     } catch (error) {
         console.log(error);
         if (employee_name) {
-            dispatch(viewSalaryDataSinglePegawaiFailure("Terjadi kesalahan saat memuat data."));
+            dispatch(viewSalaryDataSinglePegawaiFailure(GENERIC_LOAD_ERROR_MESSAGE));
         }
     }
 };
+
+export const fetchSingleEmployeeSalaryByYear = viewGajiSinglePegawaiByYear;
+export const fetchSingleEmployeeSalaryByMonth = viewGajiSinglePegawaiByMonth;
+export const fetchSingleEmployeeSalaryByName = viewGajiSinglePegawaiByName;

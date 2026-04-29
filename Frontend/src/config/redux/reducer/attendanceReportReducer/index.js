@@ -2,7 +2,7 @@ import {
     FETCH_LAPORAN_ABSENSI_SUCCESS,
     FETCH_LAPORAN_ABSENSI_FAILURE,
     CLEAR_LAPORAN_ABSENSI,
-} from "../../action/laporanAbsensiAction";
+} from "../../action/attendanceReportAction";
 
 const initialState = {
     dataLaporanAbsensi: [],

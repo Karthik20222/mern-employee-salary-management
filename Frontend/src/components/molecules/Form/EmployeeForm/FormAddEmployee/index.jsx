@@ -23,6 +23,7 @@ const FormAddEmployee = () => {
         preview: '',
         status: '',
         accessRights: '',
+        designation: '',
     });
 
     const {
@@ -39,6 +40,7 @@ const FormAddEmployee = () => {
         preview,
         status,
         accessRights,
+        designation,
     } = formData;
 
     const dispatch = useDispatch();
@@ -78,6 +80,7 @@ const FormAddEmployee = () => {
         newFormData.append('confPassword', confPassword);
         newFormData.append('gender', gender);
         newFormData.append('positionName', positionName);
+        newFormData.append('designation', designation);
         newFormData.append('hireDate', hireDate);
         newFormData.append('status', status);
         newFormData.append('accessRights', accessRights);
@@ -274,6 +277,32 @@ const FormAddEmployee = () => {
                                     </div>
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
+                                            Designation <span className='text-meta-1'>*</span>
+                                        </label>
+                                        <div className='relative z-20 bg-transparent dark:bg-form-input'>
+                                            <select className='relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                                                id='designation'
+                                                name='designation'
+                                                value={designation}
+                                                onChange={handleChange}
+                                                required={true}
+                                            >
+                                                <option value='' disabled={true}>Select designation</option>
+                                                <option value='Mason'>Mason</option>
+                                                <option value='Electrician'>Electrician</option>
+                                                <option value='Plumber'>Plumber</option>
+                                                <option value='Supervisor'>Supervisor</option>
+                                                <option value='Helper'>Helper</option>
+                                            </select>
+                                            <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
+                                                <MdOutlineKeyboardArrowDown />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                                    <div className='w-full xl:w-1/2'>
+                                        <label className='mb-2.5 block text-black dark:text-white'>
                                             Hire Date <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
@@ -286,9 +315,6 @@ const FormAddEmployee = () => {
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
-                                </div>
-
-                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
                                             Status <span className='text-meta-1'>*</span>
@@ -310,6 +336,9 @@ const FormAddEmployee = () => {
                                             </span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
                                             Access Rights <span className='text-meta-1'>*</span>
@@ -331,9 +360,6 @@ const FormAddEmployee = () => {
                                             </span>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                     <div className="w-full xl:w-1/2">
                                         <label className="mb-2.5 block text-black dark:text-white ">
                                             Upload Photo (<span className='text-meta-1'> File format png, jpg, jpeg, Max 2 MB </span>)
@@ -346,6 +372,9 @@ const FormAddEmployee = () => {
                                             required={true}
                                         />
                                     </div>
+                                </div>
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                                    
                                     <div className="flex justify-center items-center">
                                         {preview ? (
                                             <figure className="relative w-64 h-64 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 animate-fadeIn">
@@ -369,7 +398,7 @@ const FormAddEmployee = () => {
 
                                 <div className='flex flex-col md:flex-row w-full gap-3 text-center'>
                                     <div>
-                                        <ButtonOne  >
+                                        <ButtonOne type='submit' >
                                             <span>Save</span>
                                         </ButtonOne>
                                     </div>

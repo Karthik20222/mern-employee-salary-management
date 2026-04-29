@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { deleteEmployeeData, getEmployeeData, getMe } from '../../../../config/redux/action';
 import { BiSearch } from 'react-icons/bi';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { CSVLink } from 'react-csv';
 
 const ITEMS_PER_PAGE = 4;
 
@@ -26,8 +27,8 @@ const EmployeeData = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const filteredEmployeeData = employeeData.filter((pegawai) => {
-        const { employee_name, status } = pegawai;
+    const filteredEmployeeData = employeeData.filter((employee) => {
+        const { employee_name, status } = employee;
         const keyword = searchKeyword.toLowerCase();
         const statusKeyword = filterStatus.toLowerCase();
         return (
@@ -35,6 +36,15 @@ const EmployeeData = () => {
             (filterStatus === '' || status.toLowerCase() === statusKeyword)
         );
     });
+
+    const csvData = [
+        ["Name", "Designation", "Department"],
+        ...filteredEmployeeData.map(employee => [
+            employee.employee_name,
+            employee.designation,
+            employee.position
+        ])
+    ];
 
     const goToPrevPage = () => {
         if (currentPage > 1) {
@@ -56,7 +66,7 @@ const EmployeeData = () => {
         setFilterStatus(event.target.value);
     };
 
-    const onDeletePegawai = (id) => {
+    const onDeleteEmployee = (id) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -81,7 +91,6 @@ const EmployeeData = () => {
                     });
             }
         });
-    };
     };
 
     useEffect(() => {
@@ -148,16 +157,23 @@ const EmployeeData = () => {
 
     return (
         <Layout>
-            <Breadcrumb pageName="Data Pegawai" />
-            <Link to="/data-pegawai/form-data-pegawai/add">
-                <ButtonOne>
-                    <span>Tambah Pegawai</span>
-                    <span>
-                        <FaPlus />
-                    </span>
-                </ButtonOne>
-            </Link>
-            <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mt-6">
+            <Breadcrumb pageName="Employee Data" />
+            <div className="flex gap-4">
+                <Link to="/master-data/employees/add">
+                    <ButtonOne>
+                        <span>Add Employee</span>
+                        <span>
+                            <FaPlus />
+                        </span>
+                    </ButtonOne>
+                </Link>
+                <CSVLink data={csvData} filename={"employee-data.csv"}>
+                    <ButtonOne>
+                        <span>Download CSV</span>
+                    </ButtonOne>
+                </CSVLink>
+            </div>
+            <div className="rounded-sm border border-stroke bg-white pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-6">
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="relative flex-1 md:mr-2 mb-4 md:mb-0">
                         <div className="relative">
@@ -170,15 +186,15 @@ const EmployeeData = () => {
                                 className="relative appearance-none rounded border border-stroke bg-transparent py-3 px-8 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
                             >
                                 <option value="">Status</option>
-                                <option value="Karyawan Tetap">Karyawan Tetap</option>
-                                <option value="Karyawan Tidak Tetap">Karyawan Tidak Tetap</option>
+                                <option value="Permanent Employee">Permanent Employee</option>
+                                <option value="Non-Permanent Employee">Non-Permanent Employee</option>
                             </select>
                         </div>
                     </div>
                     <div className="relative flex-2 mb-4 md:mb-0">
                         <input
                             type="text"
-                            placeholder="Cari Nama Pegawai..."
+                            placeholder="Search Employee Name..."
                             value={searchKeyword}
                             onChange={handleSearch}
                             className="rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0"
@@ -193,15 +209,33 @@ const EmployeeData = () => {
                     <table className="w-full table-auto">
                         <thead>
                             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                                <th className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11">No</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11">Photo</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11">NIK</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white">Nama Pegawai</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white">Jenis Kelamin</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white">Tanggal Masuk</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white">Status</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white">Hak Akses</th>
-                                <th className="py-4 px-4 font-medium text-black dark:text-white">Aksi</th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    No
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Photo
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Employee Name
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Designation
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Gender
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Join Date
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Status
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Access Rights
+                                </th>
+                                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                                    Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -225,6 +259,9 @@ const EmployeeData = () => {
                                             <p className="text-black dark:text-white">{data.employee_name}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white">{data.designation}</p>
+                                        </td>
+                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                             <p className="text-black dark:text-white">{data.gender}</p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -239,13 +276,15 @@ const EmployeeData = () => {
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                             <div className="flex items-center space-x-3.5">
                                                 <Link
-                                                    to={`/data-pegawai/form-data-pegawai/edit/${data.id}`}
-                                                    className="hover:text-black">
+                                                    className="hover:text-black"
+                                                    to={`/master-data/employees/edit/${data.id}`}
+                                                >
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => onDeletePegawai(data.id)}
-                                                    className="hover:text-black">
+                                                    onClick={() => onDeleteEmployee(data.id)}
+                                                    className="hover:text-black"
+                                                >
                                                     <BsTrash3 className="text-danger text-xl hover:text-black dark:hover:text-white" />
                                                 </button>
                                             </div>
@@ -260,7 +299,7 @@ const EmployeeData = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredEmployeeData.length)} dari {filteredEmployeeData.length} Data Pegawai
+                            Showing {startIndex + 1}-{Math.min(endIndex, filteredEmployeeData.length)} of {filteredEmployeeData.length} employees
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">

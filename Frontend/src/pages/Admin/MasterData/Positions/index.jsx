@@ -28,10 +28,10 @@ const PositionData = () => {
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
     const filteredPositionData = positionData.filter((position) => {
-        const { nama_position } = position;
+        const { position_name } = position;
         const keyword = searchKeyword.toLowerCase();
         return (
-            nama_position.toLowerCase().includes(keyword)
+            position_name.toLowerCase().includes(keyword)
         );
     });
 
@@ -51,7 +51,7 @@ const PositionData = () => {
         setSearchKeyword(event.target.value);
     };
 
-    const onDeleteJabatan = (id) => {
+    const onDeletePosition = (id) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -76,7 +76,6 @@ const PositionData = () => {
                     });
             }
         });
-    };
     };
 
     useEffect(() => {
@@ -143,10 +142,10 @@ const PositionData = () => {
 
     return (
         <Layout>
-            <Breadcrumb pageName='Data Jabatan' />
-            <Link to="/data-position/form-data-position/add" >
+            <Breadcrumb pageName='Position Data' />
+            <Link to="/master-data/positions/add" >
                 <ButtonOne  >
-                    <span>Tambah Jabatan</span>
+                    <span>Add Position</span>
                     <span>
                         <FaPlus />
                     </span>
@@ -157,7 +156,7 @@ const PositionData = () => {
                     <div className="relative flex-2 mb-4 md:mb-0">
                         <input
                             type='text'
-                            placeholder='Cari position...'
+                            placeholder='Search position...'
                             value={searchKeyword}
                             onChange={handleSearch}
                             className='rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
@@ -176,19 +175,19 @@ const PositionData = () => {
                                     No
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Jabatan
+                                    Position
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Gaji Pokok
+                                    Base Salary
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Tunjangan Transport
+                                    Transport Allowance
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Uang Makan
+                                    Meal Allowance
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Aksi
+                                    Action
                                 </th>
                             </tr>
                         </thead>
@@ -200,7 +199,7 @@ const PositionData = () => {
                                             <p className='text-black dark:text-white'>{startIndex + index + 1}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.nama_position}</p>
+                                            <p className='text-black dark:text-white'>{data.position_name}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <p className='text-black dark:text-white'>Rp. {data.base_salary}</p>
@@ -215,12 +214,12 @@ const PositionData = () => {
                                             <div className='flex items-center space-x-3.5'>
                                                 <Link
                                                     className='hover:text-black'
-                                                    to={`/data-position/form-data-position/edit/${data.id}`}
+                                                    to={`/master-data/positions/edit/${data.id}`}
                                                 >
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => onDeleteJabatan(data.id)}
+                                                    onClick={() => onDeletePosition(data.id)}
                                                     className='hover:text-black'>
                                                     <BsTrash3 className="text-danger text-xl hover:text-black dark:hover:text-white" />
                                                 </button>
@@ -236,7 +235,7 @@ const PositionData = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredPositionData.length)} dari {filteredPositionData.length} Data Jabatan
+                            Showing {startIndex + 1}-{Math.min(endIndex, filteredPositionData.length)} of {filteredPositionData.length} positions
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">
@@ -259,7 +258,7 @@ const PositionData = () => {
                 </div>
             </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default PositionData;

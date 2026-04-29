@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import Layout from '../../../../layout';
 import { Breadcrumb, ButtonOne } from '../../../../components';
 import Swal from 'sweetalert2';
 import { TfiLock } from 'react-icons/tfi';
-import { changePassword, getMe } from '../../../../config/redux/action';
+import { getMe } from '../../../../config/redux/action';
 
 const UbahPasswordPegawai = () => {
     const dispatch = useDispatch();
@@ -15,61 +16,41 @@ const UbahPasswordPegawai = () => {
 
     const { isError, user } = useSelector((state) => state.auth);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (password === confPassword) {
-            try {
-                dispatch(changePassword(password, confPassword));
-                title: 'Success',
-                    text: 'Password Updated Successfully',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                });
-                navigate("/employee-settings");
-            } catch (error) {
-                if (error.response) {
-                    setMsg(error.response.data.msg);
-                    Swal.fire({
-                        title: 'Failed',
-                        text: error.response.data.msg,
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    });
-                } else {
-                    setMsg("An error occurred");
-                    Swal.fire({
-                        title: 'Failed',
-                        text: 'An error occurred',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    });
-                }
-            }
-        } else {
-            setMsg("New password and confirmation password do not match");
-            Swal.fire({
-                title: 'Failed',
-                text: "New password and confirmation password do not match",
-                icon: 'error',
-                confirmButtonText: 'Ok'
-            });
-        }
-    };
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal',
-                    text: error.response?.data?.msg || 'Terjadi kesalahan',
-                    confirmButtonText: 'Ok',
-                });
-            }
-        } else {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (password !== confPassword) {
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
                 text: 'Password dan Konfirmasi Password Tidak Cocok',
                 confirmButtonText: 'Ok',
-                timer: 1500,
+            });
+            return;
+        }
+
+        try {
+            const response = await axios.patch('http://localhost:5000/change_password', {
+                password,
+                confPassword,
+            });
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: response.data.msg || 'Password Updated Successfully',
+                confirmButtonText: 'Ok',
+            });
+
+            setPassword('');
+            setConfPassword('');
+            navigate('/dashboard');
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: error.response?.data?.msg || 'Terjadi kesalahan',
+                confirmButtonText: 'Ok',
             });
         }
     };
@@ -80,10 +61,10 @@ const UbahPasswordPegawai = () => {
 
     useEffect(() => {
         if (isError) {
-            navigate("/login");
+            navigate('/login');
         }
-        if (user && user.role !== 'pegawai') {
-            navigate("/dashboard");
+        if (user && user.role !== 'employee') {
+            navigate('/dashboard');
         }
     }, [isError, user, navigate]);
 
@@ -99,7 +80,7 @@ const UbahPasswordPegawai = () => {
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className='p-6.5'>
-                                <div className='mb-4.5 '>
+                                <div className='mb-4.5'>
                                     <div className='w-full mb-4'>
                                         <label className='mb-4 block text-black dark:text-white'>
                                             Password Baru <span className='text-meta-1'>*</span>
@@ -107,13 +88,13 @@ const UbahPasswordPegawai = () => {
                                         <input
                                             type='password'
                                             value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            onChange={(event) => setPassword(event.target.value)}
                                             required
                                             placeholder='Masukkan password baru'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
-                                    <div className='w-full mb-4'>
+                                    <div className='w-full mb-4 relative'>
                                         <label className='mb-4 block text-black dark:text-white'>
                                             Ulangi Password Baru <span className='text-meta-1'>*</span>
                                         </label>
@@ -122,10 +103,10 @@ const UbahPasswordPegawai = () => {
                                             placeholder='Masukkan ulangi password baru'
                                             value={confPassword}
                                             required
-                                            onChange={(e) => setConfPassword(e.target.value)}
+                                            onChange={(event) => setConfPassword(event.target.value)}
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
-                                        <TfiLock className='absolute right-4 top-4 text-xl' />
+                                        <TfiLock className='absolute right-4 top-11 text-xl' />
                                     </div>
                                 </div>
 

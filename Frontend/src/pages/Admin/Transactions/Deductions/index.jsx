@@ -52,21 +52,21 @@ const DeductionData = () => {
         setSearchKeyword(event.target.value);
     };
 
-    const onDeletePotongan = (id) => {
+    const onDeleteDeduction = (id) => {
         Swal.fire({
-            title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin Menghapus?',
+            title: 'Confirmation',
+            text: 'Are you sure you want to delete this?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(deleteDeductionData(id)).then(() => {
                     Swal.fire({
-                        title: 'Berhasil',
-                        text: 'Data deduction berhasil dihapus.',
+                        title: 'Success',
+                        text: 'Deduction data deleted successfully.',
                         icon: 'success',
                         timer: 1000,
                         timerProgressBar: true,
@@ -142,10 +142,10 @@ const DeductionData = () => {
 
     return (
         <Layout>
-            <Breadcrumb pageName='Data Potongan' />
-            <Link to="/data-deduction/form-data-deduction/add" >
+            <Breadcrumb pageName='Deduction Data' />
+            <Link to="/transactions/salary-deductions/add" >
                 <ButtonOne  >
-                    <span>Tambah Potongan</span>
+                    <span>Add Deduction</span>
                     <span>
                         <FaPlus />
                     </span>
@@ -156,7 +156,7 @@ const DeductionData = () => {
                     <div className="relative flex-2 mb-4 md:mb-0">
                         <input
                             type='text'
-                            placeholder='Cari Potongan..'
+                            placeholder='Search Deduction..'
                             value={searchKeyword}
                             onChange={handleSearch}
                             className='rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
@@ -175,13 +175,13 @@ const DeductionData = () => {
                                     No
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Potongan Gaji
+                                    Salary Deduction
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Jumlah Potongan
+                                    Deduction Amount
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Aksi
+                                    Action
                                 </th>
                             </tr>
                         </thead>
@@ -202,14 +202,13 @@ const DeductionData = () => {
                                             <div className='flex items-center space-x-3.5'>
                                                 <Link
                                                     className='hover:text-black'
-                                                    to={`/data-deduction/form-data-deduction/edit/${data.id}`}
+                                                    to={`/transactions/salary-deductions/edit/${data.id}`}
                                                 >
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => onDeletePotongan(data.id)}
-                                                    className='hover:text-black'
-                                                >
+                                                    onClick={() => onDeleteDeduction(data.id)}
+                                                    className='hover:text-black'>
                                                     <BsTrash3 className="text-danger text-xl hover:text-black dark:hover:text-white" />
                                                 </button>
                                             </div>
@@ -247,7 +246,7 @@ const DeductionData = () => {
                 </div>
             </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default DeductionData;

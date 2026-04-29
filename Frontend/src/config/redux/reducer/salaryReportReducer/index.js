@@ -2,7 +2,7 @@ import {
     FETCH_LAPORAN_GAJI_SUCCESS,
     FETCH_LAPORAN_GAJI_FAILURE,
     CLEAR_LAPORAN_GAJI,
-} from "../../action/laporanGajiAction";
+} from "../../action/salaryReportAction";
 
 const initialState = {
     dataLaporanGaji: [],

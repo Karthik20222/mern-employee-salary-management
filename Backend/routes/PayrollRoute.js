@@ -32,6 +32,12 @@ import {
 } from "../controllers/TransactionController.js";
 
 import {
+    approveOvertimeEntry,
+    createOvertimeEntry,
+    viewOvertimeEntries,
+} from "../controllers/OvertimeController.js";
+
+import {
     createSalaryDeduction,
     deleteSalaryDeduction,
     viewSalaryDeductionById,
@@ -92,6 +98,10 @@ router.get('/attendance/:id', verifyUser, adminOnly, viewAttendanceById);
 router.post('/attendance',verifyUser, adminOnly, createAttendance);
 router.patch('/attendance/update/:id',verifyUser, adminOnly, updateAttendance);
 router.delete('/attendance/:id', verifyUser, adminOnly, deleteAttendance);
+// Overtime
+router.get('/overtime', verifyUser, adminOnly, viewOvertimeEntries);
+router.post('/overtime', verifyUser, adminOnly, createOvertimeEntry);
+router.patch('/overtime/:id/approve', verifyUser, adminOnly, approveOvertimeEntry);
 // Salary Deductions
 router.get('/salary_deductions', adminOnly, verifyUser, viewSalaryDeductions);
 router.get('/salary_deductions/:id', adminOnly, verifyUser, viewSalaryDeductionById);

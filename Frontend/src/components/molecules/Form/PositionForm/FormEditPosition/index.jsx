@@ -123,6 +123,7 @@ const FormEditPosition = () => {
                                             value={baseSalary}
                                             onChange={(e) => setBaseSalary(e.target.value)}
                                             required
+                                            min="0"
                                             placeholder='Enter base salary'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -141,6 +142,7 @@ const FormEditPosition = () => {
                                             value={transportAllowance}
                                             onChange={(e) => setTransportAllowance(e.target.value)}
                                             required
+                                            min="0"
                                             placeholder='Enter transport allowance'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -157,6 +159,7 @@ const FormEditPosition = () => {
                                             value={mealAllowance}
                                             onChange={(e) => setMealAllowance(e.target.value)}
                                             required
+                                            min="0"
                                             placeholder='Enter meal allowance'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -164,7 +167,7 @@ const FormEditPosition = () => {
                                 </div>
                                 <div className='flex flex-col md:flex-row w-full gap-3 text-center'>
                                     <div>
-                                        <ButtonOne  >
+                                        <ButtonOne type='submit' >
                                             <span>Update</span>
                                         </ButtonOne>
                                     </div>

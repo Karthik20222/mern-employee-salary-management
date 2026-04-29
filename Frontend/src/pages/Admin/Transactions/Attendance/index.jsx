@@ -14,9 +14,9 @@ const ITEMS_PER_PAGE = 4;
 
 const AttendanceData = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [filterTahun, setFilterTahun] = useState("");
-    const [filterBulan, setFilterBulan] = useState("");
-    const [filterNama, setFilterNama] = useState("");
+    const [filterYear, setFilterYear] = useState("");
+    const [filterMonth, setFilterMonth] = useState("");
+    const [filterName, setFilterName] = useState("");
 
     const { dataAttendance } = useSelector((state) => state.dataAttendance);
     const { isError, user } = useSelector((state) => state.auth);
@@ -31,13 +31,13 @@ const AttendanceData = () => {
 
     const filteredAttendanceData = dataAttendance.filter((attendanceData) => {
         const isMatchBulan =
-            filterBulan === "" ||
-            attendanceData.bulan.toLowerCase().includes(filterBulan.toLowerCase());
+            filterMonth === "" ||
+            attendanceData.bulan.toLowerCase().includes(filterMonth.toLowerCase());
         const isMatchTahun =
-            filterTahun === "" || attendanceData.tahun.toString() === filterTahun;
+            filterYear === "" || attendanceData.tahun.toString() === filterYear;
         const isMatchNama =
-            filterNama === "" ||
-            attendanceData.employee_name.toLowerCase().includes(filterNama.toLowerCase());
+            filterName === "" ||
+            attendanceData.employee_name.toLowerCase().includes(filterName.toLowerCase());
         return isMatchBulan && isMatchTahun && isMatchNama;
     });
 
@@ -53,33 +53,33 @@ const AttendanceData = () => {
         }
     };
 
-    const handleBulanChange = (event) => {
-        setFilterBulan(event.target.value);
+    const handleMonthChange = (event) => {
+        setFilterMonth(event.target.value);
     };
 
-    const handleTahunChange = (event) => {
-        setFilterTahun(event.target.value);
+    const handleYearChange = (event) => {
+        setFilterYear(event.target.value);
     };
 
-    const handleNamaChange = (event) => {
-        setFilterNama(event.target.value);
+    const handleNameChange = (event) => {
+        setFilterName(event.target.value);
     };
 
     const onDeleteAttendanceData = (id) => {
         Swal.fire({
-            title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin Menghapus?',
+            title: 'Confirmation',
+            text: 'Are you sure you want to delete this?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(deleteAttendanceData(id)).then(() => {
                     Swal.fire({
-                        title: 'Berhasil',
-                        text: 'Data attendance berhasil dihapus.',
+                        title: 'Success',
+                        text: 'Attendance data deleted successfully.',
                         icon: 'success',
                         timer: 1000,
                         timerProgressBar: true,
@@ -155,51 +155,51 @@ const AttendanceData = () => {
 
     return (
         <Layout>
-            <Breadcrumb pageName='Data Attendance Pegawai' />
+            <Breadcrumb pageName='Employee Attendance Data' />
 
             <div className='rounded-sm border border-stroke bg-white px-5 pt-2 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-10 mt-6'>
                 <div className='border-b border-stroke py-2 dark:border-strokedark'>
                     <h3 className='font-medium text-black dark:text-white'>
-                        Filter Data Attendance Pegawai
+                        Filter Employee Attendance Data
                     </h3>
                 </div>
 
                 <div className='flex flex-col md:flex-row md:justify-between items-center mt-4'>
                     <div className='relative w-full md:w-1/2 md:mr-2 mb-4 md:mb-0'>
                         <div className='relative'>
-                            <span className='px-6'>Bulan</span>
+                            <span className='px-6'>Month</span>
                             <span className='absolute top-1/2 left-70 z-30 -translate-y-1/2 text-xl'>
                                 <MdOutlineKeyboardArrowDown />
                             </span>
                             <select
-                                value={filterBulan}
-                                onChange={handleBulanChange}
+                                value={filterMonth}
+                                onChange={handleMonthChange}
                                 className='relative appearance-none rounded border border-stroke bg-transparent py-2 px-18 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input'
                             >
-                                <option value=''>Pilih Bulan</option>
-                                <option value='Januari'>Januari</option>
-                                <option value='Februari'>Februari</option>
-                                <option value='Maret'>Maret</option>
+                                <option value=''>Select Month</option>
+                                <option value='January'>January</option>
+                                <option value='February'>February</option>
+                                <option value='March'>March</option>
                                 <option value='April'>April</option>
-                                <option value='Mei'>Mei</option>
-                                <option value='Juni'>Juni</option>
-                                <option value='Juli'>Juli</option>
-                                <option value='Agustus'>Agustus</option>
+                                <option value='May'>May</option>
+                                <option value='June'>June</option>
+                                <option value='July'>July</option>
+                                <option value='August'>August</option>
                                 <option value='September'>September</option>
-                                <option value='Oktober'>Oktober</option>
+                                <option value='October'>October</option>
                                 <option value='November'>November</option>
-                                <option value='Desember'>Desember</option>
+                                <option value='December'>December</option>
                             </select>
                         </div>
                     </div>
                     <div className='relative w-full md:w-1/2 md:mr-2 mb-4 md:mb-0'>
                         <div className='relative'>
-                            <span className='px-6'>Tahun</span>
+                            <span className='px-6'>Year</span>
                             <input
                                 type='number'
-                                placeholder='Masukkan Tahun...'
-                                value={filterTahun}
-                                onChange={handleTahunChange}
+                                placeholder='Enter Year...'
+                                value={filterYear}
+                                onChange={handleYearChange}
                                 className='rounded border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
                             />
                             <span className='absolute left-25 py-3 text-xl '>
@@ -207,16 +207,28 @@ const AttendanceData = () => {
                             </span>
                         </div>
                     </div>
-                    <div className='w-full md:w-1/2 flex justify-center md:justify-end'>
-                        <div className='w-full md:w-auto'>
-                            <Link to='/data-attendance/form-data-attendance/add'>
+                    <div className='w-full-max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
+                        <div className='flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between px-5 md:px-7.5'>
+                            <Link to="/transactions/attendance/add" >
                                 <ButtonOne>
-                                    <span>Input Attendance</span>
+                                    <span>Add Attendance Data</span>
                                     <span>
                                         <FaPlus />
                                     </span>
                                 </ButtonOne>
                             </Link>
+                            <div className="relative flex-2 my-4 md:my-0">
+                                <input
+                                    type='text'
+                                    placeholder='Search Employee Name...'
+                                    value={filterName}
+                                    onChange={handleNameChange}
+                                    className='rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
+                                />
+                                <span className='absolute left-2 py-3 text-xl'>
+                                    <BiSearch />
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -229,9 +241,9 @@ const AttendanceData = () => {
                         return uniqueEntries;
                     }, []).map(data => (
                         <h2 className="px-4 py-2 text-black dark:text-white" key={`${data.bulan}-${data.tahun}`}>
-                            Menampilkan Data Attendance Pegawai Bulan :
+                            Showing Employee Attendance Data for Month:
                             <span className="font-medium"> {data.bulan} </span>
-                            Tahun :
+                            Year:
                             <span className="font-medium"> {data.tahun}</span>
                         </h2>
                     ))}
@@ -244,9 +256,9 @@ const AttendanceData = () => {
                     <div className="relative flex-2 mb-4 md:mb-0">
                         <input
                             type='text'
-                            placeholder='Cari Nama Pegawai...'
-                            value={filterNama}
-                            onChange={handleNamaChange}
+                            placeholder='Search Employee Name...'
+                            value={filterName}
+                            onChange={handleNameChange}
                             className='rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
                         />
                         <span className='absolute left-2 py-3 text-xl'>
@@ -255,36 +267,33 @@ const AttendanceData = () => {
                     </div>
                 </div>
 
-                <div className='max-w-full overflow-x-auto py-4'>
+                <div className='max-w-full overflow-x-auto py-4 px-5 md:px-7.5'>
                     <table className='w-full table-auto'>
                         <thead>
                             <tr className='bg-gray-2 text-left dark:bg-meta-4'>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
                                     No
                                 </th>
-                                <th className='py-4 px-4 font-medium text-center text-black dark:text-white'>
+                                <th className='py-4 px-4 font-medium text-black dark:text-white'>
                                     NIK
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Nama Pegawai
+                                    Employee Name
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Jabatan
+                                    Position
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Jenis Kelamin
+                                    Present
                                 </th>
-                                <th className='py-4 text-center px-4 font-medium text-black dark:text-white'>
-                                    Hadir
+                                <th className='py-4 px-4 font-medium text-black dark:text-white'>
+                                    Sick
                                 </th>
-                                <th className='py-4 text-center px-4 font-medium text-black dark:text-white'>
-                                    Sakit
-                                </th>
-                                <th className='py-4 text-center px-4 font-medium text-black dark:text-white'>
+                                <th className='py-4 px-4 font-medium text-black dark:text-white'>
                                     Alpha
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Aksi
+                                    Action
                                 </th>
                             </tr>
                         </thead>
@@ -308,10 +317,7 @@ const AttendanceData = () => {
                                             <p className='text-black dark:text-white'>{data.position_pegawai}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.gender}</p>
-                                        </td>
-                                        <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-center text-black dark:text-white'>{data.present_days}</p>
+                                            <p className='text-black dark:text-white'>{data.present_days}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <p className='text-center text-black dark:text-white'>{data.sick_days}</p>
@@ -321,12 +327,10 @@ const AttendanceData = () => {
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <div className='flex items-center space-x-3.5'>
-                                                <Link className='hover:text-black'
-                                                    to={`/data-attendance/form-data-attendance/edit/${data.id}`}
-                                                >
+                                                <Link className='hover:text-black' to={`/transactions/attendance/edit/${data.id}`}>
                                                     <FaRegEdit className="text-primary text-xl hover:text-black dark:hover:text-white" />
                                                 </Link>
-                                                <button className='hover:text-black'
+                                                <button
                                                     onClick={() => onDeleteAttendanceData(data.id)}
                                                 >
                                                     <BsTrash3 className="text-danger text-xl hover:text-black dark:hover:text-white" />
@@ -343,7 +347,7 @@ const AttendanceData = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Menampilkan {startIndex + 1}-{Math.min(endIndex, filteredAttendanceData.length)} dari {filteredAttendanceData.length} Data Attendance Pegawai
+                            Showing {startIndex + 1}-{Math.min(endIndex, filteredAttendanceData.length)} of {filteredAttendanceData.length} employee attendance records
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">

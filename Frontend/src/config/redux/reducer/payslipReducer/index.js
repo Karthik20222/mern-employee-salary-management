@@ -2,7 +2,7 @@ import {
     FETCH_SLIP_GAJI_SUCCESS,
     FETCH_SLIP_GAJI_FAILURE,
     CLEAR_SLIP_GAJI,
-} from "../../action/slipGajiAction";
+} from "../../action/payslipAction";
 
 const initialState = {
     dataSlipGaji: [],

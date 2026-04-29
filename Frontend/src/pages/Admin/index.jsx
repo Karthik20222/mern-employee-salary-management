@@ -1,12 +1,13 @@
-import LaporanAbsensi from './Laporan/LaporanAbsensi';
-import LaporanGaji from './Laporan/LaporanGaji';
-import SlipGaji from './Laporan/SlipGaji';
-import PositionData from './MasterData/PositionData';
-import EmployeeData from './MasterData/EmployeeData';
-import UbahPasswordAdmin from './PengaturanAdmin/UbahPasswordAdmin';
-import AttendanceData from './Transaksi/AttendanceData';
-import SalaryData from './Transaksi/SalaryData';
-import DeductionData from './Transaksi/DeductionData';
+import LaporanAbsensi from './Reports/AttendanceReport';
+import LaporanGaji from './Reports/SalaryReport';
+import SlipGaji from './Reports/Payslip';
+import PositionData from './MasterData/Positions';
+import EmployeeData from './MasterData/Employees';
+import UbahPasswordAdmin from './AdminSettings/ChangePassword';
+import AttendanceData from './Transactions/Attendance';
+import SalaryData from './Transactions/Salaries';
+import DeductionData from './Transactions/Deductions';
+import OvertimeData from './Transactions/Overtime';
 
 export {
     LaporanAbsensi,
@@ -17,5 +18,6 @@ export {
     UbahPasswordAdmin,
     AttendanceData,
     SalaryData,
-    DeductionData
+    DeductionData,
+    OvertimeData
 };

@@ -35,6 +35,10 @@ const Employee = db.define('employees', {
         type: DataTypes.STRING(50),
         allowNull: false
     },
+    designation: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
     hire_date: {
         type: DataTypes.STRING,
         allowNull: false

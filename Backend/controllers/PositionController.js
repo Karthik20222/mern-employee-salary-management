@@ -56,6 +56,11 @@ export const createPosition = async (req, res) => {
     const {
         position_id, position_name, base_salary, transport_allowance, meal_allowance
     } = req.body;
+
+    if (base_salary < 0 || transport_allowance < 0 || meal_allowance < 0) {
+        return res.status(400).json({ msg: "Salary fields cannot be negative" });
+    }
+
     try {
         if (req.role === "admin") {
             await Position.create({
@@ -94,6 +99,11 @@ export const updatePosition = async (req, res) => {
         });
         if (!position) return res.status(404).json({ msg: "Data not found" });
         const { position_name, base_salary, transport_allowance, meal_allowance } = req.body;
+
+        if (base_salary < 0 || transport_allowance < 0 || meal_allowance < 0) {
+            return res.status(400).json({ msg: "Salary fields cannot be negative" });
+        }
+
         if (req.role === "admin") {
             await Position.update({
                 position_name, base_salary, transport_allowance, meal_allowance

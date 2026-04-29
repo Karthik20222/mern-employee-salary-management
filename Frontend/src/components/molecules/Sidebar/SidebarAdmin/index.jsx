@@ -122,7 +122,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
           <div>
 
             <ul className='mb-6 flex flex-col gap-1.5'>
-              {/* <!--Dashboard Admin--> */}
+              {/* <!-- Dashboard Admin--> */}
 
               <NavLink
                 to='/dashboard'
@@ -170,7 +170,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className='mt-4 mb-5.5 flex flex-col gap-2.5 pl-6'>
                           <li>
                             <NavLink
-                              to='/employees'
+                              to='/master-data/employees'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -181,7 +181,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <NavLink
-                              to='/positions'
+                              to='/master-data/positions'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -199,7 +199,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
               </SidebarLinkGroup>
               {/* <!-- Master Data Admin --> */}
 
-              {/* <!-- Transaksi Admin --> */}
+              {/* <!-- Transactions Admin --> */}
               <SidebarLinkGroup
                 activeCondition={
                   pathname === '/transactions' || pathname.includes('transactions')
@@ -234,7 +234,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className='mt-4 mb-5.5 flex flex-col gap-2.5 pl-6'>
                           <li>
                             <NavLink
-                              to='/attendance'
+                              to='/transactions/attendance'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -245,7 +245,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <NavLink
-                              to='/salary_deductions'
+                              to='/transactions/salary-deductions'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -256,7 +256,18 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <NavLink
-                              to='/salaries'
+                              to='/transactions/overtime'
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Overtime
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to='/transactions/salaries'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -272,9 +283,9 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                   )
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Transaksi Admin --> */}
+              {/* <!-- Transactions Admin --> */}
 
-              {/* <!-- Laporan Admin --> */}
+              {/* <!-- Reports Admin --> */}
               <SidebarLinkGroup
                 activeCondition={
                   pathname === '/reports' || pathname.includes('reports')
@@ -309,7 +320,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className='mt-4 mb-5.5 flex flex-col gap-2.5 pl-6'>
                           <li>
                             <NavLink
-                              to='/reports/salary'
+                              to='/reports/salary-reports'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -320,7 +331,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <NavLink
-                              to='/reports/attendance'
+                              to='/reports/attendance-reports'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -347,9 +358,9 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                   )
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Laporan Admin --> */}
+              {/* <!-- Reports Admin --> */}
 
-              {/* <!-- Pengaturan Admin --> */}
+              {/* <!-- Settings Admin --> */}
               <SidebarLinkGroup
                 activeCondition={
                   pathname === '/settings' || pathname.includes('settings')
@@ -384,7 +395,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className='mt-4 mb-5.5 flex flex-col gap-2.5 pl-6'>
                           <li>
                             <NavLink
-                              to='/admin/change-password'
+                              to='/settings/change-password'
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -411,7 +422,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                   )
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Pengaturan Admin --> */}
+              {/* <!-- Settings Admin --> */}
             </ul>
           </div>
         </nav>

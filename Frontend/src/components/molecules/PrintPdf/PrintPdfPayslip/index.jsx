@@ -231,7 +231,7 @@ const PrintPdfPayslip = () => {
                                     <span>{name}</span>
                                 </div>
                                 <div className="font-medium text-black dark:text-white">
-                                    <span className="text-right">Karawang, {`${new Date().getDate()} ${monthName} ${yearValue}`}</span>
+                                    <span className="text-right">Karawang, {new Date().toLocaleDateString('en-GB')}</span>
                                     <br />
                                     <span>Finance</span>
                                     <br />
@@ -240,7 +240,7 @@ const PrintPdfPayslip = () => {
                                 </div>
                             </div>
                             <div className="italic text-black dark:text-white mt-30">
-                                Printed On : {`${new Date().getDate()} ${monthName} ${yearValue}`}
+                                Printed On : {new Date().toLocaleDateString('en-GB')}
                             </div>
                         </div>
                     );

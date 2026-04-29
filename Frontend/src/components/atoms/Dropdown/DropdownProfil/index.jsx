@@ -29,7 +29,7 @@ const DropdownProfil = () => {
         cancelButtonText: 'No',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(logOut());
+          dispatch(logoutUser());
           Swal.fire({
             icon: 'success',
             title: 'Logout Successful',
@@ -39,7 +39,6 @@ const DropdownProfil = () => {
           });
         }
       });
-    };
   };
 
   useEffect(() => {

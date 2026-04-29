@@ -1,5 +1,5 @@
 import EmployeeSalary from "./EmployeeSalary";
-import UbahPasswordPegawai from "./PengaturanPegawai/UbahPasswordPegawai";
+import UbahPasswordPegawai from "./EmployeeSettings/ChangePassword";
 
 export {
     EmployeeSalary,

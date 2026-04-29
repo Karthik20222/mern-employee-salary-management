@@ -121,8 +121,7 @@ const FormAddPosition = () => {
                                         />
                                     </div>
                                     <div className='w-full xl:w-1/2'>
-                                        <label className='mb-2.5 block text-black dark:text-white'>
-                                            Base Salary <span className='text-meta-1'>*</span>
+                                        Base Salary <span className='text-meta-1'>*</span>
                                         </label>
                                         <input
                                             type='number'
@@ -131,9 +130,67 @@ const FormAddPosition = () => {
                                             value={baseSalary}
                                             onChange={handleChange}
                                             required
+                                            min="0"
                                             placeholder='Enter base salary'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
+                                    </div>
+                                </div>
+
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row mt-10">
+                                    <div className='w-full xl:w-1/2'>
+                                        <label className='mb-2.5 block text-black dark:text-white'>
+                                            Transport Allowance <span className='text-meta-1'>*</span>
+                                        </label>
+                                        <input
+                                            type='number'
+                                            id='transportAllowance'
+                                            name='transportAllowance'
+                                            value={transportAllowance}
+                                            onChange={handleChange}
+                                            required
+                                            min="0"
+                                            placeholder='Enter transport allowance'
+                                            className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                                        />
+                                    </div>
+
+                                    <div className='w-full xl:w-1/2'>
+                                        <label className='mb-2.5 block text-black dark:text-white'>
+                                            Meal Allowance <span className='text-meta-1'>*</span>
+                                        </label>
+                                        <input
+                                            type='number'
+                                            id='mealAllowance'
+                                            name='mealAllowance'
+                                            value={mealAllowance}
+                                            onChange={handleChange}
+                                            required
+                                            min="0"
+                                            placeholder='Enter meal allowance'
+                                            className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-col md:flex-row w-full gap-3 text-center'>
+                                    <ButtonOne type='submit'>
+                                        <span>Submit</span>
+                                    </ButtonOne>
+                                    <Link to="/master-data/data-jabatan">
+                                        <ButtonTwo>
+                                            <span>Back</span>
+                                        </ButtonTwo>
+                                    </Link>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </Layout>
+    )
+}
                                     </div>
                                 </div>
 

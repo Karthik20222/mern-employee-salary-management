@@ -21,7 +21,6 @@ const SalaryDetail = () => {
         total: '',
     });
     const { name } = useParams();
-    const [index] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isError, user } = useSelector((state) => state.auth);
@@ -122,79 +121,51 @@ const SalaryDetail = () => {
                                     No
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Keterangan
+                                    Description
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Jumlah
+                                    Amount
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='bg-gray-50 dark:border-strokedark'>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    {index + 1}
-                                </td>
+                            {[
+                                { label: 'Base Salary', amount: data.baseSalary },
+                                { label: 'Transport Allowance', amount: data.transportAllowance },
+                                { label: 'Meal Allowance', amount: data.mealAllowance },
+                                { label: 'Deduction', amount: data.deduction },
+                            ].map((row, rowIndex) => (
+                                <tr key={row.label} className='bg-gray-50 dark:border-strokedark'>
                                     <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    {index + 1}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Base Salary
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.baseSalary}
-                                </td>
-                                    {index + 2}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    {index + 2}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Transport Allowance
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.transportAllowance}
-                                </td>
-                                    {index + 3}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    {index + 3}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Meal Allowance
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.mealAllowance}
-                                </td>
-                                    {index + 4}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    {index + 4}
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Deduction
-                                </td>
-                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
-                                    Rp. {data.deduction}
-                                </td>
-                                </td>
-                                <td className='font-medium border-b  border-[#eee] dark:border-strokedark py-5 text-right text-black dark:text-white'>
-                                    Total Gaji :
-                                </td>
-                                <td className='font-medium border-b  border-[#eee] dark:border-strokedark py-5 text-right text-black dark:text-white'>
-                                    Total Salary :
+                                        {rowIndex + 1}
+                                    </td>
+                                    <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
+                                        {row.label}
+                                    </td>
+                                    <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
+                                        Rp. {row.amount}
+                                    </td>
+                                </tr>
+                            ))}
+                            <tr className='bg-gray-50 dark:border-strokedark'>
+                                <td className='border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'></td>
+                                <td className='font-medium border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
+                                    Total Salary
                                 </td>
                                 <td className='font-medium border-b border-[#eee] dark:border-strokedark py-5 px-4 text-black dark:text-white'>
                                     Rp. {data.total}
                                 </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     <div className='w-full md:w-1/2 md:justify-end py-6'>
                         <div className='w-full md:w-auto'>
-                            <ButtonOne
-                                onClick={onSubmitPrint}
-                            >
-                                <span>Cetak Gaji Pegawai</span>
+                            <ButtonOne onClick={onSubmitPrint}>
+                                <span>Print Employee Payslip</span>
                                 <span>
                                     <TfiPrinter />
-                                <span>Print Payslip</span>
+                                </span>
                             </ButtonOne>
                         </div>
                     </div>
@@ -203,8 +174,5 @@ const SalaryDetail = () => {
         </Layout>
     );
 };
-
-export default SalaryDetail;
-
 
 export default SalaryDetail;

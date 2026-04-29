@@ -8,7 +8,7 @@ export const getEmployees = async (req, res) => {
         const response = await Employee.findAll({
             attributes: [
                 'id', 'national_id', 'employee_name',
-                'gender', 'position', 'hire_date',
+                'gender', 'position', 'designation', 'hire_date',
                 'employment_status', 'photo', 'role'
             ]
         });
@@ -24,7 +24,7 @@ export const getEmployeeById = async (req, res) => {
         const response = await Employee.findOne({
             attributes: [
                 'id', 'national_id', 'employee_name',
-                'gender', 'position', 'username', 'hire_date',
+                'gender', 'position', 'designation', 'username', 'hire_date',
                 'employment_status', 'photo', 'role'
             ],
             where: {
@@ -93,7 +93,7 @@ export const createEmployee = async (req, res) => {
     const {
         national_id, employee_name,
         username, password, confPassword, gender,
-        position, hire_date,
+        position, designation, hire_date,
         employment_status, role
     } = req.body;
 
@@ -135,6 +135,7 @@ export const createEmployee = async (req, res) => {
                 password: hashPassword,
                 gender: gender,
                 position: position,
+                designation: designation,
                 hire_date: hire_date,
                 employment_status: employment_status,
                 photo: fileName,
@@ -163,7 +164,7 @@ export const updateEmployee = async (req, res) => {
     const {
         national_id, employee_name,
         username, gender,
-        position, hire_date,
+        position, designation, hire_date,
         employment_status, role
     } = req.body;
 
@@ -174,6 +175,7 @@ export const updateEmployee = async (req, res) => {
             username: username,
             gender: gender,
             position: position,
+            designation: designation,
             hire_date: hire_date,
             employment_status: employment_status,
             role: role

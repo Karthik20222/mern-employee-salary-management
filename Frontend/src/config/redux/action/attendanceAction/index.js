@@ -7,107 +7,72 @@ import {
     UPDATE_ATTENDANCE_DATA_SUCCESS,
     UPDATE_ATTENDANCE_DATA_FAILURE,
     DELETE_ATTENDANCE_DATA_SUCCESS,
-    DELETE_ATTENDANCE_DATA_FAILURE
+    DELETE_ATTENDANCE_DATA_FAILURE,
 } from './attendanceActionTypes';
 
-export const getAttendanceData = () => {
+const API_BASE_URL = 'http://localhost:5000';
+
+export const getAttendanceData = (_startIndex, _endIndex) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get('http://localhost:5000/attendance');
-            const dataAttendance = response.data;
+            const response = await axios.get(`${API_BASE_URL}/attendance`);
             dispatch({
                 type: GET_ATTENDANCE_DATA_SUCCESS,
-                payload: dataAttendance
+                payload: response.data,
             });
         } catch (error) {
             dispatch({
                 type: GET_ATTENDANCE_DATA_FAILURE,
-                payload: error.message
+                payload: error?.message ?? 'Failed to fetch attendance data',
             });
         }
     };
 };
 
-export const createAttendanceData = (employeeData, dataAttendance, navigate) => async (dispatch) => {
-    try {
-        for (let i = 0; i < employeeData.length; i++) {
-            const isNamaAda = dataAttendance.some(
-                (attendance) => attendance.employee_name === employeeData[i].employee_name
-            );
-
-            if (!isNamaAda) {
-                const response = await axios.post("http://localhost:5000/attendance", {
-                    nik: employeeData[i].nik,
-                    employee_name: employeeData[i].employee_name,
-                    nama_position: employeeData[i].position,
-                    gender: employeeData[i].gender,
-                    present_days: present_days[i] || 0,
-                    sick_days: sick_days[i] || 0,
-                    absent_days: absent_days[i] || 0,
-                });
-
-                dispatch({
-                    type: CREATE_ATTENDANCE_DATA_SUCCESS,
-                    payload: response.data,
-                });
-
-                navigate("/data-attendance");
-                return response.data;
-            }
-        }
-    } catch (error) {
-        dispatch({
-            type: CREATE_ATTENDANCE_DATA_FAILURE,
-            payload: error.message,
-        });
-        throw error;
-    }
-};
-
-export const updateAttendanceData = (id, dataAttendance) => {
+export const createAttendanceData = (attendancePayload, navigate) => {
     return async (dispatch) => {
         try {
-            const response = await axios.put(`http://localhost:5000/attendance/${id}`, dataAttendance);
-            if (response.status === 200) {
-                payload: 'Attendance data updated successfully'
-                });
-                navigate('/attendance-data');
-            } catch (error) {
-                dispatch({
-                    type: UPDATE_ATTENDANCE_DATA_FAILURE,
-                    payload: error.message
-                });
-            }
-        };
-    };
+            const response = await axios.post(`${API_BASE_URL}/attendance`, attendancePayload);
+            dispatch({
+                type: CREATE_ATTENDANCE_DATA_SUCCESS,
+                payload: response.data,
+            });
 
-    export const deleteAttendanceData = (id) => {
-        return async (dispatch) => {
-            try {
-                await axios.delete(`${API_URL}/attendance-data/${id}`);
-                dispatch({
-                    type: DELETE_ATTENDANCE_DATA_SUCCESS,
-                    payload: 'Data deleted successfully'
-                });
-            } catch (error) {
-                dispatch({
-                    type: DELETE_ATTENDANCE_DATA_FAILURE,
-                    payload: error.message
-                });
+            if (typeof navigate === 'function') {
+                navigate('/data-attendance');
             }
-        };
+
+            return response.data;
+        } catch (error) {
+            dispatch({
+                type: CREATE_ATTENDANCE_DATA_FAILURE,
+                payload: error?.message ?? 'Failed to create attendance data',
+            });
+            throw error;
+        }
     };
-            } else {
-                dispatch({
-                    type: UPDATE_ATTENDANCE_DATA_FAILURE,
-                    payload: response.data.message
-                });
+};
+
+export const updateAttendanceData = (id, attendancePayload, navigate) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(`${API_BASE_URL}/attendance/${id}`, attendancePayload);
+            dispatch({
+                type: UPDATE_ATTENDANCE_DATA_SUCCESS,
+                payload: response.data,
+            });
+
+            if (typeof navigate === 'function') {
+                navigate('/data-attendance');
             }
+
+            return response.data;
         } catch (error) {
             dispatch({
                 type: UPDATE_ATTENDANCE_DATA_FAILURE,
-                payload: error.message
+                payload: error?.message ?? 'Failed to update attendance data',
             });
+            throw error;
         }
     };
 };
@@ -115,24 +80,18 @@ export const updateAttendanceData = (id, dataAttendance) => {
 export const deleteAttendanceData = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/attendance/${id}`);
-            if (response.status === 200) {
-                dispatch({
-                    type: DELETE_ATTENDANCE_DATA_SUCCESS,
-                    payload: 'Delete data berhasil'
-                });
-                dispatch(getAttendanceData());
-            } else {
-                dispatch({
-                    type: DELETE_ATTENDANCE_DATA_FAILURE,
-                    payload: response.data.message
-                });
-            }
+            const response = await axios.delete(`${API_BASE_URL}/attendance/${id}`);
+            dispatch({
+                type: DELETE_ATTENDANCE_DATA_SUCCESS,
+                payload: response.data ?? 'Data deleted successfully',
+            });
+            return response.data;
         } catch (error) {
             dispatch({
                 type: DELETE_ATTENDANCE_DATA_FAILURE,
-                payload: error.message
+                payload: error?.message ?? 'Failed to delete attendance data',
             });
+            throw error;
         }
     };
 };
