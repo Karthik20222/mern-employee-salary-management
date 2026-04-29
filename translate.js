@@ -66,17 +66,17 @@ function walkDir(dir, callback) {
   });
 }
 
-walkDir(path.join(__dirname, 'Frontend', 'src'), function(filePath) {
+walkDir(path.join(__dirname, 'Frontend', 'src'), function (filePath) {
   if (filePath.endsWith('.jsx') || filePath.endsWith('.js')) {
     let content = fs.readFileSync(filePath, 'utf8');
     let original = content;
-    
+
     for (let [idId, enId] of Object.entries(replacements)) {
       // Replace only as exact string match or inside >...< or as substring
       let regex = new RegExp(idId, 'g');
       content = content.replace(regex, enId);
     }
-    
+
     if (content !== original) {
       fs.writeFileSync(filePath, content, 'utf8');
       console.log(`Updated: ${filePath}`);
@@ -84,3 +84,4 @@ walkDir(path.join(__dirname, 'Frontend', 'src'), function(filePath) {
   }
 });
 console.log("Translation complete.");
+//comment by karthik
