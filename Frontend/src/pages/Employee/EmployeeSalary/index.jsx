@@ -150,7 +150,7 @@ const EmployeeSalaryData = () => {
 
   return (
     <Layout>
-      <Breadcrumb pageName="Data Gaji" />
+      <Breadcrumb pageName="Salary Data" />
 
       <div className="mt-6 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto py-4">
@@ -164,19 +164,19 @@ const EmployeeSalaryData = () => {
                   Bulan/Tahun
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Gaji Pokok
+                  Basic Salary
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Tunjangan Transportasi
+                  Transport Allowanceasi
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Uang Makan
+                  Meal Allowance
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Potongan
+                  Deduction
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Total Gaji
+                  Total Salary
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
                   Cetak Slip
@@ -244,9 +244,9 @@ const EmployeeSalaryData = () => {
         <div className="mt-4 flex flex-col items-center justify-between md:flex-row md:justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-gray-5 dark:text-gray-4 py-4 text-sm">
-              Menampilkan {startIndex + 1}-
+              Showing {startIndex + 1}-
               {Math.min(endIndex, salaryEmployeeData.length)} dari{" "}
-              {salaryEmployeeData.length} Data Gaji
+              {salaryEmployeeData.length} Salary Data
             </span>
           </div>
           <div className="flex space-x-2 py-4">

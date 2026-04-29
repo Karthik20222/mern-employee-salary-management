@@ -126,27 +126,3 @@ const UbahPasswordAdmin = () => {
 };
 
 export default UbahPasswordAdmin;
-                            text: response.data.msg || 'Password Updated Successfully',
-                            confirmButtonText: 'Ok',
-                        });
-
-                        setPassword('');
-                        setConfPassword('');
-                        navigate('/dashboard');
-                    } catch (error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: error.response?.data?.msg || 'Terjadi kesalahan',
-                            confirmButtonText: 'Ok',
-                        });
-                    }
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </Layout>
-    )
-}
-
-export default UbahPasswordAdmin;

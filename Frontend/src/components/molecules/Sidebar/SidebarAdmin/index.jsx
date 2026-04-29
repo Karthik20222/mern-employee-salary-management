@@ -135,7 +135,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
               </NavLink>
               {/* <!-- Dashboard Admin --> */}
 
-              {/* <!-- Master Data Admin --> */}
+              {/* <!-- Master Admin Data --> */}
               <SidebarLinkGroup
                 activeCondition={
                   pathname === '/master-data' || pathname.includes('master-data')
@@ -197,7 +197,7 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                   )
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Master Data Admin --> */}
+              {/* <!-- Master Admin Data --> */}
 
               {/* <!-- Transactions Admin --> */}
               <SidebarLinkGroup

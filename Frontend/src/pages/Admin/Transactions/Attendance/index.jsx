@@ -290,7 +290,7 @@ const AttendanceData = () => {
                                     Sick
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
-                                    Alpha
+                                    Absent
                                 </th>
                                 <th className='py-4 px-4 font-medium text-black dark:text-white'>
                                     Action

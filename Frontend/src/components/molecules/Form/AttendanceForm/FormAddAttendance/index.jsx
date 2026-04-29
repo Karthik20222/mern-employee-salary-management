@@ -216,22 +216,22 @@ const FormAddAttendance = () => {
                                         NIK
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                        Nama Pegawai
+                                        Employee Name
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
                                         Jabatan
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                        Jenis Kelamin
+                                        Gender
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                        Hadir
+                                        Present
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                        Sakit
+                                        Sick
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                        Alpha
+                                        Absent
                                     </th>
                                 </tr>
                             </thead>

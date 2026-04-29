@@ -47,7 +47,7 @@ const AppRoutes = () => {
       <Route path='/dashboard' element={<Dashboard />} />
 
       {/* Route Admin */}
-      {/* Master Data Admin */}
+      {/* Master Admin Data */}
       <Route
         path='/master-data/employees'
         element={<EmployeeData />}
@@ -146,7 +146,7 @@ const AppRoutes = () => {
       />
 
       {/* Route Pegawai */}
-      {/* Dashboard Data Gaji Pegawai */}
+      {/* Dashboard Employee Salary Data */}
       <Route
         path='/employee/salary'
         element={<EmployeeSalary />}
