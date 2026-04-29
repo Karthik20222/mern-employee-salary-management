@@ -21,7 +21,7 @@ const DefaultDashboard = () => {
             }
         };
 
-        if (user && user.role === "pegawai") {
+        if (user && user.role === "employee") {
             getEmployeeData();
         }
     }, [user]);
@@ -48,7 +48,7 @@ const DefaultDashboard = () => {
                     </div>
                 </div>
             )}
-            {user && user.role === "pegawai" && employeeData && (
+            {user && user.role === "employee" && employeeData && (
                 <>
                     <div className="mt-6">
                         <h2 className="px-4 py-2 text-meta-3 font-medium text-center md:text-left">
@@ -71,7 +71,7 @@ const DefaultDashboard = () => {
                         <div className="md:w-2/3 px-4 md:px-20 py-4 md:py-20">
                             <div className="w-full md:text-lg">
                                 <h2 className="font-medium mb-4 block text-black dark:text-white">
-                                    <span className="inline-block w-32 md:w-40">Nik</span>
+                                    <span className="inline-block w-32 md:w-40">NIK</span>
                                     <span className="inline-block w-7">:</span>{employeeData.nik}
                                 </h2>
                                 <h2 className="font-medium mb-4 block text-black dark:text-white">
@@ -84,7 +84,7 @@ const DefaultDashboard = () => {
                                     <span className="inline-block w-7">:</span>{employeeData.hire_date}
                                 </h2>
                                 <h2 className="font-medium mb-4 block text-black dark:text-white">
-                                    <span className="inline-block w-32 md:w-40">Jabatan</span>
+                                    <span className="inline-block w-32 md:w-40">Position</span>
                                     <span className="inline-block w-7">:</span>{employeeData.position}
                                     <span className="pl-[-8] md:pl-0"></span>
                                 </h2>

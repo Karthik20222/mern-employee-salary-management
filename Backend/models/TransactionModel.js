@@ -6,7 +6,7 @@ import Attendance from './AttendanceModel.js';
 
 async function getEmployeeData() {
     try {
-        const employees = await Employee.findAll();
+        const employees = await Employee.find();
         const employeeMap = new Map();
         employees.forEach(employee => {
             const { national_id, employee_name, position } = employee;
@@ -32,7 +32,7 @@ async function getEmployeeData() {
 
 async function getAttendanceData() {
     try {
-    const attendanceRecords = await Attendance.findAll();
+    const attendanceRecords = await Attendance.find();
     const attendanceMap = new Map();
 
     const { employee_names } = await getEmployeeData();
@@ -58,16 +58,12 @@ async function getAttendanceData() {
     }
 }
 
-getAttendanceData();
-
-
-
 /* Method for fetching positions */
 
 async function getPositions() {
-    const positions = await Position.findAll();
-    const positionMap = new Map();
     try {
+        const positions = await Position.find();
+        const positionMap = new Map();
         positions.forEach(position => {
             const { position_name, base_salary, transport_allowance, meal_allowance } = position;
             positionMap.set(position_name, { base_salary, transport_allowance, meal_allowance });
@@ -83,3 +79,5 @@ async function getPositions() {
         console.log(error);
     }
 }
+
+export { getEmployeeData, getAttendanceData, getPositions };

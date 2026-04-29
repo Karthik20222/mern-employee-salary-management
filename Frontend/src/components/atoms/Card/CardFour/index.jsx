@@ -23,7 +23,7 @@ const CardFour = () => {
           <h4 className='text-title-md font-bold text-black dark:text-white'>
             {jumlahAttendanceData}
           </h4>
-          <span className='text-sm font-medium'>Data Attendance</span>
+          <span className='text-sm font-medium'>Attendance Data</span>
         </div>
       </div>
     </div>

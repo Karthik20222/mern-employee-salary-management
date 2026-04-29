@@ -223,7 +223,7 @@ const DeductionData = () => {
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="flex items-center space-x-2">
                         <span className="text-gray-5 dark:text-gray-4 text-sm py-4">
-                            Showing {startIndex + 1}-{Math.min(endIndex, filteredDeductionData.length)} dari {filteredDeductionData.length} Data Deduction
+                            Showing {startIndex + 1}-{Math.min(endIndex, filteredDeductionData.length)} of {filteredDeductionData.length} Deduction Data
                         </span>
                     </div>
                     <div className="flex space-x-2 py-4">

@@ -1,24 +1,19 @@
-import { Sequelize } from 'sequelize';
-import db from '../config/Database.js';
+import mongoose from "mongoose";
 
-const {DataTypes} = Sequelize;
-
-const SalaryDeduction = db.define('salary_deductions',{
-        id: {
-            type: DataTypes.INTEGER(11),
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        deduction_name: {
-            type: DataTypes.STRING(120),
-            allowNull: false
-        },
-        deduction_amount: {
-            type: DataTypes.INTEGER(11),
-            allowNull: false
-        }
-    },{freezeTableName: true
+const salaryDeductionSchema = new mongoose.Schema({
+    deduction_name: {
+        type: String,
+        required: true,
+        maxlength: 120
+    },
+    deduction_amount: {
+        type: Number,
+        required: true
+    }
+}, {
+    timestamps: true
 });
+
+const SalaryDeduction = mongoose.model("SalaryDeduction", salaryDeductionSchema);
 
 export default SalaryDeduction;

@@ -14,16 +14,16 @@ import changePasswordReducer from './reducer/changePasswordReducer';
 const store = configureStore({
     reducer: {
         auth: authReducer,
-            employeeSalaryPrint: employeeSalaryPrintReducer,
-            employee: employeeReducer,
-            position: positionReducer,
-            attendance: attendanceReducer,
-            deduction: deductionReducer,
-            salary: salaryReducer,
-            attendanceReport: attendanceReportReducer,
-            salaryReport: salaryReportReducer,
-            payslip: payslipReducer,
-            changePassword: changePasswordReducer,
+        employeeSalaryPrint: employeeSalaryPrintReducer,
+        employeeData: employeeReducer,
+        positionData: positionReducer,
+        dataAttendance: attendanceReducer,
+        deductionData: deductionReducer,
+        salaryData: salaryReducer,
+        laporanAbsensi: attendanceReportReducer,
+        laporanGaji: salaryReportReducer,
+        slipGaji: payslipReducer,
+        changePassword: changePasswordReducer,
     },
 });
 

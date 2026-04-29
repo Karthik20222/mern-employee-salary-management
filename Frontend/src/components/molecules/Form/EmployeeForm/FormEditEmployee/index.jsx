@@ -175,8 +175,8 @@ const FormEditEmployee = () => {
                                                 required={true}
                                             >
                                                 <option value='' disabled={true}>Select gender</option>
-                                                <option value='laki-laki'>Male</option>
-                                                <option value='perempuan'>Female</option>
+                                                <option value='male'>Male</option>
+                                                <option value='female'>Female</option>
                                             </select>
                                             <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
                                                 <MdOutlineKeyboardArrowDown />
@@ -254,8 +254,8 @@ const FormEditEmployee = () => {
                                                 required={true}
                                             >
                                                 <option value='' disabled={true}>Select status</option>
-                                                <option value='karyawan tetap'>Permanent Employee</option>
-                                                <option value='karyawan tidak tetap'>Temporary Employee</option>
+                                                <option value='permanent employee'>Permanent Employee</option>
+                                                <option value='temporary employee'>Temporary Employee</option>
                                             </select>
                                             <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
                                                 <MdOutlineKeyboardArrowDown />

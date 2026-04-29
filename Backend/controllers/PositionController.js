@@ -1,28 +1,14 @@
 import Position from "../models/PositionModel.js";
 import Employee from "../models/EmployeeModel.js";
-import { Op } from "sequelize";
 
 // Get all positions
 export const getPositions = async (req, res) => {
     try {
         let response;
         if (req.role === "admin") {
-            response = await Position.findAll({
-                attributes: ['id', 'position_name', 'base_salary', 'transport_allowance', 'meal_allowance'],
-                include: [{
-                    model: Employee,
-                    attributes: ['employee_name', 'username', 'role'],
-                }]
-            });
+            response = await Position.find().populate('employee_id', 'employee_name username role');
         } else {
-            if (req.userId !== Position.userId) return res.status(403).json({ msg: "Access denied" });
-            await Position.update({
-                position_name, base_salary, transport_allowance, meal_allowance
-            }, {
-                where: {
-                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
-                },
-            });
+            return res.status(403).json({ msg: "Access denied" });
         }
         res.status(200).json(response);
     } catch (error) {
@@ -33,14 +19,7 @@ export const getPositions = async (req, res) => {
 // Get position by ID
 export const getPositionById = async (req, res) => {
     try {
-        const response = await Position.findOne({
-            attributes: [
-                'id','position_name', 'base_salary', 'transport_allowance', 'meal_allowance'
-            ],
-            where: {
-                id: req.params.id
-            }
-        });
+        const response = await Position.findById(req.params.id);
         if(response){
             res.status(200).json(response);
         }else{
@@ -64,26 +43,18 @@ export const createPosition = async (req, res) => {
     try {
         if (req.role === "admin") {
             await Position.create({
-                position_id: position_id,
-                position_name: position_name,
-                base_salary: base_salary,
-                transport_allowance: transport_allowance,
-                meal_allowance: meal_allowance,
+                position_id,
+                position_name,
+                base_salary,
+                transport_allowance,
+                meal_allowance,
                 employee_id: req.userId
             });
         } else {
-            if (req.userId !== Position.userId) return res.status(403).json({ msg: "Access denied" });
-            await Position.update({
-                position_name, base_salary, transport_allowance, meal_allowance
-            }, {
-                where: {
-                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
-                },
-            });
+            return res.status(403).json({ msg: "Access denied" });
         }
         res.status(201).json({ success: true, message: "Position saved" });
     } catch (error) {
-        console.log(error.message);
         res.status(500).json({ success: false, message: error.message });
     }
 
@@ -92,11 +63,7 @@ export const createPosition = async (req, res) => {
 // Update position
 export const updatePosition = async (req, res) => {
     try {
-        const position = await Position.findOne({
-            where: {
-                id: req.params.id
-            }
-        });
+        const position = await Position.findById(req.params.id);
         if (!position) return res.status(404).json({ msg: "Data not found" });
         const { position_name, base_salary, transport_allowance, meal_allowance } = req.body;
 
@@ -105,22 +72,11 @@ export const updatePosition = async (req, res) => {
         }
 
         if (req.role === "admin") {
-            await Position.update({
+            await Position.findByIdAndUpdate(req.params.id, {
                 position_name, base_salary, transport_allowance, meal_allowance
-            }, {
-                where: {
-                    id: position.id
-                }
             });
         } else {
-            if (req.userId !== Position.userId) return res.status(403).json({ msg: "Access denied" });
-            await Position.update({
-                position_name, base_salary, transport_allowance, meal_allowance
-            }, {
-                where: {
-                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
-                },
-            });
+            return res.status(403).json({ msg: "Access denied" });
         }
         res.status(200).json({ msg: "Position updated" });
     } catch (error) {
@@ -131,25 +87,12 @@ export const updatePosition = async (req, res) => {
 // Delete position
 export const deletePosition = async (req, res) => {
     try {
-        const position = await Position.findOne({
-            where: {
-                id: req.params.id
-            }
-        });
+        const position = await Position.findById(req.params.id);
         if (!position) return res.status(404).json({ msg: "Data not found" });
         if (req.role === "admin") {
-            await position.destroy({
-                where: {
-                    id: position.id
-                }
-            });
+            await Position.findByIdAndDelete(req.params.id);
         } else {
-            if (req.userId !== position.userId) return res.status(403).json({ msg: "Access denied" });
-            await position.destroy({
-                where: {
-                    [Op.and]: [{ position_id: position.position_id }, { employee_id: req.userId }]
-                },
-            });
+            return res.status(403).json({ msg: "Access denied" });
         }
         res.status(200).json({ msg: "Position deleted" });
     } catch (error) {

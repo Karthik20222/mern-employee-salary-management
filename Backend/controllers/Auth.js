@@ -1,55 +1,47 @@
 import Employee from "../models/EmployeeModel.js";
 import argon2 from "argon2";
-import { verifyUser } from "../middleware/AuthUser.js";
 
 export const Login = async (req, res) => {
-  let user = {};
-  const employee = await Employee.findOne({
-    where: {
+  try {
+    const employee = await Employee.findOne({
       username: req.body.username
+    });
+
+    if (!employee) {
+      return res.status(404).json({ msg: "Employee not found" });
     }
-  });
 
-  if (!employee) {
-    return res.status(404).json({ msg: "Employee not found" });
+    const match = await argon2.verify(employee.password, req.body.password);
+
+    if (!match) {
+      return res.status(400).json({ msg: "Incorrect password" });
+    }
+
+    req.session.userId = employee._id;
+
+    res.status(200).json({
+      employee_id: employee._id,
+      employee_name: employee.employee_name,
+      username: employee.username,
+      role: employee.role,
+      msg: "Login successful"
+    });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
-
-  const match = await argon2.verify(employee.password, req.body.password);
-
-  if (!match) {
-    return res.status(400).json({ msg: "Incorrect password" });
-  }
-
-  req.session.userId = employee.employee_id;
-
-  user = {
-    employee_id: employee.id,
-    employee_name: employee.employee_name,
-    username: employee.username,
-    role: employee.role
-  }
-
-  res.status(200).json({
-    employee_id: user.employee_id,
-    employee_name: user.employee_name,
-    username: user.username,
-    role: user.role,
-    msg: "Login successful"
-  });
 };
 
 export const Me = async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ msg: "Please log in to your account." });
   }
-  const employee = await Employee.findOne({
-    attributes: ['id', 'national_id', 'employee_name', 'username', 'role'],
-    where: {
-      employee_id: req.session.userId
-    }
-  });
-  if (!employee) return res.status(404).json({ msg: "User not found" });
-  res.status(200).json(employee);
+  try {
+    const employee = await Employee.findById(req.session.userId, 'national_id employee_name username role');
+    if (!employee) return res.status(404).json({ msg: "User not found" });
+    res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
 }
 
 export const LogOut = (req, res) => {
@@ -60,15 +52,9 @@ export const LogOut = (req, res) => {
 }
 
 export const changePassword = async (req, res) => {
-  await verifyUser(req, res, () => { });
+  const userId = req.session.userId; 
 
-  const userId = req.userId;
-
-  const user = await Employee.findOne({
-    where: {
-      id: userId
-    }
-  });
+  if (!userId) return res.status(401).json({ msg: "Please log in to your account." });
 
   const { password, confPassword } = req.body;
 
@@ -76,18 +62,35 @@ export const changePassword = async (req, res) => {
 
   try {
     const hashPassword = await argon2.hash(password);
-
-    await Employee.update(
-      {
-        password: hashPassword
-      },
-      {
-        where: {
-          id: user.id
-        }
-      }
-    )
+    await Employee.findByIdAndUpdate(userId, { password: hashPassword });
     res.status(200).json({ msg: "Password updated" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export const Register = async (req, res) => {
+  const { national_id, employee_name, username, password, confPassword, gender, position, designation, hire_date, employment_status, role } = req.body;
+
+  if (password !== confPassword) return res.status(400).json({ msg: "Password and confirmation do not match" });
+
+  try {
+    const hashPassword = await argon2.hash(password);
+    const newEmployee = new Employee({
+      national_id,
+      employee_name,
+      username,
+      password: hashPassword,
+      gender,
+      position,
+      designation,
+      hire_date,
+      employment_status,
+      photo: "default.png", // Default photo
+      role: role || "employee"
+    });
+    await newEmployee.save();
+    res.status(201).json({ msg: "Registration successful" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }

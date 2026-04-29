@@ -1,42 +1,42 @@
-import { Sequelize } from 'sequelize';
-import db from '../config/Database.js';
+import mongoose from "mongoose";
 
-const {DataTypes} = Sequelize;
+const attendanceSchema = new mongoose.Schema({
+    month: {
+        type: String,
+        required: true,
+        maxlength: 15
+    },
+    national_id: {
+        type: String,
+        required: true,
+        maxlength: 16
+    },
+    employee_name: {
+        type: String,
+        required: true,
+        maxlength: 100
+    },
+    gender: {
+        type: String,
+        maxlength: 20
+    },
+    position_name: {
+        type: String,
+        maxlength: 50
+    },
+    present_days: {
+        type: Number
+    },
+    sick_days: {
+        type: Number
+    },
+    absent_days: {
+        type: Number
+    }
+}, {
+    timestamps: true
+});
 
-const Attendance = db.define('attendance_records',{
-        id: {
-            type: DataTypes.INTEGER(11),
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        month: {
-            type: DataTypes.STRING(15),
-            allowNull: false
-        },
-        national_id: {
-            type: DataTypes.STRING(16),
-            allowNull: false
-        },
-        employee_name: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        gender: {
-            type: DataTypes.STRING(20)
-        },
-        position_name: {
-            type: DataTypes.STRING(50)
-        },
-        present_days: {
-            type: DataTypes.INTEGER(11)
-        },
-        sick_days: {
-            type: DataTypes.INTEGER(11)
-        },
-        absent_days: {
-            type: DataTypes.INTEGER(11)
-        },
-    },{freezeTableName: true});
+const Attendance = mongoose.model("Attendance", attendanceSchema);
 
-export default Attendance
+export default Attendance;

@@ -1,7 +1,8 @@
-export * from './About';
+export { default as About } from './About';
 export * from './Admin';
-export * from './Contact';
-export * from './Dashboard'
-export * from './Home'
-export * from './Login'
+export { default as Contact } from './Contact';
+export { default as Dashboard } from './Dashboard'
+export { default as Home } from './Home'
+export { default as Login } from './Login'
 export * from './Employee';
+export { default as Register } from './Register';

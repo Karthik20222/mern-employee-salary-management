@@ -1,42 +1,35 @@
-import { Sequelize } from 'sequelize';
-import db from '../config/Database.js';
+import mongoose from "mongoose";
 
-const { DataTypes } = Sequelize;
-
-const Overtime = db.define('overtime_entries', {
-    id: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-    },
+const overtimeSchema = new mongoose.Schema({
     employee_id: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee',
+        required: true
     },
     overtime_date: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
+        type: Date,
+        required: true
     },
     overtime_hours: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
+        type: Number,
+        required: true
     },
     reason: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+        type: String,
+        required: true
     },
     status: {
-        type: DataTypes.ENUM('pending', 'approved'),
-        allowNull: false,
-        defaultValue: 'pending',
+        type: String,
+        enum: ['pending', 'approved'],
+        default: 'pending'
     },
     approved_at: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
+        type: Date
+    }
 }, {
-    freezeTableName: true,
+    timestamps: true
 });
+
+const Overtime = mongoose.model("Overtime", overtimeSchema);
 
 export default Overtime;

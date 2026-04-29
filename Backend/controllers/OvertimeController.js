@@ -1,10 +1,9 @@
 import moment from 'moment';
-import { Op } from 'sequelize';
 import Employee from '../models/EmployeeModel.js';
 import Overtime from '../models/OvertimeModel.js';
 
 const formatOvertimeEntry = (entry, employeeData) => ({
-    id: entry.id,
+    id: entry._id,
     employee_id: entry.employee_id,
     employee_name: employeeData ? employeeData.employee_name : null,
     national_id: employeeData ? employeeData.national_id : null,
@@ -22,17 +21,12 @@ const validateOvertimePayload = ({ employee_id, overtime_date, overtime_hours, r
         return 'All fields are required';
     }
 
-    const employeeId = Number(employee_id);
     const overtimeHours = Number(overtime_hours);
     const selectedDate = moment(overtime_date, 'YYYY-MM-DD', true);
     const today = moment().startOf('day');
     const earliestAllowedDate = moment().startOf('day').subtract(7, 'days');
 
-    if (!Number.isInteger(employeeId) || employeeId <= 0) {
-        return 'Invalid worker selection';
-    }
-
-    if (!Number.isInteger(overtimeHours) || overtimeHours < 1 || overtimeHours > 6) {
+    if (isNaN(overtimeHours) || overtimeHours < 1 || overtimeHours > 6) {
         return 'Overtime hours must be between 1 and 6';
     }
 
@@ -58,23 +52,15 @@ const validateOvertimePayload = ({ employee_id, overtime_date, overtime_hours, r
 // Get all overtime entries
 export const viewOvertimeEntries = async (req, res) => {
     try {
-        const overtimeEntries = await Overtime.findAll({
-            order: [
-                ['overtime_date', 'DESC'],
-                ['createdAt', 'DESC'],
-            ],
-        });
+        const overtimeEntries = await Overtime.find().sort({ overtime_date: -1, createdAt: -1 });
 
-        const employees = await Employee.findAll({
-            attributes: ['id', 'employee_name', 'national_id'],
-        });
-
+        const employees = await Employee.find({}, 'employee_name national_id');
         const employeeMap = new Map(
-            employees.map((employee) => [employee.id, employee])
+            employees.map((employee) => [employee._id.toString(), employee])
         );
 
         const response = overtimeEntries.map((entry) => {
-            const employeeData = employeeMap.get(entry.employee_id);
+            const employeeData = employeeMap.get(entry.employee_id.toString());
             return formatOvertimeEntry(entry, employeeData);
         });
 
@@ -100,38 +86,37 @@ export const createOvertimeEntry = async (req, res) => {
             return res.status(400).json({ msg: validationError });
         }
 
-        const employeeId = Number(employee_id);
         const overtimeHours = Number(overtime_hours);
         const selectedDate = moment(overtime_date, 'YYYY-MM-DD', true);
-        const overtimeDate = selectedDate.format('YYYY-MM-DD');
+        const overtimeDate = selectedDate.toDate();
 
-        const employeeData = await Employee.findByPk(employeeId);
+        const employeeData = await Employee.findById(employee_id);
 
         if (!employeeData) {
             return res.status(404).json({ msg: 'Worker not found' });
         }
 
         const duplicateEntry = await Overtime.findOne({
-            where: {
-                employee_id: employeeId,
-                overtime_date: overtimeDate,
-            },
+            employee_id,
+            overtime_date: {
+                $gte: selectedDate.clone().startOf('day').toDate(),
+                $lte: selectedDate.clone().endOf('day').toDate()
+            }
         });
 
         if (duplicateEntry) {
             return res.status(400).json({ msg: 'Duplicate overtime entry for the same worker and date' });
         }
 
-        const monthStart = selectedDate.clone().startOf('month').format('YYYY-MM-DD');
-        const monthEnd = selectedDate.clone().endOf('month').format('YYYY-MM-DD');
+        const monthStart = selectedDate.clone().startOf('month').toDate();
+        const monthEnd = selectedDate.clone().endOf('month').toDate();
 
-        const monthlyOvertimeEntries = await Overtime.findAll({
-            where: {
-                employee_id: employeeId,
-                overtime_date: {
-                    [Op.between]: [monthStart, monthEnd],
-                },
-            },
+        const monthlyOvertimeEntries = await Overtime.find({
+            employee_id,
+            overtime_date: {
+                $gte: monthStart,
+                $lte: monthEnd
+            }
         });
 
         const currentMonthlyOvertime = monthlyOvertimeEntries.reduce(
@@ -144,7 +129,7 @@ export const createOvertimeEntry = async (req, res) => {
         }
 
         const overtimeEntry = await Overtime.create({
-            employee_id: employeeId,
+            employee_id,
             overtime_date: overtimeDate,
             overtime_hours: overtimeHours,
             reason: reason.trim(),
@@ -163,7 +148,7 @@ export const createOvertimeEntry = async (req, res) => {
 // Approve overtime entry
 export const approveOvertimeEntry = async (req, res) => {
     try {
-        const overtimeEntry = await Overtime.findByPk(req.params.id);
+        const overtimeEntry = await Overtime.findById(req.params.id);
 
         if (!overtimeEntry) {
             return res.status(404).json({ msg: 'Overtime entry not found' });
@@ -173,12 +158,11 @@ export const approveOvertimeEntry = async (req, res) => {
             return res.status(400).json({ msg: 'Overtime entry is already approved' });
         }
 
-        await overtimeEntry.update({
-            status: 'approved',
-            approved_at: new Date(),
-        });
+        overtimeEntry.status = 'approved';
+        overtimeEntry.approved_at = new Date();
+        await overtimeEntry.save();
 
-        const employeeData = await Employee.findByPk(overtimeEntry.employee_id);
+        const employeeData = await Employee.findById(overtimeEntry.employee_id);
 
         return res.json({
             msg: 'Overtime entry approved',

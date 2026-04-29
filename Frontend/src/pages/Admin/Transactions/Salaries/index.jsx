@@ -92,8 +92,8 @@ const SalaryData = () => {
             setShowMessage(false);
             Swal.fire({
                 icon: 'error',
-                title: 'Data tidak ditemukan',
-                text: 'Maaf, data yang anda cari tidak ditemukan',
+                title: 'Data not found',
+                text: 'Sorry, the data you are looking for was not found',
                 timer: 2000,
             });
         }
@@ -177,7 +177,7 @@ const SalaryData = () => {
                     <div className='flex flex-col md:flex-row md:justify-between items-center mt-4'>
                         <div className='relative w-full md:w-1/2 md:mr-2 mb-4 md:mb-0'>
                             <div className='relative'>
-                                <span className='px-6'>Bulan</span>
+                                <span className='px-6'>Month</span>
                                 <span className='absolute top-1/2 left-70 z-30 -translate-y-1/2 text-xl'>
                                     <MdOutlineKeyboardArrowDown />
                                 </span>
@@ -187,28 +187,28 @@ const SalaryData = () => {
                                     required
                                     className='relative appearance-none rounded border border-stroke bg-transparent py-2 px-18 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input'
                                 >
-                                    <option value=''>Pilih Bulan</option>
-                                    <option value='Januari'>Januari</option>
-                                    <option value='Februari'>Februari</option>
-                                    <option value='Maret'>Maret</option>
+                                    <option value=''>Select Month</option>
+                                    <option value='January'>January</option>
+                                    <option value='February'>February</option>
+                                    <option value='March'>March</option>
                                     <option value='April'>April</option>
-                                    <option value='Mei'>Mei</option>
-                                    <option value='Juni'>Juni</option>
-                                    <option value='Juli'>Juli</option>
-                                    <option value='Agustus'>Agustus</option>
+                                    <option value='May'>May</option>
+                                    <option value='June'>June</option>
+                                    <option value='July'>July</option>
+                                    <option value='August'>August</option>
                                     <option value='September'>September</option>
-                                    <option value='Oktober'>Oktober</option>
+                                    <option value='October'>October</option>
                                     <option value='November'>November</option>
-                                    <option value='Desember'>Desember</option>
+                                    <option value='December'>December</option>
                                 </select>
                             </div>
                         </div>
                         <div className='relative w-full md:w-1/2 md:mr-2 mb-4 md:mb-0'>
                             <div className='relative'>
-                                <span className='px-6'>Tahun</span>
+                                <span className='px-6'>Year</span>
                                 <input
                                     type='number'
-                                    placeholder='Masukkan Tahun...'
+                                    placeholder='Enter Year...'
                                     value={filterTahun}
                                     onChange={handleTahunChange}
                                     required
@@ -256,7 +256,7 @@ const SalaryData = () => {
                     <div className="relative flex-2 mb-4 md:mb-0">
                         <input
                             type='text'
-                            placeholder='Cari Employee Name...'
+                            placeholder='Search Employee Name...'
                             value={filterNama}
                             onChange={handleNamaChange}
                             className='rounded-lg border-[1.5px] border-stroke bg-transparent py-2 pl-10 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary left-0'
@@ -278,25 +278,25 @@ const SalaryData = () => {
                                     NIK
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
-                                    Nama <br /> Pegawai
+                                    Employee <br /> Name
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
-                                    Jabatan
+                                    Position
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
-                                    Gaji <br /> Pokok
+                                    Base <br /> Salary
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
-                                    Tunjangan <br />Transport
+                                    Transport <br />Allowance
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
-                                    Uang <br /> Makan
+                                    Meal <br /> Allowance
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
                                     Deduction
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
-                                    Total <br /> Gaji
+                                    Total <br /> Salary
                                 </th>
                                 <th className='py-2 px-2 font-medium text-black dark:text-white'>
                                     Action

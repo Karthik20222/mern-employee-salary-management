@@ -33,7 +33,8 @@ import {
   EmployeeSalary,
   UbahPasswordPegawai,
   DeductionData,
-  OvertimeData
+  OvertimeData,
+  Register
 } from '../../pages'
 
 const AppRoutes = () => {
@@ -44,6 +45,7 @@ const AppRoutes = () => {
       <Route path='/about' element={<About />} />
       <Route path='/contact' element={<Contact />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
       <Route path='/dashboard' element={<Dashboard />} />
 
       {/* Route Admin */}
@@ -148,11 +150,11 @@ const AppRoutes = () => {
       {/* Route Pegawai */}
       {/* Dashboard Employee Salary Data */}
       <Route
-        path='/employee/salary'
+        path='/employee-salary'
         element={<EmployeeSalary />}
       />
       <Route
-        path='/employee/salary/print'
+        path='/employee-salary/print'
         element={<PrintPdfEmployeeSalary />}
       />
       <Route

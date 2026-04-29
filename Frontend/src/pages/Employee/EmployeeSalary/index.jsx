@@ -47,13 +47,13 @@ const EmployeeSalaryData = () => {
       const nameData = viewGajiSinglePegawaiByName(employee_name);
 
       if (yearData.length > 0 && monthData.length > 0 && nameData.length > 0) {
-        navigate(`/data-gaji-pegawai/print-page?month=${dataMonth}&year=${dataYear}&name=${employee_name}`);
+        navigate(`/employee-salary/print?month=${dataMonth}&year=${dataYear}&name=${employee_name}`);
       } else {
         console.log("Data not found!");
         Swal.fire({
           icon: "error",
-          title: "Data tidak ditemukan",
-          text: "Maaf, data yang anda cari tidak ditemukan",
+          title: "Data not found",
+          text: "Sorry, the data you are looking for was not found.",
           timer: 2000,
         });
       }
@@ -61,8 +61,8 @@ const EmployeeSalaryData = () => {
       console.log(error.message);
       Swal.fire({
         icon: "error",
-        title: "Terjadi Kesalahan",
-        text: "Terjadi kesalahan saat memuat data.",
+        title: "An Error Occurred",
+        text: "An error occurred while loading data.",
         timer: 2000,
       });
     }
@@ -142,7 +142,7 @@ const EmployeeSalaryData = () => {
     if (isError) {
       navigate("/login");
     }
-    if (user && user.role !== "pegawai") {
+    if (user && user.role !== "employee") {
       navigate("/dashboard");
     }
   }, [isError, user, navigate]);
@@ -161,13 +161,13 @@ const EmployeeSalaryData = () => {
                   No
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Bulan/Tahun
+                  Month/Year
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
                   Basic Salary
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Transport Allowanceasi
+                  Transport Allowance
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
                   Meal Allowance
@@ -179,7 +179,7 @@ const EmployeeSalaryData = () => {
                   Total Salary
                 </th>
                 <th className="px-4 py-4 font-medium text-black dark:text-white">
-                  Cetak Slip
+                  Print Slip
                 </th>
               </tr>
             </thead>
@@ -245,7 +245,7 @@ const EmployeeSalaryData = () => {
           <div className="flex items-center space-x-2">
             <span className="text-gray-5 dark:text-gray-4 py-4 text-sm">
               Showing {startIndex + 1}-
-              {Math.min(endIndex, salaryEmployeeData.length)} dari{" "}
+              {Math.min(endIndex, salaryEmployeeData.length)} of{" "}
               {salaryEmployeeData.length} Salary Data
             </span>
           </div>

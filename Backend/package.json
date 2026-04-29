@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.30.3",
+    "connect-mongo": "^6.0.0",
     "connect-session-sequelize": "^7.1.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -20,9 +21,11 @@
     "express-fileupload": "^1.4.0",
     "express-session": "^1.17.3",
     "moment": "^2.29.4",
+    "mongoose": "^9.6.0",
     "mysql2": "^3.3.0",
     "nodemon": "^2.0.22",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.31.1",
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "eslint": "^8.42.0",

@@ -54,8 +54,8 @@ const PrintPdfEmployeeSalaryReport = () => {
     useEffect(() => {
         const today = new Date();
         const monthNames = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
         ];
         const currentMonth = monthNames[today.getMonth()];
         const currentYear = today.getFullYear();
@@ -71,7 +71,7 @@ const PrintPdfEmployeeSalaryReport = () => {
                         <span>Print</span>
                     </ButtonOne>
                 </div>
-                <Link to="/data-gaji-pegawai">
+                <Link to="/employee-salary">
                     <ButtonTwo>
                         <span>Back</span>
                     </ButtonTwo>

@@ -353,7 +353,7 @@ const FormAddEmployee = () => {
                                             >
                                                 <option value='' disabled={true}>Select access rights</option>
                                                 <option value='admin'>Admin</option>
-                                                <option value='pegawai'>Employee</option>
+                                                <option value='employee'>Employee</option>
                                             </select>
                                             <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
                                                 <MdOutlineKeyboardArrowDown />

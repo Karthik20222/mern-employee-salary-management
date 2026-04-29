@@ -1,9 +1,10 @@
 import React from "react";
 import LogoSipeka from "../../Assets/images/logo/logo-sipeka.png";
 import LoginImg from "../../Assets/images/LoginImg/login.svg";
-import { Footer, LoginInput, Navbar } from "../../components";
+import { Footer, Navbar } from "../../components";
+import RegisterInput from "../../components/atoms/Input/RegisterInput";
 
-function Login() {
+function Register() {
   return (
     <div className="min-h-screen rounded-sm border border-stroke pt-10 shadow-default dark:border-strokedark dark:bg-boxdark">
       <Navbar />
@@ -28,7 +29,8 @@ function Login() {
 
         <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-            <LoginInput />
+            <h2 className="text-2xl font-bold text-black dark:text-white mb-6">Create Account</h2>
+            <RegisterInput />
           </div>
         </div>
       </div>
@@ -37,4 +39,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

@@ -102,7 +102,7 @@ const FormAddAttendance = () => {
                         sick: sick[i] || 0,
                         absent: absent[i] || 0,
                     });
-                    navigate("/data-attendance");
+                    navigate("/transactions/attendance");
                     Swal.fire({
                         icon: 'success',
                         title: "Success",
@@ -219,7 +219,7 @@ const FormAddAttendance = () => {
                                         Employee Name
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                        Jabatan
+                                        Position
                                     </th>
                                     <th className="py-4 px-4 font-medium text-black dark:text-white">
                                         Gender
@@ -350,7 +350,7 @@ const FormAddAttendance = () => {
                                 <span>Save</span>
                             </ButtonOne>
                         </div>
-                        <Link to="/data-attendance">
+                        <Link to="/transactions/attendance">
                             <ButtonTwo>
                                 <span>Back</span>
                             </ButtonTwo>

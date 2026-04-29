@@ -1,45 +1,38 @@
-import { Sequelize } from 'sequelize';
-import db from '../config/Database.js';
-import Employee from './EmployeeModel.js';
+import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
-const {DataTypes} = Sequelize;
-
-const Position = db.define('positions',{
-        position_id: {
-            type: DataTypes.STRING,
-            defaultValue: DataTypes.UUIDV4,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        },
-        position_name: {
-            type: DataTypes.STRING(120),
-            allowNull: false
-        },
-        base_salary: {
-            type: DataTypes.INTEGER(50),
-            allowNull: false
-        },
-        transport_allowance: {
-            type: DataTypes.INTEGER(50),
-            allowNull: false
-        },
-        meal_allowance: {
-            type: DataTypes.INTEGER(50)
-        },
-        employee_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        }
-    },{
-        freezeTableName: true
+const positionSchema = new mongoose.Schema({
+    position_id: {
+        type: String,
+        default: uuidv4,
+        required: true,
+        unique: true
+    },
+    position_name: {
+        type: String,
+        required: true,
+        maxlength: 120
+    },
+    base_salary: {
+        type: Number,
+        required: true
+    },
+    transport_allowance: {
+        type: Number,
+        required: true
+    },
+    meal_allowance: {
+        type: Number
+    },
+    employee_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee',
+        required: true
+    }
+}, {
+    timestamps: true
 });
 
-Employee.hasMany(Position, { foreignKey: 'employee_id' });
-Position.belongsTo(Employee, { foreignKey: 'employee_id' });
+const Position = mongoose.model("Position", positionSchema);
 
 export default Position;

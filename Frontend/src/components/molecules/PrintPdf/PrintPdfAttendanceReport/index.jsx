@@ -78,7 +78,7 @@ const PrintPdfAttendanceReport = () => {
                         <span>Print</span>
                     </ButtonOne>
                 </div>
-                <Link to="/laporan/absensi">
+                <Link to="/reports/attendance-reports">
                     <ButtonTwo>
                         <span>Back</span>
                     </ButtonTwo>
@@ -181,7 +181,7 @@ const PrintPdfAttendanceReport = () => {
                         <span className="p-26">Finance</span>
                         <br />
                         <br />
-                        <span className="p-8 italic text-black dark:text-white">Tanda Tangan</span>
+                        <span className="p-8 italic text-black dark:text-white">Signature</span>
                     </div>
                 </div>
                 <div className="italic text-black dark:text-white mt-70">

@@ -63,7 +63,7 @@ const FormEditAttendance = () => {
                 timer: 1500,
                 text: response.data.msg
             });
-            navigate('/data-attendance');
+            navigate('/transactions/attendance');
         } catch (error) {
             setMsg(error.response.data.msg);
             Swal.fire({
@@ -113,7 +113,7 @@ const FormEditAttendance = () => {
                                             value={employeeName}
                                             onChange={(e) => setEmployeeName(e.target.value)}
                                             disabled
-                                            placeholder='Masukkan Nama'
+                                            placeholder='Enter Name'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
@@ -209,7 +209,7 @@ const FormEditAttendance = () => {
                                                     <span>Update</span>
                                                 </ButtonOne>
                                     </div>
-                                    <Link to="/data-attendance" >
+                                    <Link to="/transactions/attendance" >
                                         <ButtonTwo  >
                                                     <span>Back</span>
                                         </ButtonTwo>

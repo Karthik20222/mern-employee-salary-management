@@ -19,9 +19,9 @@ export default function Navbar() {
     };
 
     const navLinks = [
-        { title: "Beranda", link: "/", icon: <FaHome /> },
-        { title: "Tentang", link: "/tentang", icon: <RiFolderInfoFill /> },
-        { title: "Kontak", link: "/kontak", icon: <RiContactsBook2Fill /> },
+        { title: "Home", link: "/", icon: <FaHome /> },
+        { title: "About", link: "/about", icon: <RiFolderInfoFill /> },
+        { title: "Contact", link: "/contact", icon: <RiContactsBook2Fill /> },
     ];
 
     const activeLink = ({ isActive }) => {

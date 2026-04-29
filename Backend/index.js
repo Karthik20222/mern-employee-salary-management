@@ -2,33 +2,28 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import dotenv from 'dotenv';
-import db from './config/Database.js';
-
-import SequelizeStore from 'connect-session-sequelize';
+import connectDB from './config/MongoDatabase.js';
+import MongoStore from 'connect-mongo';
 import FileUpload from 'express-fileupload';
 
 import PayrollRoute from './routes/PayrollRoute.js';
 import AuthRoute from './routes/AuthRoute.js';
 
-const app = express();
-
-const sessionStore = SequelizeStore(session.Store);
-const store = new sessionStore({
-    db: db
-});
-
-/* (async() => {
-    await db.sync();
-})(); */
-
 dotenv.config();
+
+// Connect to MongoDB
+connectDB();
+
+const app = express();
 
 // Middleware
 app.use(session({
     secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: store,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI
+    }),
     cookie: {
         secure: 'auto'
     }

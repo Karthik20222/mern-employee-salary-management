@@ -313,8 +313,8 @@ const AttendanceData = () => {
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <p className='text-black dark:text-white'>{data.employee_name}</p>
                                         </td>
-                                        <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
-                                            <p className='text-black dark:text-white'>{data.position_pegawai}</p>
+                                        <td className="py-5 px-4">
+                                            <p className="text-black dark:text-white">{data.position_pegawai || data.position}</p>
                                         </td>
                                         <td className='border-b border-[#eee] py-5 px-4 dark:border-strokedark'>
                                             <p className='text-black dark:text-white'>{data.present_days}</p>

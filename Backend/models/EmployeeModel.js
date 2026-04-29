@@ -1,66 +1,74 @@
-import { Sequelize } from 'sequelize';
-import db from '../config/Database.js';
+import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
-const {DataTypes} = Sequelize;
-
-const Employee = db.define('employees', {
-    employee_id:{
-        type: DataTypes.STRING,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
+const employeeSchema = new mongoose.Schema({
+    employee_id: {
+        type: String,
+        default: uuidv4,
+        required: true,
+        unique: true
     },
     national_id: {
-        type: DataTypes.STRING(16),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 16
     },
     employee_name: {
-        type: DataTypes.STRING(100),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 100
     },
     username: {
-        type: DataTypes.STRING(120),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 120,
+        unique: true
     },
     password: {
-        type: DataTypes.STRING
+        type: String,
+        required: true
     },
     gender: {
-        type: DataTypes.STRING(15),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 15
     },
     position: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 50
     },
     designation: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 50
     },
     hire_date: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
+        required: true
     },
     employment_status: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 50
     },
     photo: {
-        type: DataTypes.STRING(100),
-        allowNull: false
+        type: String,
+        required: true,
+        maxlength: 100
     },
-    url: DataTypes.STRING,
+    url: {
+        type: String
+    },
     role: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: true,
+        enum: ['admin', 'employee']
     }
 }, {
-    freezeTableName: true
+    timestamps: true
 });
+
+const Employee = mongoose.model("Employee", employeeSchema);
 
 export default Employee;
